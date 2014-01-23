@@ -1,6 +1,5 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
+# Generated directories/files
+dist
+build
+.project
+.classpath
