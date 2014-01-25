@@ -1,26 +1,59 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.tguzik.util</groupId>	
+	<groupId>com.tguzik.util</groupId>
 	<artifactId>common-utilities</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<description>Set of utilities commonly used used in Java programming.</description>
+	<url>https://github.com/tguzik/common-utilities</url>
+
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>https://github.com/tguzik/common-utilities/blob/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>scm:git:https://github.com/tguzik/common-utilities.git</url>
+		<connection>https://github.com/tguzik/common-utilities</connection>
+	</scm>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<developers>
+		<developer>
+			<id>tguzik</id>
+			<name>Tomasz Guzik</name>
+			<email>oss@tguzik.com</email>
+		</developer>
+	</developers>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>15.0</version>
-		</dependency>	
+			<version>16.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>2.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -33,11 +66,6 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.8.4</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>2.0.2</version>
 		</dependency>
 	</dependencies>
 
@@ -58,6 +86,16 @@
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.7.1</version>
+				<configuration>
+					<parallel>classes</parallel>
+					<failIfNoTests>true</failIfNoTests>
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
 				</configuration>
 			</plugin>
 		</plugins>
