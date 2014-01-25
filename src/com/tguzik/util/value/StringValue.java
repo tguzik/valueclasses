@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
 /**
+ * TODO: Documentation
+ * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */

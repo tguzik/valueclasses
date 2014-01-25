@@ -13,6 +13,8 @@ import com.google.common.io.Files;
 import com.tguzik.util.annotations.RefactorThis;
 
 /**
+ * TODO: Documentation
+ * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */

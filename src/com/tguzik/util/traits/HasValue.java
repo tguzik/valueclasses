@@ -1,6 +1,8 @@
 package com.tguzik.util.traits;
 
 /**
+ * TODO: Documentation
+ * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */

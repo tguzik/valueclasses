@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import com.google.common.annotations.Beta;
 
 /**
+ * TODO: Documentation
+ * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */

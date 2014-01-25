@@ -13,6 +13,7 @@ import com.tguzik.util.annotations.ExpectedPerformanceProfile;
 import com.tguzik.util.annotations.ExpectedPerformanceProfile.PerformanceCharacteristic;
 
 /**
+ * TODO: Documentation
  * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1

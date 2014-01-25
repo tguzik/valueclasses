@@ -11,8 +11,7 @@ import com.google.common.annotations.Beta;
 
 /**
  * Communicates the expected performance characteristic to the programmer using
- * the class. Values indicated by this class may reflect reality, but do not
- * have to.
+ * the class.
  * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1

@@ -17,6 +17,8 @@ import com.tguzik.util.annotations.ExpectedFailureProfile.Transactional;
 import com.tguzik.util.annotations.ReadOnly;
 
 /**
+ * TODO: Documentation
+ * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @see {@link OverridingTableBuilder}
  * @since 0.1
