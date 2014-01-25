@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import com.tguzik.util.annotations.ReadOnly;
 import com.tguzik.util.traits.HasValue;
 
 /**
@@ -18,6 +19,7 @@ public abstract class Value< T > implements HasValue<T>
         this.value = value;
     }
 
+    @ReadOnly
     @Nullable
     @Override
     public T getValue( ) {

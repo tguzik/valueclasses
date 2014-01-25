@@ -21,7 +21,6 @@ import com.google.common.annotations.Beta;
 @Retention( RetentionPolicy.CLASS )
 @Target( {ElementType.TYPE, ElementType.METHOD} )
 public @interface ExpectedPerformanceProfile {
-
     PerformanceCharacteristic value() default PerformanceCharacteristic.UNKNOWN;
 
     String[] comment() default StringUtils.EMPTY;

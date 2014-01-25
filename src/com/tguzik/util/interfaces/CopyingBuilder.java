@@ -4,6 +4,8 @@ import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.builder.Builder;
 
+import com.tguzik.util.annotations.ReadOnly;
+
 /**
  * Indicates that the builder has ability to copy existing objects.
  * 
@@ -13,5 +15,5 @@ import org.apache.commons.lang3.builder.Builder;
 public interface CopyingBuilder< T > extends Builder<T>
 {
     @Nonnull
-    CopyingBuilder<T> copyOf( @Nonnull T existing );
+    CopyingBuilder<T> copyOf( @ReadOnly @Nonnull T existing );
 }

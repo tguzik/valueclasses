@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
@@ -16,7 +20,8 @@ public class TestUtils
      * 
      * @see TestUtils#loadFile(String, String)
      */
-    public static String loadFile( String fileName ) throws IOException {
+    @Nullable
+    public static String loadFile( @Nonnull String fileName ) throws IOException {
         return loadFile(".", fileName);
     }
 
@@ -29,7 +34,8 @@ public class TestUtils
      *            passed then it defaults to absolute path. Not nullable.
      * @path fileName Name of the file to be loaded. Not nullable.
      */
-    public static String loadFile( String path, String fileName ) throws IOException {
+    @Nullable
+    public static String loadFile(@Nonnull String path,  @Nonnull String fileName ) throws IOException {
         File file = Files.getFile(path, "/", fileName);
         String contents = com.google.common.io.Files..readFileToString(file, Charset.forName("UTF-8"));
 
@@ -40,7 +46,8 @@ public class TestUtils
      * Replaces different line ending styles (Windows \r\n, Mac \r) with single
      * new line character (\n).
      */
-    public static String normalizeNewLines( String input ) {
+    @Nullable
+    public static String normalizeNewLines( @Nullable String input ) {
         return input == null ? null : input.replaceAll("(\r)?\n(\r)?", "\n").replaceAll("\r", "\n");
     }
 

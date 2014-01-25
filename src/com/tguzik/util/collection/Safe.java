@@ -26,7 +26,7 @@ public final class Safe
      * 
      * @param value
      *            Nullable collection.
-     * @return Returns the value if the passed argument was not null. Otherwise
+     * @return <tt>value</tt> if the passed argument was not null. Otherwise
      *         returns an empty immutable list.
      */
     @ReadOnly
@@ -43,7 +43,7 @@ public final class Safe
      * 
      * @param value
      *            Nullable collection.
-     * @return Returns the value if the passed argument was not null. Otherwise
+     * @return <tt>value</tt> if the passed argument was not null. Otherwise
      *         returns an empty immutable list.
      */
     @ReadOnly
@@ -60,7 +60,7 @@ public final class Safe
      * 
      * @param value
      *            Nullable collection.
-     * @return Returns the value if the passed argument was not null. Otherwise
+     * @return <tt>value</tt> if the passed argument was not null. Otherwise
      *         returns an empty immutable list.
      */
     @ReadOnly

@@ -25,5 +25,6 @@ import java.lang.annotation.Target;
 @Retention( RetentionPolicy.SOURCE )
 @Target( value = {ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR} )
 public @interface RefactorThis {
+    /** Programmer's comments about what should be refactored */
     String[] value() default "";
 }
