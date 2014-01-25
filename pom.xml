@@ -98,6 +98,7 @@
 					<failIfNoTests>true</failIfNoTests>
 					<useUnlimitedThreads>true</useUnlimitedThreads>
 					<forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
+					<useFile>false</useFile>
 				</configuration>
 			</plugin>
 		</plugins>
