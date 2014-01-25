@@ -13,6 +13,9 @@ import org.apache.commons.lang3.builder.Builder;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.tguzik.util.annotations.ExpectedFailureProfile;
+import com.tguzik.util.annotations.ExpectedFailureProfile.FailureMode;
+import com.tguzik.util.annotations.ExpectedFailureProfile.Transactional;
 import com.tguzik.util.annotations.ReadOnly;
 
 /**
@@ -25,6 +28,7 @@ import com.tguzik.util.annotations.ReadOnly;
  * @since 0.1
  */
 @NotThreadSafe
+@ExpectedFailureProfile( value = FailureMode.FAIL_FAST, transactional = Transactional.NO )
 public final class OverridingMapBuilder< K, V > implements Builder<Map<K, V>>
 {
     private final Map<K, V> backingMap;

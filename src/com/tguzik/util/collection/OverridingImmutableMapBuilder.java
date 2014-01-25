@@ -10,7 +10,12 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import org.apache.commons.lang3.builder.Builder;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.tguzik.util.annotations.ExpectedFailureProfile;
+import com.tguzik.util.annotations.ExpectedFailureProfile.FailureMode;
+import com.tguzik.util.annotations.ExpectedFailureProfile.Transactional;
 import com.tguzik.util.annotations.ReadOnly;
 
 /**
@@ -24,13 +29,13 @@ import com.tguzik.util.annotations.ReadOnly;
  * @since 0.1
  */
 @NotThreadSafe
+@ExpectedFailureProfile( value = FailureMode.FAIL_FAST, transactional = Transactional.NO )
 public final class OverridingImmutableMapBuilder< K, V > implements Builder<ImmutableMap<K, V>>
 {
-    private final ImmutableMap.Builder<K, V> backingBuilder;
+    private final Map<K, V> backingBuilder;
 
     private OverridingImmutableMapBuilder( @ReadOnly @Nullable Map<K, V> initializeWithValuesFrom ) {
-        this.backingBuilder = ImmutableMap.<K, V> builder();
-        overrideWith( initializeWithValuesFrom );
+        this.backingBuilder = Maps.newHashMap( safe( initializeWithValuesFrom ) );
     }
 
     /**
@@ -38,6 +43,10 @@ public final class OverridingImmutableMapBuilder< K, V > implements Builder<Immu
      * value that has been stored under <tt>key</tt>.
      */
     public OverridingImmutableMapBuilder<K, V> overrideWith( @Nonnull K key, @Nonnull V value ) {
+        // ImmutableMap would throw these exceptions in build() if we didn't check for them here
+        Preconditions.checkNotNull( key, "Null keys are not allowed" );
+        Preconditions.checkNotNull( value, "Null values are not allowed" );
+
         backingBuilder.put( key, value );
         return this;
     }
@@ -48,7 +57,13 @@ public final class OverridingImmutableMapBuilder< K, V > implements Builder<Immu
      * <tt>map</tt> parameter. If the parameter is null, no action is taken.
      */
     public OverridingImmutableMapBuilder<K, V> overrideWith( @ReadOnly @Nullable Map<? extends K, ? extends V> map ) {
-        backingBuilder.putAll( safe( map ) );
+        /* We could just use .putAll(map), but that would cause the NullPointerException to be 
+         * thrown in .build(), if the passed map contained any null values OR keys. Obviously, 
+         * we want to fail fast.
+         */
+        for ( Map.Entry<? extends K, ? extends V> entry : safe( map ).entrySet() ) {
+            overrideWith( entry.getKey(), entry.getValue() );
+        }
         return this;
     }
 
@@ -59,7 +74,7 @@ public final class OverridingImmutableMapBuilder< K, V > implements Builder<Immu
      */
     @Override
     public ImmutableMap<K, V> build( ) {
-        return backingBuilder.build();
+        return ImmutableMap.copyOf( backingBuilder );
     }
 
     public static < K, V > OverridingImmutableMapBuilder<K, V> create( ) {

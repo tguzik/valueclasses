@@ -4,12 +4,16 @@ import static com.tguzik.util.collection.Safe.safe;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import org.apache.commons.lang3.builder.Builder;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
+import com.tguzik.util.annotations.ExpectedFailureProfile;
+import com.tguzik.util.annotations.ExpectedFailureProfile.FailureMode;
+import com.tguzik.util.annotations.ExpectedFailureProfile.Transactional;
 import com.tguzik.util.annotations.ReadOnly;
 
 /**
@@ -17,7 +21,9 @@ import com.tguzik.util.annotations.ReadOnly;
  * @see {@link OverridingImmutableTableBuilder}
  * @since 0.1
  */
-public class OverridingTableBuilder< R, C, V > implements Builder<Table<R, C, V>>
+@NotThreadSafe
+@ExpectedFailureProfile( value = FailureMode.FAIL_FAST, transactional = Transactional.NO )
+public final class OverridingTableBuilder< R, C, V > implements Builder<Table<R, C, V>>
 {
     private final Table<R, C, V> backingMap;
 
