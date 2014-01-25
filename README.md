@@ -1,6 +1,7 @@
 # commons-utils
+[![Build Status](https://travis-ci.org/tguzik/common-utilities.png?branch=master)](https://travis-ci.org/tguzik/common-utilities)
 
- **Please note that this is still work in progress **
+**Please note that this is still work in progress **
 
 Collection of annotations and utilities that make writing Java applications more readable. Truth be told, none of these are 
 ground breaking in any sense, but attempt to enable developers to write cleaner code that is easier to read and use, 
