@@ -33,15 +33,15 @@ public abstract class Value< T > implements HasValue<T>
 
     @Override
     public String toString( ) {
-        return String.format("%s(%s)", getClass().getName(), value);
+        return String.format( "%s(%s)", getClass().getName(), value );
     }
 
     @Override
     public boolean equals( @Nullable Object obj ) {
-        if ( obj != null && getClass().isAssignableFrom(obj.getClass()) ) {
+        if ( obj != null && getClass().isAssignableFrom( obj.getClass() ) ) {
             Value<?> other = (Value<?>) obj;
 
-            return Objects.equals(this.value, other.value);
+            return Objects.equals( this.value, other.value );
         }
 
         return false;

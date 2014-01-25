@@ -11,11 +11,11 @@ import javax.annotation.concurrent.Immutable;
 public abstract class StringValue extends Value<String> implements Comparable<StringValue>
 {
     protected StringValue( @Nullable String value ) {
-        super(value);
+        super( value );
     }
 
     @Override
     public int compareTo( @Nullable StringValue other ) {
-        return ( value != null && other != null && other.value != null ) ? value.compareTo(other.value) : 0;
+        return ( value != null && other != null && other.value != null ) ? value.compareTo( other.value ) : 0;
     }
 }

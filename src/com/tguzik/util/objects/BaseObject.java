@@ -24,23 +24,23 @@ public abstract class BaseObject
 
     @Override
     public boolean equals( @Nullable Object other ) {
-        return EqualsBuilder.reflectionEquals(this, other, false);
+        return EqualsBuilder.reflectionEquals( this, other, false );
     }
 
     @Nonnull
     @Override
     public String toString( ) {
-        return toString(ToStringStyle.SHORT_PREFIX_STYLE);
+        return toString( ToStringStyle.SHORT_PREFIX_STYLE );
     }
 
     @Nonnull
     public String toString( @Nonnull ToStringStyle style ) {
-        return ReflectionToStringBuilder.toString(this, style);
+        return ReflectionToStringBuilder.toString( this, style );
     }
 
     @Override
     public int hashCode( ) {
-        return HashCodeBuilder.reflectionHashCode(this, false);
+        return HashCodeBuilder.reflectionHashCode( this, false );
     }
 }
 
@@ -50,10 +50,10 @@ class MultilineNoAddressessToStringStyle extends ToStringStyle
 
     MultilineNoAddressessToStringStyle() {
         super();
-        this.setContentStart("[");
-        this.setUseIdentityHashCode(false);
-        this.setFieldSeparator(SystemUtils.LINE_SEPARATOR + "  ");
-        this.setFieldSeparatorAtStart(true);
-        this.setContentEnd(SystemUtils.LINE_SEPARATOR + "]");
+        this.setContentStart( "[" );
+        this.setUseIdentityHashCode( false );
+        this.setFieldSeparator( SystemUtils.LINE_SEPARATOR + "  " );
+        this.setFieldSeparatorAtStart( true );
+        this.setContentEnd( SystemUtils.LINE_SEPARATOR + "]" );
     }
 }
