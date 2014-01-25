@@ -33,7 +33,7 @@ public abstract class Value< T > implements HasValue<T>
 
     @Override
     public String toString( ) {
-        return String.format( "%s(%s)", getClass().getName(), value );
+        return String.format( "%s(%s)", getClass().getSimpleName(), value );
     }
 
     @Override
