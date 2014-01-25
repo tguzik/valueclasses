@@ -51,8 +51,11 @@ public class OverridingImmutableMapBuilderTest
 
     @Test
     public void testCreate_withInitialMap( ) {
-        assertEquals( "{key2=another value in first, key1=value in first}", builder_withInitial.build()
-                                                                                               .toString() );
+        Map<?, ?> actual = builder_withInitial.build();
+
+        assertEquals( "value in first", actual.get( "key1" ) );
+        assertEquals( "another value in first", actual.get( "key2" ) );
+        assertEquals( 2, actual.size() );
     }
 
     @Test
@@ -77,8 +80,11 @@ public class OverridingImmutableMapBuilderTest
         assertEquals( 4, actual.size() );
         assertEquals( expected, actual );
         assertEquals( expected.toString(), actual.toString() );
-        assertEquals( "{=value in third, key3=value in third, key2=value in second, key1=value in first}",
-                      actual.toString() );
+
+        assertEquals( "value in third", actual.get( "" ) );
+        assertEquals( "value in third", actual.get( "key3" ) );
+        assertEquals( "value in second", actual.get( "key2" ) );
+        assertEquals( "value in first", actual.get( "key1" ) );
     }
 
     @Test
@@ -96,8 +102,11 @@ public class OverridingImmutableMapBuilderTest
         assertEquals( 4, actual.size() );
         assertEquals( expected, actual );
         assertEquals( expected.toString(), actual.toString() );
-        assertEquals( "{=value in third, key3=value in third, key2=value in second, key1=value in first}",
-                      actual.toString() );
+
+        assertEquals( "value in third", actual.get( "" ) );
+        assertEquals( "value in third", actual.get( "key3" ) );
+        assertEquals( "value in second", actual.get( "key2" ) );
+        assertEquals( "value in first", actual.get( "key1" ) );
     }
 
     @Test
@@ -144,13 +153,20 @@ public class OverridingImmutableMapBuilderTest
         Map<?, ?> actual2 = builder_withInitial.build();
 
         assertNotSame( actual1, actual2 );
-        assertFalse( actual1.isEmpty() );
-        assertFalse( actual2.isEmpty() );
-        assertEquals( actual1.size(), actual2.size() );
         assertEquals( actual1, actual2 );
+        assertEquals( actual1.size(), actual2.size() );
+
+        assertFalse( actual1.isEmpty() );
+        assertEquals( 2, actual1.size() );
+        assertEquals( "value in first", actual1.get( "key1" ) );
+        assertEquals( "another value in first", actual1.get( "key2" ) );
+
+        assertFalse( actual2.isEmpty() );
+        assertEquals( 2, actual2.size() );
+        assertEquals( "value in first", actual2.get( "key1" ) );
+        assertEquals( "another value in first", actual2.get( "key2" ) );
 
         assertEquals( actual1.toString(), actual2.toString() );
-        assertEquals( "{key2=another value in first, key1=value in first}", actual1.toString() );
     }
 
     @Test

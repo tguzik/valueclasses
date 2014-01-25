@@ -57,8 +57,11 @@ public class OverridingImmutableTableBuilderTest
 
     @Test
     public void testCreate_withInitialTable( ) {
-        assertEquals( "{row1={col1=value in first, col2=another value in first}}",
-                      builder_withInitial.build().toString() );
+        Table<?, ?, ?> actual = builder_withInitial.build();
+
+        assertEquals( "value in first", actual.get( "row1", "col1" ) );
+        assertEquals( "another value in first", actual.get( "row1", "col2" ) );
+        assertEquals( 2, actual.size() );
     }
 
     @Test
@@ -83,8 +86,11 @@ public class OverridingImmutableTableBuilderTest
         assertEquals( 4, actual.size() );
         assertEquals( expected, actual );
         assertEquals( expected.toString(), actual.toString() );
-        assertEquals( "{={col3=value in third}, row1={col1=value in second, col2=another value in first}, row2={col2=value in third}}",
-                      actual.toString() );
+
+        assertEquals( "value in third", actual.get( "", "col3" ) );
+        assertEquals( "value in second", actual.get( "row1", "col1" ) );
+        assertEquals( "another value in first", actual.get( "row1", "col2" ) );
+        assertEquals( "value in third", actual.get( "row2", "col2" ) );
     }
 
     @Test
@@ -102,8 +108,11 @@ public class OverridingImmutableTableBuilderTest
         assertEquals( 4, actual.size() );
         assertEquals( expected, actual );
         assertEquals( expected.toString(), actual.toString() );
-        assertEquals( "{={col3=value in third}, row1={col1=value in second, col2=another value in first}, row2={col2=value in third}}",
-                      actual.toString() );
+
+        assertEquals( "value in third", actual.get( "", "col3" ) );
+        assertEquals( "value in second", actual.get( "row1", "col1" ) );
+        assertEquals( "another value in first", actual.get( "row1", "col2" ) );
+        assertEquals( "value in third", actual.get( "row2", "col2" ) );
     }
 
     @Test( expected = NullPointerException.class )
@@ -127,13 +136,20 @@ public class OverridingImmutableTableBuilderTest
         Table<?, ?, ?> actual2 = builder_withInitial.build();
 
         assertNotSame( actual1, actual2 );
-        assertFalse( actual1.isEmpty() );
-        assertFalse( actual2.isEmpty() );
         assertEquals( actual1.size(), actual2.size() );
-        assertEquals( actual1, actual2 );
 
+        assertFalse( actual1.isEmpty() );
+        assertEquals( 2, actual1.size() );
+        assertEquals( "value in first", actual1.get( "row1", "col1" ) );
+        assertEquals( "another value in first", actual1.get( "row1", "col2" ) );
+
+        assertFalse( actual2.isEmpty() );
+        assertEquals( 2, actual2.size() );
+        assertEquals( "value in first", actual2.get( "row1", "col1" ) );
+        assertEquals( "another value in first", actual2.get( "row1", "col2" ) );
+
+        assertEquals( actual1, actual2 );
         assertEquals( actual1.toString(), actual2.toString() );
-        assertEquals( "{row1={col1=value in first, col2=another value in first}}", actual1.toString() );
     }
 
     @Test
