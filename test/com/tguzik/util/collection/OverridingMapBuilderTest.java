@@ -83,7 +83,6 @@ public class OverridingMapBuilderTest
 
         assertEquals( 5, actual.size() );
         assertEquals( expected, actual );
-        assertEquals( expected.toString(), actual.toString() );
 
         assertEquals( "value in third", actual.get( "" ) );
         assertEquals( "null value in third", actual.get( null ) );
@@ -106,7 +105,6 @@ public class OverridingMapBuilderTest
 
         assertEquals( 5, actual.size() );
         assertEquals( expected, actual );
-        assertEquals( expected.toString(), actual.toString() );
 
         assertEquals( "value in third", actual.get( "" ) );
         assertEquals( "null value in third", actual.get( null ) );
