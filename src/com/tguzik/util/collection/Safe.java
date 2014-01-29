@@ -27,7 +27,7 @@ public final class Safe
      * NullPointerExceptions when attempting to read from it. Recommended to use
      * in for-each loops when attempting to iterate over a collection from
      * unreliable source, like ORM framework. The returned value should be
-     * read-only.
+     * treated as read-only.
      * 
      * @param value
      *            Nullable map.
@@ -45,7 +45,25 @@ public final class Safe
      * NullPointerExceptions when attempting to read from it. Recommended to use
      * in for-each loops when attempting to iterate over a collection from
      * unreliable source, like ORM framework. The returned value should be
-     * read-only.
+     * treated as read-only.
+     * 
+     * @param value
+     *            Nullable list.
+     * @return <tt>value</tt> if the passed argument was not null. Otherwise
+     *         returns an empty {@link ImmutableList}.
+     */
+    @ReadOnly
+    @Nonnull
+    public static < T > Iterable<T> safe( @Nullable Iterable<T> value ) {
+        return value == null ? ImmutableList.<T> of() : value;
+    }
+
+    /**
+     * Ensures that the parameter <tt>value</tt> will not cause
+     * NullPointerExceptions when attempting to read from it. Recommended to use
+     * in for-each loops when attempting to iterate over a collection from
+     * unreliable source, like ORM framework. The returned value should be
+     * treated as read-only.
      * 
      * @param value
      *            Nullable list.
@@ -63,7 +81,7 @@ public final class Safe
      * NullPointerExceptions when attempting to read from it. Recommended to use
      * in for-each loops when attempting to iterate over a collection from
      * unreliable source, like ORM framework. The returned value should be
-     * read-only.
+     * treated as read-only.
      * 
      * @param value
      *            Nullable set.
@@ -81,7 +99,7 @@ public final class Safe
      * NullPointerExceptions when attempting to read from it. Recommended to use
      * in for-each loops when attempting to iterate over a collection from
      * unreliable source, like ORM framework. The returned value should be
-     * read-only.
+     * treated as read-only.
      * 
      * @param value
      *            Nullable table.

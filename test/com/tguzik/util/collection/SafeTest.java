@@ -39,42 +39,52 @@ public class SafeTest
     }
 
     @Test
-    public void testSafe_List( ) {
+    public void testSafe_list( ) {
         assertSame( list, safe( list ) );
     }
 
     @Test
-    public void testSafe_List_nullArgument( ) {
+    public void testSafe_list_nullArgument( ) {
         assertSame( ImmutableList.of(), safe( (List<?>) null ) );
     }
 
     @Test
-    public void testSafe_Set( ) {
+    public void testSafe_iterable( ) {
+        assertSame( list, safe( (Iterable<?>) list ) );
+    }
+
+    @Test
+    public void testSafe_iterable_nullArgument( ) {
+        assertSame( ImmutableList.of(), safe( (Iterable<?>) null ) );
+    }
+
+    @Test
+    public void testSafe_set( ) {
         assertSame( set, safe( set ) );
     }
 
     @Test
-    public void testSafe_Set_nullArgument( ) {
+    public void testSafe_set_nullArgument( ) {
         assertSame( ImmutableSet.of(), safe( (Set<?>) null ) );
     }
 
     @Test
-    public void testSafe_Map( ) {
+    public void testSafe_map( ) {
         assertSame( map, safe( map ) );
     }
 
     @Test
-    public void testSafe_Map_nullArgument( ) {
+    public void testSafe_map_nullArgument( ) {
         assertSame( ImmutableMap.of(), safe( (Map<?, ?>) null ) );
     }
 
     @Test
-    public void testSafe_Table( ) {
+    public void testSafe_table( ) {
         assertSame( table, safe( table ) );
     }
 
     @Test
-    public void testSafe_Table_nullArgument( ) {
+    public void testSafe_table_nullArgument( ) {
         assertSame( ImmutableTable.of(), safe( (Table<?, ?, ?>) null ) );
     }
 }
