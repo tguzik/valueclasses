@@ -67,7 +67,7 @@
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<outputDirectory>build</outputDirectory>
-		<directory>dist</directory>
+		<directory>build</directory>
 		<defaultGoal>package</defaultGoal>
 
 		<plugins>
