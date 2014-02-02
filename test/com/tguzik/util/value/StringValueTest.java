@@ -2,13 +2,10 @@ package com.tguzik.util.value;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.matchers.GreaterThan;
-import org.mockito.internal.matchers.LessThan;
 
 /**
  * Most test cases are already covered in {@link ValueTest}
@@ -40,7 +37,7 @@ public class StringValueTest
 
     @Test
     public void testCompareTo_a_before_b( ) {
-        assertThat( a.compareTo( b ), new LessThan<>( 0 ) );
+        assertTrue( a.compareTo( b ) < 0 );
     }
 
     @Test
@@ -51,7 +48,7 @@ public class StringValueTest
 
     @Test
     public void testCompareTo_b_after_a( ) {
-        assertThat( b.compareTo( a ), new GreaterThan<>( 0 ) );
+        assertTrue( b.compareTo( a ) > 0 );
     }
 
     @Test
