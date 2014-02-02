@@ -20,14 +20,14 @@ import com.google.common.annotations.Beta;
 @Retention( RetentionPolicy.CLASS )
 @Target( {ElementType.TYPE, ElementType.METHOD} )
 public @interface ExpectedPerformanceProfile {
-    PerformanceCharacteristic value() default PerformanceCharacteristic.UNKNOWN;
+    PerformanceCharacteristic[] value() default PerformanceCharacteristic.UNKNOWN;
 
     String[] comment() default StringUtils.EMPTY;
 
     enum PerformanceCharacteristic {
-        CPU_BOUND,
-        IO_BOUND,
-        MEMORY_BOUND,
+        CPU_HEAVY,
+        IO_HEAVY,
+        MEMORY_HEAVY,
         CACHE_BOUND,
         REFLECTION_HEAVY,
         LOW_LATENCY,
