@@ -97,37 +97,37 @@ public class ValueTest
     public void testEquals_notEqual_containedValueIsNull( ) {
         assertNotEquals( value, valueContainingNull );
     }
-}
 
-class ValueTestHelper extends Value<Object>
-{
-    protected ValueTestHelper( Object obj ) {
-        super( obj );
+    static class ValueTestHelper extends Value<Object>
+    {
+        protected ValueTestHelper( Object obj ) {
+            super( obj );
+        }
+
+        public static ValueTestHelper create( Object obj ) {
+            return new ValueTestHelper( obj );
+        }
     }
 
-    public static ValueTestHelper create( Object obj ) {
-        return new ValueTestHelper( obj );
-    }
-}
+    static class ChildOfValueTestHelper extends ValueTestHelper
+    {
+        protected ChildOfValueTestHelper( Object obj ) {
+            super( obj );
+        }
 
-class ChildOfValueTestHelper extends ValueTestHelper
-{
-    protected ChildOfValueTestHelper( Object obj ) {
-        super( obj );
-    }
-
-    public static ChildOfValueTestHelper create( Object obj ) {
-        return new ChildOfValueTestHelper( obj );
-    }
-}
-
-class SiblingOfValueTestHelper extends Value<Object>
-{
-    protected SiblingOfValueTestHelper( Object obj ) {
-        super( obj );
+        public static ChildOfValueTestHelper create( Object obj ) {
+            return new ChildOfValueTestHelper( obj );
+        }
     }
 
-    public static SiblingOfValueTestHelper create( Object obj ) {
-        return new SiblingOfValueTestHelper( obj );
+    static class SiblingOfValueTestHelper extends Value<Object>
+    {
+        protected SiblingOfValueTestHelper( Object obj ) {
+            super( obj );
+        }
+
+        public static SiblingOfValueTestHelper create( Object obj ) {
+            return new SiblingOfValueTestHelper( obj );
+        }
     }
 }

@@ -17,7 +17,7 @@ public class LoaderTest
 
     @Test
     public void testLoadFile( ) throws IOException {
-        String fileContents = loadFile( "test", getClass(), "files", "test-file.txt" );
+        String fileContents = loadFile( "test", getClass(), "data", "test-file.txt" );
 
         assertNotNull( fileContents );
         assertEquals( 20, fileContents.length() );
