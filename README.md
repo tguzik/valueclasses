@@ -1,5 +1,4 @@
-# commons-utils
-[![Build Status](https://travis-ci.org/tguzik/common-utilities.png?branch=master)](https://travis-ci.org/tguzik/common-utilities)
+# commons-utils [![Build Status](https://travis-ci.org/tguzik/common-utilities.png?branch=master)](https://travis-ci.org/tguzik/common-utilities)
 
 **Please note that this is still work in progress **
 
@@ -22,17 +21,21 @@ distribution of a library and you have to guess some of its properties, like fai
 mutability (can I safely give it to another threads?) or whether the function can return `null` value.
 
 
+## So what's inside?
+
+Please see [this](DOCS.md) file for complete listing and short descriptions of the provided classes.
+
+
 ## How do I get it?
 
 At this point the sources are available only on this github page. I would like to make this library available 
 through Maven at some point in future.
 
 
-## So what's inside?
+## Dependencies
 
-Please see [this|DOCS.md] file for complete listing and short descriptions of the provided classes.
 
 
 ## License
 
-Source code in this repository is available under [MIT License|LICENSE]. 
+Source code in this repository is available under [MIT License](LICENSE). 
