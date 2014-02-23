@@ -3,6 +3,7 @@ package com.tguzik.util.collection;
 import static com.tguzik.util.collection.Safe.safe;
 import static org.junit.Assert.assertSame;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -56,6 +57,16 @@ public class SafeTest
     @Test
     public void testSafe_iterable_nullArgument( ) {
         assertSame( ImmutableList.of(), safe( (Iterable<?>) null ) );
+    }
+
+    @Test
+    public void testSafe_collection( ) {
+        assertSame( list, safe( (Collection<?>) list ) );
+    }
+
+    @Test
+    public void testSafe_collection_nullArgument( ) {
+        assertSame( ImmutableList.of(), safe( (Collection<?>) null ) );
     }
 
     @Test

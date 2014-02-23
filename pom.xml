@@ -17,8 +17,9 @@
 	</licenses>
 
 	<scm>
-		<url>scm:git:https://github.com/tguzik/common-utilities.git</url>
-		<connection>https://github.com/tguzik/common-utilities</connection>
+		<url>https://github.com/tguzik/common-utilities</url>
+		<developerConnection>scm:git:https://github.com/tguzik/common-utilities.git</developerConnection>
+		<connection>scm:git:https://github.com/tguzik/common-utilities.git</connection>
 	</scm>
 
 	<parent>
