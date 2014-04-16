@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -14,9 +15,11 @@ import com.tguzik.collection.CollectionDifference.CollectionDifferenceElement;
 import com.tguzik.collection.CollectionDifference.ElementType;
 
 /**
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * TODO: Documentation
  * 
+ * @author Tomasz Guzik <tomek@tguzik.com>
  */
+@Beta
 public class Collections3
 {
     @RefactorThis( {"Add a way to distinguish between a single element or a group of elements being added or moved forward or backward on a list",

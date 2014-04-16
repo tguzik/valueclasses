@@ -1,4 +1,4 @@
-com.tguzik.util.objects.BaseObjectTest$BaseObjectTestHelper[
+BaseObjectTest.BaseObjectTestHelper[
   first=first string
   second=second string
   third=different instance field

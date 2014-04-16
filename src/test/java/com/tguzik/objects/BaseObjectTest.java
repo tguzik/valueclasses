@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tguzik.objects.BaseObject;
 import com.tguzik.unittests.Normalize;
 
 /**
@@ -53,7 +52,7 @@ public class BaseObjectTest
 
     @Test
     public void testToString_default_base( ) throws IOException {
-        String expected = loadFile( "test", getClass(), "data", "tostring-default-base.txt" );
+        String expected = loadFile( getClass(), "data", "tostring-default-base.txt" );
         String actual = base.toString();
 
         assertEquals( expected, Normalize.newLines( actual ) );
@@ -61,7 +60,7 @@ public class BaseObjectTest
 
     @Test
     public void testToString_default_differentInstanceField( ) throws IOException {
-        String expected = loadFile( "test", getClass(), "data", "tostring-default-value.txt" );
+        String expected = loadFile( getClass(), "data", "tostring-default-value.txt" );
         String actual = differentInstanceField.toString();
 
         assertEquals( expected, Normalize.newLines( actual ) );
@@ -69,7 +68,7 @@ public class BaseObjectTest
 
     @Test
     public void testToString_customToStringStyle_base( ) throws IOException {
-        String expected = loadFile( "test", getClass(), "data", "tostring-customToStringStyle-base.txt" );
+        String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-base.txt" );
         String actual = base.toString( BaseObject.MULTILINE_NO_ADDRESS_TOSTRING_STYLE );
 
         assertEquals( expected, Normalize.newLines( actual ) );
@@ -77,7 +76,7 @@ public class BaseObjectTest
 
     @Test
     public void testToString_customToStringStyle_differentInstanceField( ) throws IOException {
-        String expected = loadFile( "test", getClass(), "data", "tostring-customToStringStyle-value.txt" );
+        String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-value.txt" );
         String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_TOSTRING_STYLE );
 
         assertEquals( expected, Normalize.newLines( actual ) );

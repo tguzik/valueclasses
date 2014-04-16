@@ -2,7 +2,7 @@
 
 **Please note that this is still work in progress **
 
-This small library aims to make it easier to create values with separate type in Java. This is useful for protecting
+This small library aims to make it easier to create values with distinctive type in Java. This is useful for protecting
 against null values and retaining the information about what is expected to be passed as an argument... or at least
 more readable than five String arguments in a row to some function ;-)
 

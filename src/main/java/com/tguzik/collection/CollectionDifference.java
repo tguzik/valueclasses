@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -15,8 +16,11 @@ import com.tguzik.collection.CollectionDifference.CollectionDifferenceElement;
 import com.tguzik.objects.BaseObject;
 
 /**
+ * TODO: Documentation
+ * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
+@Beta
 @Immutable
 public class CollectionDifference< T > extends BaseObject implements Iterable<CollectionDifferenceElement<T>>
 {

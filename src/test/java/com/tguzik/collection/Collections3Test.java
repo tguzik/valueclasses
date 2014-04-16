@@ -2,12 +2,15 @@ package com.tguzik.collection;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
-import com.tguzik.collection.CollectionDifference;
-import com.tguzik.collection.Collections3;
+import com.tguzik.objects.BaseObject;
+import com.tguzik.unittests.Loader;
+import com.tguzik.unittests.Normalize;
 
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
@@ -25,8 +28,11 @@ public class Collections3Test
     }
 
     @Test
-    public void testDifference( ) {
-        CollectionDifference<String> diff = Collections3.difference( collectionA, collectionB );
-        assertEquals( "", diff.toString() );
+    public void testDifference( ) throws IOException {
+        String expected = Loader.loadFile( getClass(), "data", "collection-difference-expected.txt" );
+        String actual = Collections3.difference( collectionA, collectionB )
+                                    .toString( BaseObject.MULTILINE_NO_ADDRESS_TOSTRING_STYLE );
+
+        assertEquals( expected, Normalize.newLines( actual ) );
     }
 }

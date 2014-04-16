@@ -44,4 +44,12 @@ public class Loader
                                    @Nonnull String fileName ) throws IOException {
         return loadFile( Paths.get( prefix, directory, subdirectory, fileName ) );
     }
+
+    @Nullable
+    /** Assumes that the prefix will be 'src/test/java/' */
+    public static String loadFile( @Nonnull Class<?> classFromPackage,
+                                   @Nonnull String subdirectory,
+                                   @Nonnull String fileName ) throws IOException {
+        return loadFile( "src/test/java", classFromPackage, subdirectory, fileName );
+    }
 }

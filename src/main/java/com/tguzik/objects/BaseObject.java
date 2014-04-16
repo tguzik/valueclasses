@@ -54,6 +54,7 @@ class MultilineNoAddressessToStringStyle extends ToStringStyle
     MultilineNoAddressessToStringStyle() {
         super();
         this.setContentStart( "[" );
+        this.setUseShortClassName( true );
         this.setUseIdentityHashCode( false );
         this.setFieldSeparator( SystemUtils.LINE_SEPARATOR + "  " );
         this.setFieldSeparatorAtStart( true );
