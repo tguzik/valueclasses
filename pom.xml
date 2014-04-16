@@ -1,32 +1,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.tguzik.util</groupId>
-	<artifactId>common-utilities</artifactId>
-	<version>0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<description>Set of utilities commonly used used in Java programming.</description>
-	<url>https://github.com/tguzik/common-utilities</url>
-
-	<licenses>
-		<license>
-			<name>The MIT License (MIT)</name>
-			<url>https://github.com/tguzik/common-utilities/blob/master/LICENSE</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<scm>
-		<url>https://github.com/tguzik/common-utilities</url>
-		<developerConnection>scm:git:https://github.com/tguzik/common-utilities.git</developerConnection>
-		<connection>scm:git:https://github.com/tguzik/common-utilities.git</connection>
-	</scm>
 
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
+
+	<groupId>com.tguzik</groupId>
+	<artifactId>typedvalues</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<description>This small library aims to make it easier to create values with distinctive type in Java.</description>
+	<url>https://github.com/tguzik/typedvalues</url>
+
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>https://github.com/tguzik/typedvalues/blob/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/tguzik/typedvalues</url>
+		<developerConnection>scm:git:https://github.com/tguzik/typedvalues.git</developerConnection>
+		<connection>scm:git:https://github.com/tguzik/typedvalues.git</connection>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -65,10 +66,6 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
-		<outputDirectory>build</outputDirectory>
-		<directory>build</directory>
 		<defaultGoal>package</defaultGoal>
 
 		<plugins>

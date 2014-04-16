@@ -1,5 +1,6 @@
 # Generated directories/files
 dist
 build
+target
 .project
 .classpath
