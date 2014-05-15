@@ -15,14 +15,15 @@ At this moment the library is available only through sources. Maven artifact is 
 
 TBD.
 
+
 ## Dependencies
 
 This project depends on following third party libraries:
 
-* `com.google.guava:guava`, version 16.0+
 * `org.apache.commons:commons-lang3`, version 3.1+
 * `com.google.code.findbugs:jsr305`, version 2.0.2+
-* `junit:junit`, version 4.11+
+* `junit:junit`, unit tests only, version 4.11+
+* `JDK1.7`
 
 
 ## License

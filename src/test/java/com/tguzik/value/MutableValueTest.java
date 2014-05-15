@@ -13,11 +13,10 @@ import com.tguzik.tests.SettableHashCode;
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
-public class ValueTest
+public class MutableValueTest
 {
-    private Value<?> valueContainingNull;
-    private Value<?> value;
-
+    private MutableValue<?> valueContainingNull;
+    private MutableValue<?> value;
     private String containedValue;
 
     @Before
@@ -26,6 +25,22 @@ public class ValueTest
 
         valueContainingNull = ValueTestHelper.create( null );
         value = ValueTestHelper.create( containedValue );
+    }
+
+    @Test
+    public void valueSetInConstructor( ) {
+        MutableValue<String> value = new MutableValue<String>( containedValue );
+
+        assertEquals( containedValue, value.get() );
+    }
+
+    @Test
+    public void setChangesTheValue( ) {
+        MutableValue<String> value = new MutableValue<String>( containedValue );
+
+        value.set( "new value" );
+
+        assertEquals( "new value", value.get() );
     }
 
     @Test
@@ -98,7 +113,7 @@ public class ValueTest
         assertNotEquals( value, valueContainingNull );
     }
 
-    static class ValueTestHelper extends Value<Object>
+    static class ValueTestHelper extends MutableValue<Object>
     {
         protected ValueTestHelper( Object obj ) {
             super( obj );
@@ -120,7 +135,7 @@ public class ValueTest
         }
     }
 
-    static class SiblingOfValueTestHelper extends Value<Object>
+    static class SiblingOfValueTestHelper extends MutableValue<Object>
     {
         protected SiblingOfValueTestHelper( Object obj ) {
             super( obj );

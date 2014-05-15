@@ -1,4 +1,4 @@
-package com.tguzik.unittests;
+package com.tguzik.tests;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -19,7 +19,7 @@ public final class SettableHashCode extends Value<Integer>
 
     @Override
     public int hashCode( ) {
-        return getValue();
+        return get();
     }
 
     public static SettableHashCode create( int desiredHashCode ) {

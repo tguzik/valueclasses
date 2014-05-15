@@ -1,11 +1,11 @@
-package com.tguzik.unittests;
+package com.tguzik.tests;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tguzik.unittests.SettableHashCode;
+import com.tguzik.tests.SettableHashCode;
 
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
@@ -23,6 +23,6 @@ public class SettableHashCodeTest
     @Test
     public void testSettableHashCode( ) {
         assertEquals( 42, object.hashCode() );
-        assertEquals( object.getValue().intValue(), object.hashCode() );
+        assertEquals( object.get().intValue(), object.hashCode() );
     }
 }

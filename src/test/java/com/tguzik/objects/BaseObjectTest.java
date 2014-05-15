@@ -1,6 +1,6 @@
 package com.tguzik.objects;
 
-import static com.tguzik.unittests.Loader.loadFile;
+import static com.tguzik.tests.Loader.loadFile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tguzik.unittests.Normalize;
+import com.tguzik.tests.Normalize;
 
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>

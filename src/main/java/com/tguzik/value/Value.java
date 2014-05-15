@@ -4,48 +4,59 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
-import com.tguzik.annotations.ReadOnly;
+import org.apache.commons.lang3.StringUtils;
+
 import com.tguzik.traits.HasValue;
 
 /**
- * TODO: Documentation
+ * Base abstract class for wrappers on values allowing to give them their own
+ * type. This class and its subclasses are meant to be immutable by themselves -
+ * not allowing to change the reference to held value. This class cannot give
+ * any guarantees about the value itself.
  * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
 public abstract class Value< T > implements HasValue<T>
 {
-    protected final T value;
+    private final T value;
 
     protected Value( @Nullable T value ) {
         this.value = value;
     }
 
-    @ReadOnly
     @Nullable
     @Override
-    public T getValue( ) {
+    public T get( ) {
         return value;
     }
 
     @Override
     public int hashCode( ) {
-        return value != null ? value.hashCode() : 0;
+        T localValue = get();
+        return localValue != null ? localValue.hashCode() : 0;
     }
 
     @Override
     public String toString( ) {
-        return String.format( "%s(%s)", getClass().getSimpleName(), value );
+        T localValue = get();
+        return localValue != null ? localValue.toString() : StringUtils.EMPTY;
     }
 
     @Override
     public boolean equals( @Nullable Object obj ) {
-        if ( obj != null && getClass().isAssignableFrom( obj.getClass() ) ) {
+        if ( obj != null && isSameClassOrDescendant( obj.getClass() ) ) {
             Value<?> other = (Value<?>) obj;
+            Object otherValue = other.get();
+            T localValue = this.get();
 
-            return Objects.equals( this.value, other.value );
+            return Objects.equals( localValue, otherValue );
         }
 
         return false;
+    }
+
+    private boolean isSameClassOrDescendant( Class<?> other ) {
+        return getClass().isAssignableFrom( other );
     }
 }

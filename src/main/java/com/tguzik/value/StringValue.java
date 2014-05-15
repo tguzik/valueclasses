@@ -6,7 +6,7 @@ import javax.annotation.concurrent.Immutable;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * TODO: Documentation
+ * Abstract class to hold {@link java.lang.String}-based values.
  * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
@@ -20,11 +20,14 @@ public abstract class StringValue extends Value<String> implements Comparable<St
 
     @Override
     public int compareTo( @Nullable StringValue other ) {
-        return ( value != null && other != null && other.value != null ) ? value.compareTo( other.value ) : 0;
+        String otherValue = ( other == null ) ? null : other.get();
+        String thisValue = get();
+
+        return ( thisValue == null || otherValue == null ) ? 0 : thisValue.compareTo( otherValue );
     }
 
     public int length( ) {
-        return value != null ? value.length() : 0;
+        return StringUtils.length( get() );
     }
 
     public boolean isEmpty( ) {
@@ -32,6 +35,6 @@ public abstract class StringValue extends Value<String> implements Comparable<St
     }
 
     public boolean isBlank( ) {
-        return StringUtils.isBlank( value );
+        return StringUtils.isBlank( get() );
     }
 }

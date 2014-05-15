@@ -1,4 +1,4 @@
-package com.tguzik.unittests;
+package com.tguzik.tests;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -8,23 +8,21 @@ import java.nio.file.Paths;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.annotations.Beta;
-import com.google.common.io.Files;
-import com.tguzik.annotations.RefactorThis;
-
 /**
- * TODO: Documentation
+ * Unit test utility that loads files. Primary use case is reading text files
+ * and using the contents as expected values in unit tests. This is placed in
+ * main sources (not test sources) to allow using this class in projects that
+ * depend on this library.
  * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
-@Beta
-@RefactorThis( "Clean up these static methods - not all are needed" )
 public class Loader
 {
     @Nullable
     public static String loadFile( @Nonnull Path path ) throws IOException {
-        String contents = Files.toString( path.toFile(), Charset.forName( "UTF-8" ) );
+        byte[] fileBytes = java.nio.file.Files.readAllBytes( path );
+        String contents = new String( fileBytes, Charset.forName( "UTF-8" ) );
         return Normalize.newLines( contents );
     }
 

@@ -9,9 +9,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.tguzik.annotations.ExpectedPerformanceProfile;
-import com.tguzik.annotations.ExpectedPerformanceProfile.PerformanceCharacteristic;
-
 /**
  * Convenience base class for objects that are not constantly compared or
  * converted to string. This class should be used when overall performance does
@@ -20,7 +17,8 @@ import com.tguzik.annotations.ExpectedPerformanceProfile.PerformanceCharacterist
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
-@ExpectedPerformanceProfile( value = PerformanceCharacteristic.REFLECTION_HEAVY )
+// Will be a normal annotation once https://github.com/tguzik/annotations is up on maven
+//@ExpectedPerformanceProfile( value = PerformanceCharacteristic.REFLECTION_HEAVY )
 public abstract class BaseObject
 {
     public static final MultilineNoAddressessToStringStyle MULTILINE_NO_ADDRESS_TOSTRING_STYLE = new MultilineNoAddressessToStringStyle();
