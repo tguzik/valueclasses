@@ -22,6 +22,7 @@ This project depends on following third party libraries:
 
 * `org.apache.commons:commons-lang3`, version 3.1+
 * `com.google.code.findbugs:jsr305`, version 2.0.2+
+* `javax.xml.bind:jaxb-api`, version 2.2.11+
 * `junit:junit`, unit tests only, version 4.11+
 * `JDK1.7`
 

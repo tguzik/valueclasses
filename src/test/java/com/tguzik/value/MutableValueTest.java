@@ -29,14 +29,14 @@ public class MutableValueTest
 
     @Test
     public void valueSetInConstructor( ) {
-        MutableValue<String> value = new MutableValue<String>( containedValue );
+        MutableValue<Object> value = ValueTestHelper.create( containedValue );
 
         assertEquals( containedValue, value.get() );
     }
 
     @Test
     public void setChangesTheValue( ) {
-        MutableValue<String> value = new MutableValue<String>( containedValue );
+        MutableValue<Object> value = ValueTestHelper.create( containedValue );
 
         value.set( "new value" );
 

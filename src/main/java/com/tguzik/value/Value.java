@@ -3,16 +3,26 @@ package com.tguzik.value;
 import java.util.Objects;
 
 import javax.annotation.Nullable;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.tguzik.traits.HasValue;
+import com.tguzik.value.adapters.AbstractJaxbValueAdapter;
 
 /**
+ * <p>
  * Base abstract class for wrappers on values allowing to give them their own
  * type. This class and its subclasses are meant to be immutable by themselves -
  * not allowing to change the reference to held value. This class cannot give
  * any guarantees about the value itself.
+ * </p>
+ * <p>
+ * If your project uses JaxB, it is recommended for descendants of this class
+ * are annotated with {@link XmlJavaTypeAdapter}, where the annotation specifies
+ * {@link XmlJavaTypeAdapter#value()} to be a descendant of
+ * {@link AbstractJaxbValueAdapter}
+ * </p>
  * 
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
@@ -59,4 +69,5 @@ public abstract class Value< T > implements HasValue<T>
     private boolean isSameClassOrDescendant( Class<?> other ) {
         return getClass().isAssignableFrom( other );
     }
+
 }
