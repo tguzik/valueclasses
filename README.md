@@ -4,7 +4,7 @@
 
 This small library aims to make it easier to create values with distinctive type in Java. This is useful for protecting
 against null values and retaining the information about what is expected to be passed as an argument... or at least
-more readable than five String arguments in a row to some function ;-)
+more readable than five String arguments in a row to the same function ;-)
 
 ## How do I get it?
 
@@ -75,11 +75,11 @@ public final class EmailAddress extends StringValue { [...] }
 ```
     
 Now, assuming that your implementations are immutable (they don't mutate state after creation), you can create following 
-class:
+class to hold the data about customer:
 
 ```java
 /*
- * Reflection-based .hashCode(), .equals() and .toString() are already defined in BaseObject class.
+ * Reflection-based .hashCode(), .equals() and .toString() are already defined in the com.tguzik.objects.BaseObject class.
  */
 @Immutable
 public final class Customer extends BaseObject {
@@ -113,15 +113,40 @@ public final class Customer extends BaseObject {
 }
 ```
 
-Next you can adapt your API/business logic to use these defined types to make sure nobody mistakenly passes first name
+Next you can adapt your API/business logic to use these defined types to make sure _nobody_ mistakenly passes first name
 where email address should be:
 
 ```java
-public void notifyOperations(EmailAddress address, Event event) { [...] }
+/*
+ * Without this library the above method signature would probably look like:
+ *
+ * public void notifyOperations(String, Event);
+ */
+public void notifyOperations(EmailAddress address, Event badEvent) { [...] }
 ```
 
 ```java
-public void modifyAccountValue(Customer customer, long delta) { [...] }
+/*
+ * Without this library the above method signature would probably look like:
+ *
+ * public void modifyAccountValue(long, long);
+ */
+public void modifyAccountValue(CustomerId id, long delta) { [...] }
+```
+
+```java
+/*
+ * Without this library the above method signature would probably look like:
+ *
+ * public void transferAccountOwnership(long, String, String, String);
+ */
+public void transferAccountOwnership(CustomerId accountId,
+                                     FirstName newOwnersFirstName, 
+                                     LastName newOwnersLastName, 
+                                     EmailAddress newOwnersEmailAddress) 
+{
+    [...]
+}
 ```
 
 ## Dependencies
