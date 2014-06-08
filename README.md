@@ -13,8 +13,116 @@ At this moment the library is available only through sources. Maven artifact is 
 
 ## So what's inside?
 
-TBD.
+See [Javadoc](http://tguzik.github.io/typedvalues/) or the demo code below for more information.
 
+
+## Short demo
+
+Suppose your project had to store multiple distinct types of values that boil down to String, Long or Integer (or anything 
+else really). In this example, I'll define these types:
+
+```java
+@XmlJavaTypeAdapter( value = ClientId.JaxbAdapter.class )
+public final class ClientId extends Value<Long>
+{
+    private ClientId( Long value ) {
+        super( value );
+    }
+
+    public static ClientId valueOf( Long value ) {
+        /* 
+         * You could plug some cache here to reduce the number of instances created, 
+         * reducing the amount of garbage your application creates.
+         */
+        return new ClientId( value );
+    }
+
+    public static class JaxbAdapter extends AbstractJaxbValueAdapter<Long, ClientId>
+    {
+        @Override
+        protected ClientId createNewInstance( Long value ) {
+            return ClientId.valueOf( value );
+        }
+    }
+}
+```
+
+```java
+@XmlJavaTypeAdapter( value = FirstName.JaxbAdapter.class )
+public final class FirstName extends StringValue
+{
+    private FirstName( String value ) {
+        super( value );
+    }
+
+    public static FirstName valueOf( String firstName ) {
+        return new FirstName( StringUtils.trimToEmpty( firstName ) );
+    }
+
+    public static class JaxbAdapter extends AbstractStringValueAdapter<FirstName>
+    {
+        @Override
+        protected FirstName createNewInstance( String value ) {
+            return FirstName.valueOf( value );
+        }
+    }
+}
+```
+
+```java
+public final class LastName extends StringValue { [...] }
+public final class EmailAddress extends StringValue { [...] }
+```
+    
+Now, assuming that your implementations are immutable (they don't mutate state after creation), you can create following 
+class:
+
+```java
+/*
+ * Reflection-based .hashCode(), .equals() and .toString() are already defined in BaseObject class.
+ */
+@Immutable
+public final class Customer extends BaseObject {
+    private final CustomerId customerId;
+    private final FirstName firstName;
+    private final LastName lastName;
+    private final EmailAddress emailAddress;
+
+    public Customer(CustomerId customerId, FirstName firstName, LastName lastName, EmailAddress emailAddress) {
+        this.customerId = customerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+    }
+
+    public CustomerId getCustomerId() {
+        return customerId;
+    }
+
+    public FirstName getFirstName() {
+        return firstName;
+    }
+
+    public LastName getLastName() {
+        return lastName;
+    }
+
+    public EmailAddress getEmailAddress() {
+        return emailAddress;
+    }
+}
+```
+
+Next you can adapt your API/business logic to use these defined types to make sure nobody mistakenly passes first name
+where email address should be:
+
+```java
+public void notifyOperations(EmailAddress address, Event event) { [...] }
+```
+
+```java
+public void modifyAccountValue(Customer customer, long delta) { [...] }
+```
 
 ## Dependencies
 
