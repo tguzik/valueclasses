@@ -41,6 +41,18 @@
 		</developer>
 	</developers>
 
+	<profiles>
+		<profile>
+			<id>javadoc</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<defaultGoal>javadoc:javadoc</defaultGoal>
+			</build>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
