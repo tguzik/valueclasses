@@ -57,17 +57,14 @@ public abstract class Value< T > implements HasValue<T>
     public boolean equals( @Nullable Object obj ) {
         if ( obj != null && isSameClassOrDescendant( obj.getClass() ) ) {
             Value<?> other = (Value<?>) obj;
-            Object otherValue = other.get();
-            T localValue = this.get();
 
-            return Objects.equals( localValue, otherValue );
+            return Objects.equals( this.get(), other.get() );
         }
 
         return false;
     }
 
     private boolean isSameClassOrDescendant( Class<?> other ) {
-        return getClass().isAssignableFrom( other );
+        return this.getClass().isAssignableFrom( other );
     }
-
 }

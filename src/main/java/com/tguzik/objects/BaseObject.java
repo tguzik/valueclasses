@@ -50,7 +50,6 @@ class MultilineNoAddressessToStringStyle extends ToStringStyle
     private static final long serialVersionUID = 1L;
 
     MultilineNoAddressessToStringStyle() {
-        super();
         this.setContentStart( "[" );
         this.setUseShortClassName( true );
         this.setUseIdentityHashCode( false );
