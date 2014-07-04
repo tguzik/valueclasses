@@ -1,4 +1,4 @@
-# typedvalues [![Build Status](https://travis-ci.org/tguzik/typedvalues.png?branch=master)](https://travis-ci.org/tguzik/typedvalues)
+# valueclasses [![Build Status](https://travis-ci.org/tguzik/valueclasses.png?branch=master)](https://travis-ci.org/tguzik/valueclasses)
 
 **Please note that this is still work in progress **
 
@@ -13,7 +13,7 @@ At this moment the library is available only through sources. Maven artifact is 
 
 ## So what's inside?
 
-See [Javadoc](http://tguzik.github.io/typedvalues/) or the demo code below for more information.
+See [Javadoc](http://tguzik.github.io/valueclasses/) or the demo code below for more information.
 
 
 ## Short demo
@@ -120,9 +120,9 @@ where email address should be:
 /*
  * Without this library the above method signature would probably look like:
  *
- * public void notifyOperations(String, Event);
+ * public void notifyOncall(String, Event);
  */
-public void notifyOperations(EmailAddress address, Event badEvent) { [...] }
+public void notifyOncall(EmailAddress address, Event badEvent) { [...] }
 ```
 
 ```java

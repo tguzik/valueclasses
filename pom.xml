@@ -9,11 +9,15 @@
 	</parent>
 
 	<groupId>com.tguzik</groupId>
-	<artifactId>typedvalues</artifactId>
-	<version>0.3-SNAPSHOT</version>
+	<artifactId>valueclasses</artifactId>
+	<version>0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<description>This small library aims to make it easier to create values with distinctive type in Java.</description>
-	<url>https://github.com/tguzik/typedvalues</url>
+
+	<name>ValueClasses</name>
+	<url>https://github.com/tguzik/valueclasses</url>
+	<description>
+	   This library provides an easy to use template for implementing value classes that contain domain data.
+	</description>
 
 	<licenses>
 		<license>
@@ -24,9 +28,9 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/tguzik/typedvalues</url>
-		<developerConnection>scm:git:https://github.com/tguzik/typedvalues.git</developerConnection>
-		<connection>scm:git:https://github.com/tguzik/typedvalues.git</connection>
+		<connection>scm:git:git@github.com:tguzik/valueclasses.git</connection>
+		<developerConnection>scm:git:git@github.com:tguzik/valueclasses.git</developerConnection>
+		<url>git@github.com:tguzik/valueclasses.git</url>
 	</scm>
 
 	<properties>
@@ -65,15 +69,15 @@
 			<version>[2.0.2,)</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>[2.2.11,)</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>[4.11,)</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>[2.2.11,)</version>
 		</dependency>
 	</dependencies>
 
