@@ -8,7 +8,13 @@ more readable than five String arguments in a row to the same function ;-)
 
 ## How do I get it?
 
-At this moment the library is available only through sources. Maven artifact is TBD.
+The library is available in Maven Central repository. You can use it in your projects via this dependency:
+
+    <dependency>
+        <groupId>com.tguzik</groupId>
+        <artifactId>valueclasses</artifactId>
+        <version>0.4</version>
+    </dependency>
 
 
 ## So what's inside?
