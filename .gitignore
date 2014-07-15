@@ -1,4 +1,5 @@
 # Generated directories/files
+.settings
 dist
 build
 target
