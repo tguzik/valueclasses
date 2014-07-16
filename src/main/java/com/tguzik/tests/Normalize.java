@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * endings into unix-style (\n). This is placed in main sources (as opposed to
  * unit test sources) to allow using this class in projects that depend on this
  * library.
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
@@ -20,13 +20,13 @@ public final class Normalize
      * Replaces different line ending styles (Windows <code>\r\n</code>, legacy
      * Mac <code>\r</code>) with single new line character (<code>\n</code>).
      * </p>
-     * 
+     *
      * Example usage:
-     * 
+     *
      * <pre>
      * assertEquals( expected, Normalize.newLines( actual ) );
      * </pre>
-     * 
+     *
      * @param input
      *            nullable input string
      * @return new string with all newline sequences replaced with LF ending
@@ -40,7 +40,7 @@ public final class Normalize
      * <p>
      * Replaces all tabulation (<code>\t</code>) characters with spaces.
      * </p>
-     * 
+     *
      * @param input
      *            nullable input string
      * @param tabWidth

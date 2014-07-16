@@ -23,7 +23,7 @@ import com.tguzik.value.adapters.AbstractJaxbValueAdapter;
  * {@link XmlJavaTypeAdapter#value()} to be a descendant of
  * {@link AbstractJaxbValueAdapter}
  * </p>
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
@@ -48,12 +48,6 @@ public abstract class Value< T > implements HasValue<T>
     }
 
     @Override
-    public String toString( ) {
-        T localValue = get();
-        return localValue != null ? localValue.toString() : StringUtils.EMPTY;
-    }
-
-    @Override
     public boolean equals( @Nullable Object obj ) {
         if ( obj != null && isSameClassOrDescendant( obj.getClass() ) ) {
             Value<?> other = (Value<?>) obj;
@@ -62,6 +56,12 @@ public abstract class Value< T > implements HasValue<T>
         }
 
         return false;
+    }
+
+    @Override
+    public String toString( ) {
+        T localValue = get();
+        return localValue != null ? localValue.toString() : StringUtils.EMPTY;
     }
 
     private boolean isSameClassOrDescendant( Class<?> other ) {

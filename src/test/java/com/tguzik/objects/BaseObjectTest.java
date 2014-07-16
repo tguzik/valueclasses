@@ -69,7 +69,7 @@ public class BaseObjectTest
     @Test
     public void testToString_customToStringStyle_base( ) throws IOException {
         String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-base.txt" );
-        String actual = base.toString( BaseObject.MULTILINE_NO_ADDRESS_TOSTRING_STYLE );
+        String actual = base.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
         assertEquals( expected, Normalize.newLines( actual ) );
     }
@@ -77,7 +77,7 @@ public class BaseObjectTest
     @Test
     public void testToString_customToStringStyle_differentInstanceField( ) throws IOException {
         String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-value.txt" );
-        String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_TOSTRING_STYLE );
+        String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
         assertEquals( expected, Normalize.newLines( actual ) );
     }

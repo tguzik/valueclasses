@@ -9,19 +9,21 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.tguzik.annotations.ExpectedPerformanceProfile;
+import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
+
 /**
  * Convenience base class for objects that are not constantly compared or
  * converted to string. This class should be used when overall performance does
  * not matter as much.
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
-// Will be a normal annotation once https://github.com/tguzik/annotations is up on maven
-//@ExpectedPerformanceProfile( value = PerformanceCharacteristic.REFLECTION_HEAVY )
+@ExpectedPerformanceProfile( value = Kind.REFLECTION_HEAVY )
 public abstract class BaseObject
 {
-    public static final MultilineNoAddressessToStringStyle MULTILINE_NO_ADDRESS_TOSTRING_STYLE = new MultilineNoAddressessToStringStyle();
+    public static final MultilineNoAddressessStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressessStyle();
 
     @Override
     public boolean equals( @Nullable Object other ) {
@@ -45,16 +47,16 @@ public abstract class BaseObject
     }
 }
 
-class MultilineNoAddressessToStringStyle extends ToStringStyle
+class MultilineNoAddressessStyle extends ToStringStyle
 {
     private static final long serialVersionUID = 1L;
 
-    MultilineNoAddressessToStringStyle() {
-        this.setContentStart( "[" );
+    MultilineNoAddressessStyle() {
+        this.setContentStart( "[" + SystemUtils.LINE_SEPARATOR + "  " );
         this.setUseShortClassName( true );
         this.setUseIdentityHashCode( false );
-        this.setFieldSeparator( SystemUtils.LINE_SEPARATOR + "  " );
-        this.setFieldSeparatorAtStart( true );
+        this.setFieldSeparator( "," + SystemUtils.LINE_SEPARATOR + "  " );
+        this.setFieldSeparatorAtStart( false );
         this.setContentEnd( SystemUtils.LINE_SEPARATOR + "]" );
     }
 }
