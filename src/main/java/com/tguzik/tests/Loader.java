@@ -13,12 +13,13 @@ import javax.annotation.Nullable;
  * and using the contents as expected values in unit tests. This is placed in
  * main sources (not test sources) to allow using this class in projects that
  * depend on this library.
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
-public class Loader
-{
+public enum Loader {
+    ;
+
     @Nullable
     public static String loadFile( @Nonnull Path path ) throws IOException {
         byte[] fileBytes = java.nio.file.Files.readAllBytes( path );

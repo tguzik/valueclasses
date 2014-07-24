@@ -13,8 +13,9 @@ import org.apache.commons.lang3.StringUtils;
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
-public final class Normalize
-{
+public enum Normalize {
+    ;
+
     /**
      * <p>
      * Replaces different line ending styles (Windows <code>\r\n</code>, legacy

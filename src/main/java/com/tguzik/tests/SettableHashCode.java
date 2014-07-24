@@ -6,7 +6,7 @@ import com.tguzik.value.Value;
 
 /**
  * Allows returning pre-set value in <code>.hashCode()</code> calls.
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
