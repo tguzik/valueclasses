@@ -6,22 +6,20 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 
+import com.tguzik.tests.Normalize;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tguzik.tests.Normalize;
-
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
-public class BaseObjectTest
-{
+public class BaseObjectTest {
     private BaseObjectTestHelper differentInstanceField;
     private BaseObjectTestHelper base;
 
     @Before
-    public void setUp( ) throws Exception {
+    public void setUp() throws Exception {
         differentInstanceField = new BaseObjectTestHelper();
         base = new BaseObjectTestHelper();
 
@@ -29,18 +27,18 @@ public class BaseObjectTest
     }
 
     @After
-    public void tearDown( ) {
+    public void tearDown() {
         BaseObjectTestHelper.publicStatic = "this is static";
     }
 
     @Test
-    public void testEquals( ) {
+    public void testEquals() {
         assertEquals( base, base );
         assertNotEquals( base, differentInstanceField );
     }
 
     @Test
-    public void testEquals_staticFieldsNotChecked( ) {
+    public void testEquals_staticFieldsNotChecked() {
         assertEquals( base, base );
         assertEquals( differentInstanceField, differentInstanceField );
 
@@ -51,7 +49,7 @@ public class BaseObjectTest
     }
 
     @Test
-    public void testToString_default_base( ) throws IOException {
+    public void testToString_default_base() throws IOException {
         String expected = loadFile( getClass(), "data", "tostring-default-base.txt" );
         String actual = base.toString();
 
@@ -59,7 +57,7 @@ public class BaseObjectTest
     }
 
     @Test
-    public void testToString_default_differentInstanceField( ) throws IOException {
+    public void testToString_default_differentInstanceField() throws IOException {
         String expected = loadFile( getClass(), "data", "tostring-default-value.txt" );
         String actual = differentInstanceField.toString();
 
@@ -67,7 +65,7 @@ public class BaseObjectTest
     }
 
     @Test
-    public void testToString_customToStringStyle_base( ) throws IOException {
+    public void testToString_customToStringStyle_base() throws IOException {
         String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-base.txt" );
         String actual = base.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
@@ -75,7 +73,7 @@ public class BaseObjectTest
     }
 
     @Test
-    public void testToString_customToStringStyle_differentInstanceField( ) throws IOException {
+    public void testToString_customToStringStyle_differentInstanceField() throws IOException {
         String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-value.txt" );
         String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
@@ -83,14 +81,14 @@ public class BaseObjectTest
     }
 
     @Test
-    public void testHashCode( ) {
+    public void testHashCode() {
         assertEquals( base.hashCode(), base.hashCode() );
         assertEquals( differentInstanceField.hashCode(), differentInstanceField.hashCode() );
         assertNotEquals( base.hashCode(), differentInstanceField.hashCode() );
     }
 
     @Test
-    public void testHashCode_doesNotConsiderStaticFields( ) {
+    public void testHashCode_doesNotConsiderStaticFields() {
         assertEquals( base.hashCode(), base.hashCode() );
         assertEquals( differentInstanceField.hashCode(), differentInstanceField.hashCode() );
 
@@ -100,12 +98,11 @@ public class BaseObjectTest
         assertEquals( differentInstanceField.hashCode(), differentInstanceField.hashCode() );
     }
 
-    static class BaseObjectTestHelper extends BaseObject
-    {
-        @SuppressWarnings( "unused" )
+    static class BaseObjectTestHelper extends BaseObject {
+        @SuppressWarnings("unused")
         private volatile String first = "first string";
 
-        @SuppressWarnings( "unused" )
+        @SuppressWarnings("unused")
         private static String staticString = "this is static";
 
         public static String publicStatic = "this is static";

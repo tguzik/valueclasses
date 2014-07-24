@@ -1,12 +1,11 @@
 package com.tguzik.tests;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Unit test utility that loads files. Primary use case is reading text files

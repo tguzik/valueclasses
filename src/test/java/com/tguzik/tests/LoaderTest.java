@@ -12,10 +12,9 @@ import org.junit.Test;
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
-public class LoaderTest
-{
+public class LoaderTest {
     @Test
-    public void testLoadFile( ) throws IOException {
+    public void testLoadFile() throws IOException {
         String fileContents = loadFile( "src/test/java", getClass(), "data", "test-file.txt" );
 
         assertNotNull( fileContents );
@@ -24,7 +23,7 @@ public class LoaderTest
     }
 
     @Test
-    public void testLoadFile_allFunctionsLoadSameFile( ) throws IOException {
+    public void testLoadFile_allFunctionsLoadSameFile() throws IOException {
         // Load data using all four methods
         String fileContentsUsingPath = loadFile( Paths.get( "src/test/java/com/tguzik/tests/data/test-file.txt" ) );
         String fileContentsUsingPrefixClassSubdirFname = loadFile( "src/test/java",

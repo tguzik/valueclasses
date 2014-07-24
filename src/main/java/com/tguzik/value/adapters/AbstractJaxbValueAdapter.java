@@ -11,13 +11,12 @@ import com.tguzik.value.Value;
  * to subclass one of the descendants of this class, implementing method
  * {@link #createNewInstance(Object)}. The method is expected to create new
  * instance of the value class of expected type.
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.2
  */
-public abstract class AbstractJaxbValueAdapter< UnderlyingType, ValueClass extends Value<UnderlyingType> > extends
-                                                                                                           XmlAdapter<UnderlyingType, ValueClass>
-{
+public abstract class AbstractJaxbValueAdapter<UnderlyingType, ValueClass extends Value<UnderlyingType>>
+        extends XmlAdapter<UnderlyingType, ValueClass> {
     @Override
     public ValueClass unmarshal( @Nullable UnderlyingType value ) throws Exception {
         return createNewInstance( value );
@@ -25,7 +24,7 @@ public abstract class AbstractJaxbValueAdapter< UnderlyingType, ValueClass exten
 
     @Override
     public UnderlyingType marshal( ValueClass v ) throws Exception {
-        return ( v == null ) ? null : v.get();
+        return (v == null) ? null : v.get();
     }
 
     /**

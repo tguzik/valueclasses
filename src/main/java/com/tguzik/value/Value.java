@@ -1,14 +1,12 @@
 package com.tguzik.value;
 
-import java.util.Objects;
-
 import javax.annotation.Nullable;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
 
 import com.tguzik.traits.HasValue;
 import com.tguzik.value.adapters.AbstractJaxbValueAdapter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -27,8 +25,7 @@ import com.tguzik.value.adapters.AbstractJaxbValueAdapter;
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
-public abstract class Value< T > implements HasValue<T>
-{
+public abstract class Value<T> implements HasValue<T> {
     private final T value;
 
     protected Value( @Nullable T value ) {
@@ -37,12 +34,12 @@ public abstract class Value< T > implements HasValue<T>
 
     @Nullable
     @Override
-    public T get( ) {
+    public T get() {
         return value;
     }
 
     @Override
-    public int hashCode( ) {
+    public int hashCode() {
         T localValue = get();
         return localValue != null ? localValue.hashCode() : 0;
     }
@@ -59,7 +56,7 @@ public abstract class Value< T > implements HasValue<T>
     }
 
     @Override
-    public String toString( ) {
+    public String toString() {
         T localValue = get();
         return localValue != null ? localValue.toString() : StringUtils.EMPTY;
     }

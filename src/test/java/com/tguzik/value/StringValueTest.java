@@ -1,19 +1,16 @@
 package com.tguzik.value;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Most test cases are already covered in {@link ValueTest}
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
-public class StringValueTest
-{
+public class StringValueTest {
     private StringValue newlinesAndSpaces;
     private StringValue spacesAndAlpha;
     private StringValue emptyString;
@@ -24,7 +21,7 @@ public class StringValueTest
     private StringValue b;
 
     @Before
-    public void setUp( ) throws Exception {
+    public void setUp() throws Exception {
         newlinesAndSpaces = new StringValueHelper( "\n\n \r \n" );
         spacesAndAlpha = new StringValueHelper( "  a " );
         nullString = new StringValueHelper( null );
@@ -36,23 +33,23 @@ public class StringValueTest
     }
 
     @Test
-    public void testCompareTo_a_before_b( ) {
+    public void testCompareTo_a_before_b() {
         assertTrue( a.compareTo( b ) < 0 );
     }
 
     @Test
-    public void testCompareTo_valueToItself( ) {
+    public void testCompareTo_valueToItself() {
         assertEquals( 0, a.compareTo( a ) );
         assertEquals( 0, b.compareTo( b ) );
     }
 
     @Test
-    public void testCompareTo_b_after_a( ) {
+    public void testCompareTo_b_after_a() {
         assertTrue( b.compareTo( a ) > 0 );
     }
 
     @Test
-    public void testLength( ) {
+    public void testLength() {
         assertEquals( 1, a.length() );
         assertEquals( 4, abcd.length() );
         assertEquals( 3, spaces.length() );
@@ -64,7 +61,7 @@ public class StringValueTest
     }
 
     @Test
-    public void testIsEmpty( ) {
+    public void testIsEmpty() {
         assertFalse( a.isEmpty() );
         assertFalse( abcd.isEmpty() );
         assertFalse( spaces.isEmpty() );
@@ -76,7 +73,7 @@ public class StringValueTest
     }
 
     @Test
-    public void testIsBlank( ) {
+    public void testIsBlank() {
         assertFalse( a.isBlank() );
         assertFalse( abcd.isBlank() );
         assertFalse( spacesAndAlpha.isBlank() );
@@ -87,8 +84,7 @@ public class StringValueTest
         assertTrue( nullString.isBlank() );
     }
 
-    static class StringValueHelper extends StringValue
-    {
+    static class StringValueHelper extends StringValue {
         public StringValueHelper( String str ) {
             super( str );
         }

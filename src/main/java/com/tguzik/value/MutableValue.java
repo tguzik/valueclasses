@@ -1,20 +1,18 @@
 package com.tguzik.value;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import javax.annotation.Nullable;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Provides a mutable value class that uses AtomicReference<T> as a base.
- * 
+ * <p/>
  * This class extends Value<T> and shadows the actual value only to allow
  * casting instances of this class to Value<T>.
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.2
  */
-public abstract class MutableValue< T > extends Value<T>
-{
+public abstract class MutableValue<T> extends Value<T> {
     /* This is a hacky way to work around generic types not allowing to pass AtomicReference<> itself to superclass.
      * If we passed the AtomicReference object to superclass, method {@link #get()} would have to return object of 
      * type AtomicReference<T> instead of T.
@@ -31,7 +29,7 @@ public abstract class MutableValue< T > extends Value<T>
 
     @Nullable
     @Override
-    public T get( ) {
+    public T get() {
         return value.get();
     }
 

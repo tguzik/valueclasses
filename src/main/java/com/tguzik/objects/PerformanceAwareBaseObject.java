@@ -15,15 +15,14 @@ import javax.annotation.Nullable;
  * faster, please provide your own implementation (basing the implementation on
  * {@link StringBuilder} is recommended).
  * </p>
- * 
+ *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.3
  */
-public abstract class PerformanceAwareBaseObject extends BaseObject
-{
+public abstract class PerformanceAwareBaseObject extends BaseObject {
     @Override
     public abstract boolean equals( @Nullable Object other );
 
     @Override
-    public abstract int hashCode( );
+    public abstract int hashCode();
 }

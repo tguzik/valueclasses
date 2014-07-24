@@ -5,23 +5,19 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tguzik.tests.SettableHashCode;
-
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
- * 
  */
-public class SettableHashCodeTest
-{
+public class SettableHashCodeTest {
     private SettableHashCode object;
 
     @Before
-    public void setUp( ) {
+    public void setUp() {
         object = SettableHashCode.create( 42 );
     }
 
     @Test
-    public void testSettableHashCode( ) {
+    public void testSettableHashCode() {
         assertEquals( 42, object.hashCode() );
         assertEquals( object.get().intValue(), object.hashCode() );
     }

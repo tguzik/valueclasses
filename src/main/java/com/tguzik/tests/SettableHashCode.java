@@ -11,14 +11,13 @@ import com.tguzik.value.Value;
  * @since 0.1
  */
 @Immutable
-public final class SettableHashCode extends Value<Integer>
-{
+public final class SettableHashCode extends Value<Integer> {
     private SettableHashCode( Integer value ) {
         super( value );
     }
 
     @Override
-    public int hashCode( ) {
+    public int hashCode() {
         return get();
     }
 

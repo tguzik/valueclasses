@@ -3,14 +3,13 @@ package com.tguzik.objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.tguzik.annotations.ExpectedPerformanceProfile;
+import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import com.tguzik.annotations.ExpectedPerformanceProfile;
-import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
 
 /**
  * Convenience base class for objects that are not constantly compared or
@@ -20,9 +19,8 @@ import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1
  */
-@ExpectedPerformanceProfile( value = Kind.REFLECTION_HEAVY )
-public abstract class BaseObject
-{
+@ExpectedPerformanceProfile(value = Kind.REFLECTION_HEAVY)
+public abstract class BaseObject {
     public static final MultilineNoAddressessStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressessStyle();
 
     @Override
@@ -32,7 +30,7 @@ public abstract class BaseObject
 
     @Nonnull
     @Override
-    public String toString( ) {
+    public String toString() {
         return toString( ToStringStyle.SHORT_PREFIX_STYLE );
     }
 
@@ -42,13 +40,12 @@ public abstract class BaseObject
     }
 
     @Override
-    public int hashCode( ) {
+    public int hashCode() {
         return HashCodeBuilder.reflectionHashCode( this, false );
     }
 }
 
-class MultilineNoAddressessStyle extends ToStringStyle
-{
+class MultilineNoAddressessStyle extends ToStringStyle {
     private static final long serialVersionUID = 1L;
 
     MultilineNoAddressessStyle() {

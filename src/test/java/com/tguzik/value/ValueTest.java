@@ -1,27 +1,22 @@
 package com.tguzik.value;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.tguzik.tests.SettableHashCode;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
-public class ValueTest
-{
+public class ValueTest {
     private Value<?> valueContainingNull;
     private Value<?> value;
 
     private String containedValue;
 
     @Before
-    public void setUp( ) throws Exception {
+    public void setUp() throws Exception {
         containedValue = "some value";
 
         valueContainingNull = ValueTestHelper.create( null );
@@ -29,77 +24,76 @@ public class ValueTest
     }
 
     @Test
-    public void testGetValue( ) {
+    public void testGetValue() {
         assertSame( containedValue, value.get() );
     }
 
     @Test
-    public void testGetValue_null( ) {
+    public void testGetValue_null() {
         assertNull( valueContainingNull.get() );
     }
 
     @Test
-    public void testHashCode( ) {
+    public void testHashCode() {
         assertEquals( 123, ValueTestHelper.create( SettableHashCode.create( 123 ) ).hashCode() );
     }
 
     @Test
-    public void testHashCode_null( ) {
+    public void testHashCode_null() {
         assertEquals( 0, valueContainingNull.hashCode() );
     }
 
     @Test
-    public void testToString( ) {
+    public void testToString() {
         assertEquals( "some value", value.toString() );
     }
 
     @Test
-    public void testToString_null( ) {
+    public void testToString_null() {
         assertEquals( "", valueContainingNull.toString() );
     }
 
     @Test
-    public void testEquals_equal_sameClassAndContainedValue( ) {
+    public void testEquals_equal_sameClassAndContainedValue() {
         assertEquals( value, ValueTestHelper.create( containedValue ) );
     }
 
     @Test
-    public void testEquals_equal_childClassAndContainedValue( ) {
+    public void testEquals_equal_childClassAndContainedValue() {
         assertEquals( value, ChildOfValueTestHelper.create( containedValue ) );
     }
 
     @Test
-    public void testEquals_notEqual_sameClassButDifferentContainedValue( ) {
+    public void testEquals_notEqual_sameClassButDifferentContainedValue() {
         assertNotEquals( value, ValueTestHelper.create( "something else" ) );
     }
 
     @Test
-    public void testEquals_notEqual_sameClassButNullValue( ) {
+    public void testEquals_notEqual_sameClassButNullValue() {
         assertNotEquals( value, valueContainingNull );
     }
 
     @Test
-    public void testEquals_notEqual_differentClassButSameValue( ) {
+    public void testEquals_notEqual_differentClassButSameValue() {
         assertNotEquals( value, SiblingOfValueTestHelper.create( containedValue ) );
     }
 
     @Test
-    public void testEquals_notEqual_differentClassAndDifferentValue( ) {
+    public void testEquals_notEqual_differentClassAndDifferentValue() {
         assertNotEquals( value, SiblingOfValueTestHelper.create( "something else" ) );
     }
 
     @Test
-    public void testEquals_notEqual_null( ) {
+    public void testEquals_notEqual_null() {
         assertNotEquals( value, null );
     }
 
     @Test
-    public void testEquals_notEqual_containedValueIsNull( ) {
+    public void testEquals_notEqual_containedValueIsNull() {
         assertNotEquals( value, valueContainingNull );
     }
 
-    static class ValueTestHelper extends Value<Object>
-    {
+    static class ValueTestHelper extends Value<Object> {
         protected ValueTestHelper( Object obj ) {
             super( obj );
         }
@@ -109,8 +103,7 @@ public class ValueTest
         }
     }
 
-    static class ChildOfValueTestHelper extends ValueTestHelper
-    {
+    static class ChildOfValueTestHelper extends ValueTestHelper {
         protected ChildOfValueTestHelper( Object obj ) {
             super( obj );
         }
@@ -120,8 +113,7 @@ public class ValueTest
         }
     }
 
-    static class SiblingOfValueTestHelper extends Value<Object>
-    {
+    static class SiblingOfValueTestHelper extends Value<Object> {
         protected SiblingOfValueTestHelper( Object obj ) {
             super( obj );
         }
