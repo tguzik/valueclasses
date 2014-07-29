@@ -11,6 +11,17 @@ change and/or change the expected functionality.
 
 -----
 
+Version `0.6`:
+* Pinned dependencies to specific versions. This should make this library less
+  annoying to use when you have access to Maven Central Releases repository,
+  but not to the Snapshots repository. This occurs fairly often if you use a
+  local mirror of Maven Central.
+* `Loader` and `Normalize` were changed from final classes to enums without
+  values. Instances of both classes were meaningless as these had only static
+  methods.
+* Next release will jump to version 1.0 and start using semantic versioning.
+
+
 Version `0.5`:
 * *Breaking*: `BaseObject.MULTILINE_NO_ADDRESS_TOSTRING_STYLE` renamed to
   `BaseObject.MULTILINE_NO_ADDRESS_STYLE`.
