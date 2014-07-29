@@ -13,7 +13,7 @@ The library is available in Maven Central repository. You can use it in your pro
     <dependency>
         <groupId>com.tguzik</groupId>
         <artifactId>valueclasses</artifactId>
-        <version>0.5</version>
+        <version>0.6</version>
     </dependency>
 
 
