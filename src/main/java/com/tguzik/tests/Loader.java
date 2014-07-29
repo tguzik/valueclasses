@@ -12,6 +12,11 @@ import java.nio.file.Paths;
  * and using the contents as expected values in unit tests. This is placed in
  * main sources (not test sources) to allow using this class in projects that
  * depend on this library.
+ * <p/>
+ * Loaded files have their newline characters normalized to single '\n' character
+ * using {@link com.tguzik.tests.Normalize#newLines(String)}. Loaded files are
+ * not trimmed - whitespace at the beginning and the end of the file will be
+ * preserved.
  *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.1

@@ -17,13 +17,10 @@ public enum Normalize {
     ;
 
     /**
-     * <p>
      * Replaces different line ending styles (Windows <code>\r\n</code>, legacy
      * Mac <code>\r</code>) with single new line character (<code>\n</code>).
-     * </p>
      * <p/>
      * Example usage:
-     * <p/>
      * <pre>
      * assertEquals( expected, Normalize.newLines( actual ) );
      * </pre>
@@ -39,17 +36,15 @@ public enum Normalize {
     }
 
     /**
-     * <p>
      * Replaces all tabulation (<code>\t</code>) characters with spaces.
-     * </p>
      *
      * @param input
      *         nullable input string
      * @param tabWidth
      *         width in spaces of each tabulation character
      *
-     * @return new string with all tabulation characters replaces by tabs or
-     * null if input parameter was null
+     * @return If input was not null, returns new string with all tabulation characters replaces by spaces. If input
+     * was null, returns null.
      */
     @Nullable
     public static String tabsToSpaces( @Nullable String input, int tabWidth ) {
