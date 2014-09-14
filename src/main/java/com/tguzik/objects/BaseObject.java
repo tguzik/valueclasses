@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 
 import com.tguzik.annotations.ExpectedPerformanceProfile;
 import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
-import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -21,7 +21,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 @ExpectedPerformanceProfile(value = Kind.REFLECTION_HEAVY)
 public abstract class BaseObject {
-    public static final MultilineNoAddressessStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressessStyle();
+    public static final MultilineNoAddressStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressStyle();
 
     @Override
     public boolean equals( @Nullable Object other ) {
@@ -36,24 +36,26 @@ public abstract class BaseObject {
 
     @Nonnull
     public String toString( @Nonnull ToStringStyle style ) {
-        return ReflectionToStringBuilder.toString( this, style );
+        return toString( this, style );
     }
 
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode( this, false );
     }
-}
 
-class MultilineNoAddressessStyle extends ToStringStyle {
-    private static final long serialVersionUID = 1L;
+    /**
+     * Convenience function that produces a string representation of object instance's fields using selected
+     * ToStringStyle. Static and transient fields are not printed.
+     *
+     * @return Empty string if object was null, string representation obtained via reflection otherwise.
+     */
+    public static String toString( @Nullable Object object, @Nonnull ToStringStyle style ) {
+        if ( object == null ) {
+            return StringUtils.EMPTY;
+        }
 
-    MultilineNoAddressessStyle() {
-        this.setContentStart( "[" + SystemUtils.LINE_SEPARATOR + "  " );
-        this.setUseShortClassName( true );
-        this.setUseIdentityHashCode( false );
-        this.setFieldSeparator( "," + SystemUtils.LINE_SEPARATOR + "  " );
-        this.setFieldSeparatorAtStart( false );
-        this.setContentEnd( SystemUtils.LINE_SEPARATOR + "]" );
+        return ReflectionToStringBuilder.toString( object, style, false, false );
     }
 }
+
