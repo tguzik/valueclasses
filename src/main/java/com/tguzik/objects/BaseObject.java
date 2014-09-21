@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * not matter as much.
  *
  * @author Tomasz Guzik <tomek@tguzik.com>
+ * @see com.tguzik.objects.PerformanceAwareBaseObject
  * @since 0.1
  */
 @ExpectedPerformanceProfile(value = Kind.REFLECTION_HEAVY)
