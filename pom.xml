@@ -80,7 +80,7 @@
         <dependency>
             <groupId>com.tguzik</groupId>
             <artifactId>annotations</artifactId>
-            <version>0.4</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
