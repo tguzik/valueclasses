@@ -3,7 +3,7 @@ package com.tguzik.tests;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -27,7 +27,7 @@ public enum Loader {
     @Nullable
     public static String loadFile( @Nonnull Path path ) throws IOException {
         byte[] fileBytes = java.nio.file.Files.readAllBytes( path );
-        String contents = new String( fileBytes, Charset.forName( "UTF-8" ) );
+        String contents = new String( fileBytes, StandardCharsets.UTF_8 );
         return Normalize.newLines( contents );
     }
 
