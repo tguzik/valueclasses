@@ -13,7 +13,7 @@ The library is available in Maven Central repository. You can use it in your pro
     <dependency>
         <groupId>com.tguzik</groupId>
         <artifactId>valueclasses</artifactId>
-        <version>0.6</version>
+        <version>1.0.0</version>
     </dependency>
 
 
@@ -159,11 +159,11 @@ public void transferAccountOwnership(CustomerId accountId,
 
 This project depends on following third party libraries:
 
-* `org.apache.commons:commons-lang3`, version 3.1+
-* `javax.xml.bind:jaxb-api`, version 2.2.11+
-* `junit:junit`, unit tests only, version 4.11+
-* `com.tguzik:annotatons`, version 0.3
-* JDK1.7
+* `org.apache.commons:commons-lang3`
+* `javax.xml.bind:jaxb-api`
+* `junit:junit`
+* `com.tguzik:annotatons`
+* JDK 1.7
 
 
 ## License

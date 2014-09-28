@@ -11,6 +11,16 @@ change and/or change the expected functionality.
 
 -----
 
+Version `1.0.0`:
+* Class `BaseObject` now has a convenience static method 
+  `toString(@Nullable Object, @Nonnull ToStringStyle)` that, as you might have 
+  guessed, does reflection toString on given object using given style.
+* Class `MultilineNoAddressStyle` is now a public class with public constructor.
+* Switched from `Charset.forName(String)` to `StandardCharsets` instead of 
+  in `Loader`.
+* Bumped dependency on `com.tguzik:annotations` to `1.0.0`.
+
+
 Version `0.6`:
 * Pinned dependencies to specific versions. This should make this library less
   annoying to use when you have access to Maven Central Releases repository,
