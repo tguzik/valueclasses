@@ -4,3 +4,8 @@ jdk:
   - openjdk7
   - oraclejdk7
   - oraclejdk8
+
+install: echo "Don't install to local repo."
+
+# Run tests, findbugs, pmd and friends
+script: mvn -Pci
