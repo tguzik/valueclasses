@@ -37,6 +37,7 @@
         <system>GitHub Issues</system>
         <url>https://github.com/tguzik/valueclasses/issues</url>
     </issueManagement>
+
     <ciManagement>
         <system>Travis CI</system>
         <url>https://travis-ci.org/tguzik/valueclasses</url>
@@ -59,7 +60,7 @@
         <profile>
             <id>javadoc</id>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <jdk>1.8</jdk>
             </activation>
             <build>
                 <defaultGoal>javadoc:javadoc</defaultGoal>
@@ -79,11 +80,9 @@
 
         <profile>
             <id>ci</id>
-
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
-
             <build>
                 <defaultGoal>clean verify</defaultGoal>
                 <plugins>
@@ -130,6 +129,31 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>pit</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <defaultGoal>org.pitest:pitest-maven:mutationCoverage</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>1.1.0</version>
+                        <configuration>
+                            <targetClasses>
+                                <param>com.tguzik*</param>
+                            </targetClasses>
+                            <targetTests>
+                                <param>com.tguzik*</param>
+                            </targetTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
     <dependencies>
@@ -158,17 +182,16 @@
 
     <build>
         <defaultGoal>package</defaultGoal>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                     <fork>true</fork>
                 </configuration>
             </plugin>
@@ -177,10 +200,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.7.1</version>
                 <configuration>
-                    <parallel>classes</parallel>
-                    <failIfNoTests>true</failIfNoTests>
-                    <useUnlimitedThreads>true</useUnlimitedThreads>
                     <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
+                    <failIfNoTests>true</failIfNoTests>
+                    <parallel>classes</parallel>
+                    <runOrder>random</runOrder>
                     <useFile>false</useFile>
                 </configuration>
             </plugin>
