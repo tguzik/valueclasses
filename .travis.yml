@@ -8,4 +8,4 @@ jdk:
 install: echo "Don't install to local repo."
 
 # Run tests, findbugs, pmd and friends
-script: mvn -Pci
+script: mvn clean verify
