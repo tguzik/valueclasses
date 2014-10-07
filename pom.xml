@@ -77,83 +77,6 @@
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>ci</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <defaultGoal>clean verify</defaultGoal>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <effort>Max</effort>
-                            <threshold>Default</threshold>
-                            <xmlOutput>true</xmlOutput>
-                            <detail>true</detail>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>3.2</version>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                    <goal>cpd-check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <verbose>true</verbose>
-                            <targetJdk>${jdk.version}</targetJdk>
-                            <rulesets>
-                                <ruleset>${project.basedir}/src/ci/resources/pmd.xml</ruleset>
-                            </rulesets>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>pit</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <defaultGoal>org.pitest:pitest-maven:mutationCoverage</defaultGoal>
-                <plugins>
-                    <plugin>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-maven</artifactId>
-                        <version>1.1.0</version>
-                        <configuration>
-                            <targetClasses>
-                                <param>com.tguzik*</param>
-                            </targetClasses>
-                            <targetTests>
-                                <param>com.tguzik*</param>
-                            </targetTests>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
 
     <dependencies>
@@ -181,8 +104,9 @@
     </dependencies>
 
     <build>
-        <defaultGoal>package</defaultGoal>
+        <defaultGoal>verify</defaultGoal>
         <plugins>
+            <!-- Basic plugins: -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -206,6 +130,78 @@
                     <parallel>classes</parallel>
                     <runOrder>random</runOrder>
                     <useFile>false</useFile>
+                </configuration>
+            </plugin>
+
+            <!-- Static code analysis and mutation testing plugins: -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Default</threshold>
+                    <xmlOutput>true</xmlOutput>
+                    <detail>true</detail>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.2</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>cpd-check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <verbose>true</verbose>
+                    <targetJdk>${jdk.version}</targetJdk>
+                    <rulesets>
+                        <ruleset>${project.basedir}/src/ci/resources/pmd.xml</ruleset>
+                    </rulesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <timestampedReports>false</timestampedReports>
+                    <exportLineCoverage>true</exportLineCoverage>
+                    <targetClasses>
+                        <param>com.tguzik*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.tguzik*</param>
+                    </targetTests>
+                    <mutators>
+                        <mutator>DEFAULTS</mutator>
+                        <mutator>REMOVE_CONDITIONALS</mutator>
+                        <mutator>INLINE_CONSTS</mutator>
+                        <mutator>NON_VOID_METHOD_CALLS</mutator>
+                        <mutator>EXPERIMENTAL_SWITCH</mutator>
+                    </mutators>
                 </configuration>
             </plugin>
         </plugins>
