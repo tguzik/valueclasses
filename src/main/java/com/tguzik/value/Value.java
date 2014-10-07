@@ -26,29 +26,33 @@ import org.apache.commons.lang3.StringUtils;
  * @since 0.1
  */
 public abstract class Value<T> implements HasValue<T> {
-    private final T value;
+    private final T encapsulatedValue;
 
-    protected Value( @Nullable T value ) {
-        this.value = value;
+    protected Value( @Nullable T encapsulatedValue ) {
+        this.encapsulatedValue = encapsulatedValue;
     }
 
     @Nullable
     @Override
     public T get() {
-        return value;
+        return encapsulatedValue;
     }
 
     @Override
     public int hashCode() {
-        T localValue = get();
-        return localValue != null ? localValue.hashCode() : 0;
+        final T localValue = get();
+
+        if ( localValue != null ) {
+            return localValue.hashCode();
+        }
+
+        return 0;
     }
 
     @Override
-    public boolean equals( @Nullable Object obj ) {
+    public boolean equals( Object obj ) {
         if ( obj != null && isSameClassOrDescendant( obj.getClass() ) ) {
-            Value<?> other = (Value<?>) obj;
-
+            final Value<?> other = (Value<?>) obj;
             return Objects.equals( this.get(), other.get() );
         }
 
@@ -57,8 +61,13 @@ public abstract class Value<T> implements HasValue<T> {
 
     @Override
     public String toString() {
-        T localValue = get();
-        return localValue != null ? localValue.toString() : StringUtils.EMPTY;
+        final T localValue = get();
+
+        if (localValue != null) {
+            return localValue.toString();
+        }
+
+        return StringUtils.EMPTY;
     }
 
     private boolean isSameClassOrDescendant( Class<?> other ) {

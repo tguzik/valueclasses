@@ -23,8 +23,8 @@ public abstract class AbstractJaxbValueAdapter<UnderlyingType, ValueClass extend
     }
 
     @Override
-    public UnderlyingType marshal( ValueClass v ) throws Exception {
-        return (v == null) ? null : v.get();
+    public UnderlyingType marshal( @Nullable ValueClass valueClass ) throws Exception {
+        return (valueClass == null) ? null : valueClass.get();
     }
 
     /**

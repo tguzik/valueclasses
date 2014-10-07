@@ -2,6 +2,7 @@ package com.tguzik.objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.tguzik.annotations.ExpectedPerformanceProfile;
 import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
@@ -20,13 +21,20 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @see com.tguzik.objects.PerformanceAwareBaseObject
  * @since 0.1
  */
+@ParametersAreNonnullByDefault
 @ExpectedPerformanceProfile(value = Kind.REFLECTION_HEAVY)
 public abstract class BaseObject {
     public static final MultilineNoAddressStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressStyle();
 
     @Override
-    public boolean equals( @Nullable Object other ) {
-        return EqualsBuilder.reflectionEquals( this, other, false );
+    public boolean equals( Object other ) {
+        // Findbugs thinks that @Nullable tightens the contract compared to no annotation
+
+        if ( other != null) {
+            return EqualsBuilder.reflectionEquals( this, other, false );
+        }
+
+        return false;
     }
 
     @Nonnull
@@ -36,7 +44,7 @@ public abstract class BaseObject {
     }
 
     @Nonnull
-    public String toString( @Nonnull ToStringStyle style ) {
+    public String toString( ToStringStyle style ) {
         return toString( this, style );
     }
 

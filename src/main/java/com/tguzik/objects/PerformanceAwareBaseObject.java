@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
  */
 public abstract class PerformanceAwareBaseObject extends BaseObject {
     @Override
-    public abstract boolean equals( @Nullable Object other );
+    public abstract boolean equals( Object other );
 
     @Override
     public abstract int hashCode();

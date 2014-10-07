@@ -1,6 +1,9 @@
 package com.tguzik.tests;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.ParametersAreNullableByDefault;
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 import com.tguzik.value.Value;
 
@@ -11,6 +14,7 @@ import com.tguzik.value.Value;
  * @since 0.1
  */
 @Immutable
+@ParametersAreNonnullByDefault
 public final class SettableHashCode extends Value<Integer> {
     private SettableHashCode( Integer value ) {
         super( value );
@@ -19,6 +23,16 @@ public final class SettableHashCode extends Value<Integer> {
     @Override
     public int hashCode() {
         return get();
+    }
+
+    @Override
+    public boolean equals( Object obj ) {
+        if ( obj instanceof SettableHashCode ) {
+            SettableHashCode other = (SettableHashCode) obj;
+            return Objects.equals( this.get(), other.get() );
+        }
+
+        return false;
     }
 
     public static SettableHashCode create( int desiredHashCode ) {
