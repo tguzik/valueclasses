@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
  * @since 0.1
  */
 public abstract class Value<T> implements HasValue<T> {
+    @Nullable
     private final T encapsulatedValue;
 
     protected Value( @Nullable T encapsulatedValue ) {
@@ -58,7 +59,7 @@ public abstract class Value<T> implements HasValue<T> {
         if ( !Objects.equals( this.getClass(), obj.getClass() ) ) {
             return false;
         }
-        
+
         final Value<?> other = (Value<?>) obj;
         return Objects.equals( this.get(), other.get() );
     }
