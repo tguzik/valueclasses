@@ -28,13 +28,11 @@ public abstract class BaseObject {
 
     @Override
     public boolean equals( Object other ) {
-        // Findbugs thinks that @Nullable tightens the contract compared to no annotation
-
-        if ( other != null) {
-            return EqualsBuilder.reflectionEquals( this, other, false );
+        if ( other == null ) {
+            return false;
         }
 
-        return false;
+        return EqualsBuilder.reflectionEquals( this, other, false );
     }
 
     @Nonnull
@@ -59,6 +57,7 @@ public abstract class BaseObject {
      *
      * @return Empty string if object was null, string representation obtained via reflection otherwise.
      */
+    @Nonnull
     public static String toString( @Nullable Object object, @Nonnull ToStringStyle style ) {
         if ( object == null ) {
             return StringUtils.EMPTY;
