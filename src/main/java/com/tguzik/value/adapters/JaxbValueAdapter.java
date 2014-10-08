@@ -2,6 +2,7 @@ package com.tguzik.value.adapters;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNullableByDefault;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import com.tguzik.value.Value;
@@ -15,16 +16,24 @@ import com.tguzik.value.Value;
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.2
  */
-public abstract class AbstractJaxbValueAdapter<UnderlyingType, ValueClass extends Value<UnderlyingType>>
+@ParametersAreNullableByDefault
+public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<UnderlyingType>>
         extends XmlAdapter<UnderlyingType, ValueClass> {
+
     @Override
+    @Nonnull
     public ValueClass unmarshal( @Nullable UnderlyingType value ) throws Exception {
         return createNewInstance( value );
     }
 
     @Override
+    @Nullable
     public UnderlyingType marshal( @Nullable ValueClass valueClass ) throws Exception {
-        return (valueClass == null) ? null : valueClass.get();
+        if ( valueClass == null ) {
+            return null;
+        }
+
+        return valueClass.get();
     }
 
     /**

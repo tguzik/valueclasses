@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  * Abstract class to hold {@link java.lang.String}-based values.
  *
  * @author Tomasz Guzik <tomek@tguzik.com>
+ * @see com.tguzik.value.adapters.JaxbStringValueAdapter
  * @since 0.1
  */
 @Immutable

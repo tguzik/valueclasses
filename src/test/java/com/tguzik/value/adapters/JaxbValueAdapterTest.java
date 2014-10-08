@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
-public class AbstractJaxbValueAdapterTest {
+public class JaxbValueAdapterTest {
     private TestingAdapter adapterReturningInstances;
     private TestingAdapter adapterReturningNulls;
 
@@ -52,7 +52,7 @@ public class AbstractJaxbValueAdapterTest {
         assertThat( adapterReturningNulls.marshal( new TestingValueClass( null ) ) ).isNull();
     }
 
-    static class TestingAdapter extends AbstractJaxbValueAdapter<String, TestingValueClass> {
+    static class TestingAdapter extends JaxbValueAdapter<String, TestingValueClass> {
         private final boolean shouldReturnInstance;
 
         public TestingAdapter( boolean shouldReturnInstance ) {
