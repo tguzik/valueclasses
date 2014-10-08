@@ -1,5 +1,6 @@
 package com.tguzik.value;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
@@ -12,17 +13,28 @@ import org.apache.commons.lang3.StringUtils;
  * @since 0.1
  */
 @Immutable
-public abstract class StringValue extends Value<String> implements Comparable<StringValue> {
+public abstract class StringValue extends Value<String> implements Comparable<Value<String>> {
     protected StringValue( @Nullable String value ) {
         super( value );
     }
 
     @Override
-    public int compareTo( @Nullable StringValue other ) {
-        String otherValue = (other == null) ? null : other.get();
-        String thisValue = get();
+    public int compareTo( @Nonnull Value<String> other ) {
+        if ( other == null ) {
+            throw new NullPointerException( "Parameter cannot be null." );
+        }
 
-        return (thisValue == null || otherValue == null) ? 0 : thisValue.compareTo( otherValue );
+        String thisValue = get();
+        String otherValue = other.get();
+
+        if ( thisValue == null || otherValue == null ) {
+            /* Exploding with NullPointerException when one of the value classes has null inside is damn inconvenient.
+             * Instead we return zero
+             */
+            return 0;
+        }
+
+        return thisValue.compareTo( otherValue );
     }
 
     public int length() {

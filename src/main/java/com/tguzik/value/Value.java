@@ -33,6 +33,8 @@ public abstract class Value<T> implements HasValue<T> {
         this.encapsulatedValue = encapsulatedValue;
     }
 
+
+
     @Nullable
     @Override
     public T get() {
