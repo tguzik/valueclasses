@@ -2,10 +2,10 @@ package com.tguzik.objects;
 
 import static com.tguzik.tests.Loader.loadFile;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
+import com.tguzik.annotations.RefactorThis;
 import com.tguzik.tests.Normalize;
 import org.junit.After;
 import org.junit.Before;
@@ -14,6 +14,7 @@ import org.junit.Test;
 /**
  * @author Tomasz Guzik <tomek@tguzik.com>
  */
+@RefactorThis( "Needs a full equals/hashCode contract check" )
 public class BaseObjectTest {
     private BaseObjectTestHelper differentInstanceField;
     private BaseObjectTestHelper base;
@@ -45,6 +46,19 @@ public class BaseObjectTest {
 
         assertThat( base ).isEqualTo( base );
         assertThat( differentInstanceField ).isEqualTo( differentInstanceField );
+    }
+
+    @Test
+    public void testEquals_transientFieldsNotChecked() {
+        final BaseObjectTestHelper other = new BaseObjectTestHelper();
+
+        assertThat( base ).isEqualTo( other );
+        assertThat( other ).isEqualTo( base );
+
+        other.transientField = "different transient value";
+
+        assertThat( base ).isEqualTo( other );
+        assertThat( other ).isEqualTo( base );
     }
 
     @Test
@@ -102,11 +116,26 @@ public class BaseObjectTest {
         assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
     }
 
+    @Test
+    public void testHashCode_doesNotConsiderTransientFields() {
+        final BaseObjectTestHelper other = new BaseObjectTestHelper();
+
+        assertThat( base ).isEqualTo( other );
+        assertThat( other ).isEqualTo( base );
+        assertThat( base.hashCode() ).isEqualTo( other.hashCode() );
+
+        other.transientField = "different transient value";
+
+        assertThat( base ).isEqualTo( other );
+        assertThat( other ).isEqualTo( base );
+        assertThat( base.hashCode() ).isEqualTo( other.hashCode() );
+    }
+
     static class BaseObjectTestHelper extends BaseObject {
-        @SuppressWarnings("unused")
+        @SuppressWarnings( "unused" )
         private volatile String first = "first string";
 
-        @SuppressWarnings("unused")
+        @SuppressWarnings( "unused" )
         private static String staticString = "this is static";
 
         public static String publicStatic = "this is static";
@@ -114,5 +143,7 @@ public class BaseObjectTest {
         final String second = "second string";
         public String third = "third string";
         double almostPI = 3.14;
+
+        public transient String transientField = "transient ";
     }
 }
