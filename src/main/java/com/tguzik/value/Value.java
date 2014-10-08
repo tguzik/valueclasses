@@ -51,12 +51,16 @@ public abstract class Value<T> implements HasValue<T> {
 
     @Override
     public boolean equals( Object obj ) {
-        if ( obj != null && isSameClass( obj ) ) {
-            final Value<?> other = (Value<?>) obj;
-            return Objects.equals( this.get(), other.get() );
+        if ( obj == null ) {
+            return false;
         }
 
-        return false;
+        if ( !Objects.equals( this.getClass(), obj.getClass() ) ) {
+            return false;
+        }
+        
+        final Value<?> other = (Value<?>) obj;
+        return Objects.equals( this.get(), other.get() );
     }
 
     @Override
@@ -68,9 +72,5 @@ public abstract class Value<T> implements HasValue<T> {
         }
 
         return StringUtils.EMPTY;
-    }
-
-    private boolean isSameClass( Object other ) {
-        return Objects.equals( this.getClass(), other.getClass() );
     }
 }
