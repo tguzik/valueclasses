@@ -32,7 +32,11 @@ public enum Normalize {
      */
     @Nullable
     public static String newLines( @Nullable String input ) {
-        return input == null ? null : input.replaceAll( "(\r)?\n(\r)?", "\n" ).replaceAll( "\r", "\n" );
+        if ( input == null ) {
+            return null;
+        }
+
+        return input.replaceAll( "(\r)?\n(\r)?", "\n" ).replaceAll( "\r", "\n" );
     }
 
     /**
@@ -48,8 +52,12 @@ public enum Normalize {
      */
     @Nullable
     public static String tabsToSpaces( @Nullable String input, int tabWidth ) {
-        int spacesInSingleTab = (tabWidth < 0) ? 0 : tabWidth;
-        String replacement = StringUtils.repeat( ' ', spacesInSingleTab );
-        return input == null ? null : input.replaceAll( "\t", replacement );
+        if ( input == null ) {
+            return null;
+        }
+
+        final int spacesInSingleTab = (tabWidth < 0) ? 0 : tabWidth;
+        final String replacement = StringUtils.repeat( ' ', spacesInSingleTab );
+        return input.replaceAll( "\t", replacement );
     }
 }
