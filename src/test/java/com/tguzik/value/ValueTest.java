@@ -1,6 +1,6 @@
 package com.tguzik.value;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tguzik.tests.SettableHashCode;
 import org.junit.Before;
@@ -25,72 +25,72 @@ public class ValueTest {
 
     @Test
     public void testGetValue() {
-        assertSame( containedValue, value.get() );
+        assertThat( value.get() ).isSameAs( containedValue );
     }
 
     @Test
     public void testGetValue_null() {
-        assertNull( valueContainingNull.get() );
+        assertThat( valueContainingNull.get() ).isNull();
     }
 
     @Test
     public void testHashCode() {
-        assertEquals( 123, ValueTestHelper.create( SettableHashCode.create( 123 ) ).hashCode() );
+        assertThat( ValueTestHelper.create( SettableHashCode.create( 123 ) ).hashCode() ).isEqualTo( 123 );
     }
 
     @Test
     public void testHashCode_null() {
-        assertEquals( 0, valueContainingNull.hashCode() );
+        assertThat( valueContainingNull.hashCode() ).isZero();
     }
 
     @Test
     public void testToString() {
-        assertEquals( "some value", value.toString() );
+        assertThat( value.toString() ).isEqualTo( "some value" );
     }
 
     @Test
     public void testToString_null() {
-        assertEquals( "", valueContainingNull.toString() );
+        assertThat( valueContainingNull.toString() ).isEqualTo( "" );
     }
 
     @Test
     public void testEquals_equal_sameClassAndContainedValue() {
-        assertEquals( value, ValueTestHelper.create( containedValue ) );
+        assertThat( ValueTestHelper.create( containedValue ) ).isEqualTo( value );
     }
 
     @Test
     public void testEquals_equal_childClassAndContainedValue() {
-        assertEquals( value, ChildOfValueTestHelper.create( containedValue ) );
+        assertThat( value ).isEqualTo( ChildOfValueTestHelper.create( containedValue ) );
     }
 
     @Test
     public void testEquals_notEqual_sameClassButDifferentContainedValue() {
-        assertNotEquals( value, ValueTestHelper.create( "something else" ) );
+        assertThat( ValueTestHelper.create( "something else" ) ).isNotEqualTo( value );
     }
 
     @Test
     public void testEquals_notEqual_sameClassButNullValue() {
-        assertNotEquals( value, valueContainingNull );
+        assertThat( valueContainingNull ).isNotEqualTo( value );
     }
 
     @Test
     public void testEquals_notEqual_differentClassButSameValue() {
-        assertNotEquals( value, SiblingOfValueTestHelper.create( containedValue ) );
+        assertThat( SiblingOfValueTestHelper.create( containedValue ) ).isNotEqualTo( value );
     }
 
     @Test
     public void testEquals_notEqual_differentClassAndDifferentValue() {
-        assertNotEquals( value, SiblingOfValueTestHelper.create( "something else" ) );
+        assertThat( SiblingOfValueTestHelper.create( "something else" ) ).isNotEqualTo( value );
     }
 
     @Test
     public void testEquals_notEqual_null() {
-        assertNotEquals( value, null );
+        assertThat( value ).isNotEqualTo( null );
     }
 
     @Test
     public void testEquals_notEqual_containedValueIsNull() {
-        assertNotEquals( value, valueContainingNull );
+        assertThat( valueContainingNull ).isNotEqualTo( value );
     }
 
     static class ValueTestHelper extends Value<Object> {

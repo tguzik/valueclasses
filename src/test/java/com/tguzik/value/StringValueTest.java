@@ -1,6 +1,6 @@
 package com.tguzik.value;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,54 +34,54 @@ public class StringValueTest {
 
     @Test
     public void testCompareTo_a_before_b() {
-        assertTrue( a.compareTo( b ) < 0 );
+        assertThat( a.compareTo( b ) ).isLessThan( 0 );
     }
 
     @Test
     public void testCompareTo_valueToItself() {
-        assertEquals( 0, a.compareTo( a ) );
-        assertEquals( 0, b.compareTo( b ) );
+        assertThat( a.compareTo( a ) ).isZero();
+        assertThat( b.compareTo( b ) ).isZero();
     }
 
     @Test
     public void testCompareTo_b_after_a() {
-        assertTrue( b.compareTo( a ) > 0 );
+        assertThat( b.compareTo( a ) ).isGreaterThan( 0 );
     }
 
     @Test
     public void testLength() {
-        assertEquals( 1, a.length() );
-        assertEquals( 4, abcd.length() );
-        assertEquals( 3, spaces.length() );
-        assertEquals( 6, newlinesAndSpaces.length() );
-        assertEquals( 4, spacesAndAlpha.length() );
+        assertThat( a.length() ).isEqualTo( 1 );
+        assertThat( abcd.length() ).isEqualTo( 4 );
+        assertThat( spaces.length() ).isEqualTo( 3 );
+        assertThat( newlinesAndSpaces.length() ).isEqualTo( 6 );
+        assertThat( spacesAndAlpha.length() ).isEqualTo( 4 );
 
-        assertEquals( 0, emptyString.length() );
-        assertEquals( 0, nullString.length() );
+        assertThat( emptyString.length() ).isEqualTo( 0 );
+        assertThat( nullString.length() ).isEqualTo( 0 );
     }
 
     @Test
     public void testIsEmpty() {
-        assertFalse( a.isEmpty() );
-        assertFalse( abcd.isEmpty() );
-        assertFalse( spaces.isEmpty() );
-        assertFalse( spacesAndAlpha.isEmpty() );
-        assertFalse( newlinesAndSpaces.isEmpty() );
+        assertThat( a.isEmpty() ).isFalse();
+        assertThat( abcd.isEmpty() ).isFalse();
+        assertThat( spaces.isEmpty() ).isFalse();
+        assertThat( spacesAndAlpha.isEmpty() ).isFalse();
+        assertThat( newlinesAndSpaces.isEmpty() ).isFalse();
 
-        assertTrue( emptyString.isEmpty() );
-        assertTrue( nullString.isEmpty() );
+        assertThat( emptyString.isEmpty() ).isTrue();
+        assertThat( nullString.isEmpty() ).isTrue();
     }
 
     @Test
     public void testIsBlank() {
-        assertFalse( a.isBlank() );
-        assertFalse( abcd.isBlank() );
-        assertFalse( spacesAndAlpha.isBlank() );
+        assertThat( a.isBlank() ).isFalse();
+        assertThat( abcd.isBlank() ).isFalse();
+        assertThat( spacesAndAlpha.isBlank() ).isFalse();
 
-        assertTrue( newlinesAndSpaces.isBlank() );
-        assertTrue( spaces.isBlank() );
-        assertTrue( emptyString.isBlank() );
-        assertTrue( nullString.isBlank() );
+        assertThat( newlinesAndSpaces.isBlank() ).isTrue();
+        assertThat( spaces.isBlank() ).isTrue();
+        assertThat( emptyString.isBlank() ).isTrue();
+        assertThat( nullString.isBlank() ).isTrue();
     }
 
     static class StringValueHelper extends StringValue {

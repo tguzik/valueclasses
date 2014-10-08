@@ -1,8 +1,8 @@
 package com.tguzik.objects;
 
 import static com.tguzik.tests.Loader.loadFile;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import java.io.IOException;
 
@@ -33,19 +33,18 @@ public class BaseObjectTest {
 
     @Test
     public void testEquals() {
-        assertEquals( base, base );
-        assertNotEquals( base, differentInstanceField );
+        assertThat( base ).isEqualTo( base ).isNotEqualTo( differentInstanceField );
     }
 
     @Test
     public void testEquals_staticFieldsNotChecked() {
-        assertEquals( base, base );
-        assertEquals( differentInstanceField, differentInstanceField );
+        assertThat( base ).isEqualTo( base );
+        assertThat( differentInstanceField ).isEqualTo( differentInstanceField );
 
         BaseObjectTestHelper.publicStatic = "different static value";
 
-        assertEquals( base, base );
-        assertEquals( differentInstanceField, differentInstanceField );
+        assertThat( base ).isEqualTo( base );
+        assertThat( differentInstanceField ).isEqualTo( differentInstanceField );
     }
 
     @Test
@@ -53,7 +52,7 @@ public class BaseObjectTest {
         String expected = loadFile( getClass(), "data", "tostring-default-base.txt" );
         String actual = base.toString();
 
-        assertEquals( expected, Normalize.newLines( actual ) );
+        assertThat( Normalize.newLines( actual ) ).isEqualTo( expected );
     }
 
     @Test
@@ -61,7 +60,7 @@ public class BaseObjectTest {
         String expected = loadFile( getClass(), "data", "tostring-default-value.txt" );
         String actual = differentInstanceField.toString();
 
-        assertEquals( expected, Normalize.newLines( actual ) );
+        assertThat( Normalize.newLines( actual ) ).isEqualTo( expected );
     }
 
     @Test
@@ -69,7 +68,7 @@ public class BaseObjectTest {
         String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-base.txt" );
         String actual = base.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
-        assertEquals( expected, Normalize.newLines( actual ) );
+        assertThat( Normalize.newLines( actual ) ).isEqualTo( expected );
     }
 
     @Test
@@ -77,25 +76,30 @@ public class BaseObjectTest {
         String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-value.txt" );
         String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
-        assertEquals( expected, Normalize.newLines( actual ) );
+        assertThat( Normalize.newLines( actual ) ).isEqualTo( expected );
     }
 
     @Test
     public void testHashCode() {
-        assertEquals( base.hashCode(), base.hashCode() );
-        assertEquals( differentInstanceField.hashCode(), differentInstanceField.hashCode() );
-        assertNotEquals( base.hashCode(), differentInstanceField.hashCode() );
+        assertThat( base.hashCode() ).isNotEqualTo( differentInstanceField.hashCode() );
+        assertThat( differentInstanceField.hashCode() ).isNotEqualTo( base.hashCode() );
+    }
+
+    @Test
+    public void testHashCode_isRepeatable() {
+        assertThat( base.hashCode() ).isEqualTo( base.hashCode() );
+        assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
     }
 
     @Test
     public void testHashCode_doesNotConsiderStaticFields() {
-        assertEquals( base.hashCode(), base.hashCode() );
-        assertEquals( differentInstanceField.hashCode(), differentInstanceField.hashCode() );
+        assertThat( base.hashCode() ).isEqualTo( base.hashCode() );
+        assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
 
         BaseObjectTestHelper.publicStatic = "different static value";
 
-        assertEquals( base.hashCode(), base.hashCode() );
-        assertEquals( differentInstanceField.hashCode(), differentInstanceField.hashCode() );
+        assertThat( base.hashCode() ).isEqualTo( base.hashCode() );
+        assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
     }
 
     static class BaseObjectTestHelper extends BaseObject {

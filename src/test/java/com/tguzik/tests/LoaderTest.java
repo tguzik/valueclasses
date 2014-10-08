@@ -1,8 +1,7 @@
 package com.tguzik.tests;
 
 import static com.tguzik.tests.Loader.loadFile;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -17,9 +16,7 @@ public class LoaderTest {
     public void testLoadFile() throws IOException {
         String fileContents = loadFile( "src/test/java", getClass(), "data", "test-file.txt" );
 
-        assertNotNull( fileContents );
-        assertEquals( 20, fileContents.length() );
-        assertEquals( "Test file contents\n\n", fileContents );
+        assertThat( fileContents ).isNotNull().hasSize( 20 ).isEqualTo( "Test file contents\n\n" );
     }
 
     @Test
@@ -36,12 +33,9 @@ public class LoaderTest {
                                                                     "data",
                                                                     "test-file.txt" );
 
-        // Verify that all variables hold exact same data
-        assertEquals( fileContentsUsingPath, fileContentsUsingClassSubdirFilename );
-        assertEquals( fileContentsUsingPath, fileContentsUsingPrefixClassSubdirFname );
-        assertEquals( fileContentsUsingPath, fileContentsUsingPrefixDirSubdirFilename );
-
-        // Verify that the loaded data is correct
-        assertEquals( "Test file contents\n\n", fileContentsUsingPath );
+        assertThat( fileContentsUsingPath ).isEqualTo( fileContentsUsingClassSubdirFilename )
+                                           .isEqualTo( fileContentsUsingPrefixClassSubdirFname )
+                                           .isEqualTo( fileContentsUsingPrefixDirSubdirFilename )
+                                           .isEqualTo( "Test file contents\n\n" );
     }
 }

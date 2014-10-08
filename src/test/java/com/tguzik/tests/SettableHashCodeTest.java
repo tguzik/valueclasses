@@ -1,6 +1,6 @@
 package com.tguzik.tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,6 @@ public class SettableHashCodeTest {
 
     @Test
     public void testSettableHashCode() {
-        assertEquals( 42, object.hashCode() );
-        assertEquals( object.get().intValue(), object.hashCode() );
+        assertThat( object.hashCode() ).isEqualTo( 42 ).isEqualTo( object.get().intValue() );
     }
 }

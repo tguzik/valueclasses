@@ -2,6 +2,7 @@ package com.tguzik.tests;
 
 import static com.tguzik.tests.Normalize.newLines;
 import static com.tguzik.tests.Normalize.tabsToSpaces;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -20,53 +21,54 @@ public class NormalizeTest {
 
     @Test
     public void testNewLines_nullGiven_nullReturned() {
-        assertEquals( (String) null, newLines( null ) );
+        assertThat( newLines( null ) ).isNull();
     }
 
     @Test
     public void testNewLines_emptyString() {
-        assertEquals( "", newLines( "" ) );
+        assertThat( newLines( "" ) ).isEqualTo( "" );
     }
 
     @Test
     public void testNewLines_stringWithoutWhitespaceNotChanged() {
-        assertEquals( "abc", newLines( "abc" ) );
+        assertThat( newLines( "abc" ) ).isEqualTo( "abc" );
     }
 
     @Test
     public void testTabsToSpaces() {
-        assertEquals( "a", tabsToSpaces( "a", 4 ) );
-        assertEquals( "    a    ", tabsToSpaces( "\ta\t", 4 ) );
-        assertEquals( "a     ", tabsToSpaces( "a \t", 4 ) );
-        assertEquals( "    a\r\nx    \r\n", tabsToSpaces( "\ta\r\nx\t\r\n", 4 ) );
+        assertThat( tabsToSpaces( "a", 4 ) ).isEqualTo( "a" );
+
+        assertThat( tabsToSpaces( "\ta\t", 4 ) ).isEqualTo( "    a    " );
+        assertThat( tabsToSpaces( "a \t", 4 ) ).isEqualTo( "a     " );
+        assertThat( tabsToSpaces( "\ta\r\nx\t\r\n", 4 ) ).isEqualTo( "    a\r\nx    \r\n" );
     }
 
     @Test
     public void testTabsToSpaces_nullGiven_nullReturned() {
-        assertEquals( (String) null, tabsToSpaces( null, 4 ) );
+        assertThat( tabsToSpaces( null, 4 ) ).isNull();
     }
 
     @Test
     public void testTabsToSpaces_emptyString() {
-        assertEquals( "", tabsToSpaces( "", 4 ) );
+        assertThat( tabsToSpaces( "", 4 ) ).isEqualTo( "" );
     }
 
     @Test
     public void testTabsToSpaces_differentTabWidths() {
-        assertEquals( "", tabsToSpaces( "\t", Integer.MIN_VALUE ) );
-        assertEquals( "", tabsToSpaces( "\t", -1024 ) );
-        assertEquals( "", tabsToSpaces( "\t", -1 ) );
-        assertEquals( "", tabsToSpaces( "\t", 0 ) );
-        assertEquals( " ", tabsToSpaces( "\t", 1 ) );
-        assertEquals( "  ", tabsToSpaces( "\t", 2 ) );
-        assertEquals( "    ", tabsToSpaces( "\t", 4 ) );
+        assertThat( tabsToSpaces( "\t", Integer.MIN_VALUE ) ).isEqualTo( "" );
+        assertThat( tabsToSpaces( "\t", -1024 ) ).isEqualTo( "" );
+        assertThat( tabsToSpaces( "\t", -1 ) ).isEqualTo( "" );
+        assertThat( tabsToSpaces( "\t", 0 ) ).isEqualTo( "" );
+        assertThat( tabsToSpaces( "\t", 1 ) ).isEqualTo( " " );
+        assertThat( tabsToSpaces( "\t", 2 ) ).isEqualTo( "  " );
+        assertThat( tabsToSpaces( "\t", 4 ) ).isEqualTo( "    " );
     }
 
     @Test
     public void testTabsToSpaces_tabWidthCanBeNegative() {
-        assertEquals( " ", tabsToSpaces( " \t", Integer.MIN_VALUE ) );
-        assertEquals( " ", tabsToSpaces( " \t", -1024 ) );
-        assertEquals( " ", tabsToSpaces( " \t", -1 ) );
-        assertEquals( " ", tabsToSpaces( " \t", 0 ) );
+        assertThat( tabsToSpaces( " \t", Integer.MIN_VALUE ) ).isEqualTo( " " );
+        assertThat( tabsToSpaces( " \t", -1024 ) ).isEqualTo( " " );
+        assertThat( tabsToSpaces( " \t", -1 ) ).isEqualTo( " " );
+        assertThat( tabsToSpaces( " \t", 0 ) ).isEqualTo( " " );
     }
 }
