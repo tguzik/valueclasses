@@ -55,6 +55,11 @@ public class ValueTest {
     }
 
     @Test
+    public void equals_returns_false_on_different_objects() {
+        assertThat( value ).isEqualTo( value ).isNotEqualTo( ValueTestHelper.create( "some other value" ) );
+    }
+
+    @Test
     public void equals_is_reflexive() {
         assertThat( value ).isEqualTo( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
         assertThat( valueContainingNull ).isEqualTo( valueContainingNull )

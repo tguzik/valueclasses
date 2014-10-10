@@ -4,14 +4,17 @@ import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Provides a mutable value class that uses AtomicReference<T> as a base.
+ * Provides a mutable value class that uses AtomicReference<T> as a base. Extends Value<T> and shadows the actual
+ * value only to allow casting instances of this class to Value<T>.
  * <p/>
- * This class extends Value<T> and shadows the actual value only to allow
- * casting instances of this class to Value<T>.
+ * Use of this class is heavily discouraged, however it will be kept around as a last-resort workaround for
+ * architectures that go against any sane design. Instead of forcing everyone to hack around what they are working
+ * on, I opt to give a least horrible way to deal with the problem. Temporarily.
  *
  * @author Tomasz Guzik <tomek@tguzik.com>
  * @since 0.2
  */
+@Deprecated
 public abstract class MutableValue<T> extends Value<T> {
     /* This is a hacky way to work around generic types not allowing to pass AtomicReference<> itself to superclass.
      * If we passed the AtomicReference object to superclass, method {@link #get()} would have to return object of 
