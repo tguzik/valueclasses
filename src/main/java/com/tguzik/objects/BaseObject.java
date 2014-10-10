@@ -3,6 +3,7 @@ package com.tguzik.objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 
 import com.tguzik.annotations.ExpectedPerformanceProfile;
 import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
@@ -26,29 +27,37 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public abstract class BaseObject {
     public static final MultilineNoAddressStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressStyle();
 
+    /** Ignores transient fields */
     @Override
-    public boolean equals( Object other ) {
-        if ( other == null ) {
-            return false;
-        }
-
-        return EqualsBuilder.reflectionEquals( this, other, false );
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode( this, false );
     }
 
+    /** Ignores transient fields. Always returns false when parameter class doesn't match exactly */
+    @Override
+    public boolean equals( Object other ) {
+        if ( other != null && sameClass( other ) ) {
+            return EqualsBuilder.reflectionEquals( this, other, false );
+        }
+
+        return false;
+    }
+
+    private boolean sameClass( Object other ) {
+        return Objects.equals( this.getClass(), other.getClass() );
+    }
+
+    /** @see #toString(Object, org.apache.commons.lang3.builder.ToStringStyle) */
     @Nonnull
     @Override
     public String toString() {
         return toString( ToStringStyle.SHORT_PREFIX_STYLE );
     }
 
+    /** @see #toString(Object, org.apache.commons.lang3.builder.ToStringStyle) */
     @Nonnull
     public String toString( ToStringStyle style ) {
         return toString( this, style );
-    }
-
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode( this, false );
     }
 
     /**

@@ -1,1 +1,0 @@
-BaseObjectTest.BaseObjectTestHelper[first=first string,second=second string,third=third string,almostPI=3.14]
