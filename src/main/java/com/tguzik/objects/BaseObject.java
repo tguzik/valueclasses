@@ -68,6 +68,11 @@ public abstract class BaseObject {
      */
     @Nonnull
     public static String toString( @Nullable Object object, @Nonnull ToStringStyle style ) {
+        if ( style == null ) {
+            // JDK8 would make this shorter and sweeter..
+            throw new NullPointerException( "To string style parameter cannot be null!" );
+        }
+
         if ( object == null ) {
             return StringUtils.EMPTY;
         }

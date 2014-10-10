@@ -15,7 +15,7 @@ import com.tguzik.value.Value;
 @Immutable
 @ParametersAreNonnullByDefault
 public final class SettableHashCode extends Value<Integer> {
-    private SettableHashCode( Integer value ) {
+    private SettableHashCode( int value ) {
         super( value );
     }
 
@@ -27,6 +27,7 @@ public final class SettableHashCode extends Value<Integer> {
     @Override
     public boolean equals( Object obj ) {
         if ( obj instanceof SettableHashCode ) {
+            // Class is final, so we don't have to check for child classes.
             SettableHashCode other = (SettableHashCode) obj;
             return Objects.equals( this.get(), other.get() );
         }

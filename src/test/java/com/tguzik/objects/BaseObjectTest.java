@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 
 import com.tguzik.tests.Normalize;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +40,33 @@ public class BaseObjectTest {
     public void tearDown() {
         // Return the static value to the state from before the test.
         BaseObjectTestHelper.publicStatic = "this is static";
+    }
+
+    @Test
+    public void static_toString_introspects_objects_via_reflection() throws IOException {
+        Object object = new Object() {
+            private String value = "value contents";
+            private String secondValue = "different contents";
+        };
+        final String expected = "value contents,different contents";
+        final String actual = BaseObject.toString( object, ToStringStyle.SIMPLE_STYLE );
+
+        assertThat( actual ).isEqualTo( expected );
+    }
+
+    @Test
+    public void static_toString_returns_empty_string_on_null_object() throws IOException {
+        assertThat( BaseObject.toString( null, ToStringStyle.SIMPLE_STYLE ) ).isEmpty();
+    }
+
+    @Test( expected = NullPointerException.class )
+    public void static_toString_throws_exception_on_null_toStringStyle() throws IOException {
+        BaseObject.toString( this, null );
+    }
+
+    @Test( expected = NullPointerException.class )
+    public void static_toString_exception_on_null_toStringStyle_has_priority_over_null_object() throws IOException {
+        BaseObject.toString( null, null );
     }
 
     @Test
