@@ -157,13 +157,12 @@ public void transferAccountOwnership(CustomerId accountId,
 
 ## Dependencies
 
-This project depends on following third party libraries:
+Outside of unit tests, this project depends on following third party libraries:
 
 * `org.apache.commons:commons-lang3`
 * `javax.xml.bind:jaxb-api`
-* `junit:junit`
 * `com.tguzik:annotatons`
-* JDK 1.7
+* JDK 1.7+
 
 
 ## License
