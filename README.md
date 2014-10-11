@@ -1,17 +1,21 @@
 # valueclasses [![Build Status](https://travis-ci.org/tguzik/valueclasses.png?branch=master)](https://travis-ci.org/tguzik/valueclasses)
 
 This small library aims to provide a blueprint for [value-based classes](http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html)
-on JVM before Project Valhalla hits the wide use. These blueprints are designed to hold a single, usually primitive 
-value while at the same time giving them distinct *type* information and thus leveraging Java type system. The aim is
-to help you create your complex applications by spending less time on frustrating tasks fixing bugs that are the 
-result of using wrong variable in function call, which is often the case in *Stringly-typed* frameworks (we've all 
-seen these).
+on JVM before Project Valhalla becomes widely available. 
+
+These blueprints are designed to hold a single, usually primitive, value while at the same time giving them distinct 
+*type* information and thus leveraging Java type system. The aim is to help you create your complex applications by 
+spending less time on frustrating tasks fixing bugs that are the result of using wrong variable in function call, 
+which is often the case in *Stringly-typed* frameworks (we've all seen these).
 
 For example, let's say that you have an use case where you have to update account balance for a customer, 
 while saving Point Of Sale identifier and an optional comment:
 
 ```java
-public void updateAccountBalance( Long customerId, Long pointOfSaleId, Long delta, @Nullable String comment ) {
+public void updateAccountBalance( Long customerId, 
+                                  Long pointOfSaleId, 
+                                  Long delta, 
+                                  @Nullable String comment ) {
     // [...]
 }
 ```
@@ -33,9 +37,9 @@ Now, this is fine and dandy, but what happens when the method to update the bala
 changing all invocations? How soon would you know that something isn't right? Of course, 
 this should come up in unit tests, but that depends on their quality.
 
-Instead of relying on something that *might* be there and *might* find the mistake, the idea is to enforce this at 
-compilation stage. This way most of the mistakes will be weeded out by the time the tests are ran. Let's take a look 
-at this method signature:
+Instead of relying on something that *might* be there and *might* find the mistake, 
+the idea is to enforce correctness at compilation stage. This way most of the mistakes will be weeded out by the time
+ the tests are ran. Let's take a look at this method signature:
 
 ```java
 public void updateAccountBalance( CustomerId customerId,
@@ -139,21 +143,26 @@ you can create this immutable class to hold the data about customer:
 
 ```java
 /*
- * Reflection-based .hashCode(), .equals() and .toString() are already defined in the com.tguzik.objects.BaseObject class.
+ * Reflection-based .hashCode(), .equals() and .toString() are already defined in 
+ * the com.tguzik.objects.BaseObject class.
  */
 @Immutable
+@ParametersAreNonnullByDefault
 public final class Customer extends BaseObject {
     private final CustomerId customerId;
     private final FirstName firstName;
     private final LastName lastName;
     private final EmailAddress emailAddress;
-    // And whatever else you need
+    // ..and whatever else you need
 
-    public Customer(CustomerId customerId, FirstName firstName, LastName lastName, EmailAddress emailAddress) {
-        this.customerId = customerId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.emailAddress = emailAddress;
+    public Customer( CustomerId customerId, 
+                     FirstName firstName, 
+                     LastName lastName, 
+                     EmailAddress emailAddress ) {
+        this.customerId = Objects.requireNonNull( customerId );
+        this.firstName = Objects.requireNonNull( firstName );
+        this.lastName = Objects.requireNonNull( lastName );
+        this.emailAddress = Objects.requireNonNull( emailAddress );
     }
 
     public CustomerId getCustomerId() {
@@ -176,11 +185,11 @@ public final class Customer extends BaseObject {
 
 ## Dependencies
 
-Outside of unit tests, this project depends on following third party libraries:
+Outside of unit test dependencies, this project requires following third party libraries:
 
 * `org.apache.commons:commons-lang3`
 * `javax.xml.bind:jaxb-api`
-* `com.tguzik:annotatons`
+* `com.tguzik:annotatons` (includes JSR 305 annotations)
 * JDK 1.7+
 
 
