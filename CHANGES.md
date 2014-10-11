@@ -12,14 +12,15 @@ change and/or change the expected functionality.
 -----
 
 Version `1.0.0`:
+* *Breaking* Renamed `AbstractStringValueAdapter` to `JaxbStringValueAdapter`
+* *Breaking* Renamed `AbstractJaxbValueAdapter` to `JaxbValueAdapter`
 * Class `BaseObject` now has a convenience static method 
   `toString(@Nullable Object, @Nonnull ToStringStyle)` that, as you might have 
   guessed, does reflection toString on given object using given style.
 * Class `MultilineNoAddressStyle` is now a public class with public constructor.
-* Switched from `Charset.forName(String)` to `StandardCharsets` instead of 
-  in `Loader`.
+* Switched from `Charset.forName(String)` to `StandardCharsets` in `Loader`.
 * Bumped dependency on `com.tguzik:annotations` to `1.0.0`.
-
+* Added static code analysis and mutation testing to the `verify` build phase
 
 Version `0.6`:
 * Pinned dependencies to specific versions. This should make this library less
