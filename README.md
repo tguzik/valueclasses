@@ -1,10 +1,56 @@
 # valueclasses [![Build Status](https://travis-ci.org/tguzik/valueclasses.png?branch=master)](https://travis-ci.org/tguzik/valueclasses)
 
-**Please note that this is still work in progress **
+This small library aims to provide a blueprint for [value-based classes](http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html)
+on JVM before Project Valhalla hits the wide use. These blueprints are designed to hold a single, usually primitive 
+value while at the same time giving them distinct *type* information and thus leveraging Java type system. The aim is
+to help you create your complex applications by spending less time on frustrating tasks fixing bugs that are the 
+result of using wrong variable in function call, which is often the case in *Stringly-typed* frameworks (we've all 
+seen these).
 
-This small library aims to make it easier to create values with distinctive type in Java. This is useful for protecting
-against null values and retaining the information about what is expected to be passed as an argument... or at least
-more readable than five String arguments in a row to the same function ;-)
+For example, let's say that you have an use case where you have to update account balance for a customer, 
+while saving Point Of Sale identifier and an optional comment:
+
+```java
+public void updateAccountBalance( Long customerId, Long pointOfSaleId, Long delta, @Nullable String comment ) {
+    // [...]
+}
+```
+
+Now, somewhere in the middle of your business logic you do something that boils down to:
+
+```java
+public void processTransaction( TransactionContext context, Customer customer ) {
+    // [...]
+    updateAccountBalance( customer.getId(),
+                          context.getId(),
+                          context.getPriceInCents(),
+                          context.getTransactionTitle() );
+    // [...]
+}
+```
+
+Now, this is fine and dandy, but what happens when the method to update the balance changes its signature without 
+changing all invocations? How soon would you know that something isn't right? Of course, 
+this should come up in unit tests, but that depends on their quality.
+
+Instead of relying on something that *might* be there and *might* find the mistake, the idea is to enforce this at 
+compilation stage. This way most of the mistakes will be weeded out by the time the tests are ran. Let's take a look 
+at this method signature:
+
+```java
+public void updateAccountBalance( CustomerId customerId,
+                                  PointOfSaleId pointOfSaleId,
+                                  PriceInCents delta,
+                                  @Nullable String comment ) {
+    // [...]
+}
+```
+
+...and tell me, how hard you would have to try to make something that would pass as an honest mistake? :-)
+
+Of course, you should use these value-based objects where it is reasonable. Data model classes, complicated APIs and 
+business logic are a good places for them. On the other hand tight loops in graphics processing are not.
+
 
 ## How do I get it?
 
@@ -24,37 +70,15 @@ See [Javadoc](http://tguzik.github.io/valueclasses/) or the demo code below for 
 
 ## Short demo
 
-Suppose your project had to store multiple distinct types of values that boil down to String, Long or Integer (or anything 
-else really). In this example, I'll define these types:
+Here are some examples of different types of value-based classes you can create with this library:
 
 ```java
-@XmlJavaTypeAdapter( value = ClientId.JaxbAdapter.class )
-public final class ClientId extends Value<Long>
-{
-    private ClientId( Long value ) {
-        super( value );
-    }
+import com.tguzik.value.adapters.JaxbStringValueAdapter;
+import com.tguzik.value.StringValue;
+// [...]
 
-    public static ClientId valueOf( Long value ) {
-        /* 
-         * You could plug some cache here to reduce the number of instances created, 
-         * reducing the amount of garbage your application creates.
-         */
-        return new ClientId( value );
-    }
-
-    public static class JaxbAdapter extends AbstractJaxbValueAdapter<Long, ClientId>
-    {
-        @Override
-        protected ClientId createNewInstance( Long value ) {
-            return ClientId.valueOf( value );
-        }
-    }
-}
-```
-
-```java
-@XmlJavaTypeAdapter( value = FirstName.JaxbAdapter.class )
+@Immutable
+@XmlJavaTypeAdapter( value = FirstName.Adapter.class )
 public final class FirstName extends StringValue
 {
     private FirstName( String value ) {
@@ -65,7 +89,7 @@ public final class FirstName extends StringValue
         return new FirstName( StringUtils.trimToEmpty( firstName ) );
     }
 
-    public static class JaxbAdapter extends AbstractStringValueAdapter<FirstName>
+    public static class Adapter extends JaxbStringValueAdapter<FirstName>
     {
         @Override
         protected FirstName createNewInstance( String value ) {
@@ -76,12 +100,42 @@ public final class FirstName extends StringValue
 ```
 
 ```java
+import com.tguzik.value.adapters.JaxbValueAdapter;
+import com.tguzik.value.Value;
+// [...]
+
+@Immutable
+@XmlJavaTypeAdapter( value = CustomerId.Adapter.class )
+public final class CustomerId extends Value<Long>
+{
+    private CustomerId( Long value ) {
+        super( value );
+    }
+
+    public static CustomerId valueOf( Long value ) {
+        /* You can plug additional validation (recommended) or an instance cache here, if you need one. */
+        return new CustomerId( value );
+    }
+
+    /** For the purpose of this example let's assume you use JaxB-compatible library */
+    public static class Adapter extends JaxbValueAdapter<Long, CustomerId>
+    {
+        @Override
+        protected ClientId createNewInstance( Long value ) {
+            return ClientId.valueOf( value );
+        }
+    }
+}
+```
+
+```java
 public final class LastName extends StringValue { [...] }
 public final class EmailAddress extends StringValue { [...] }
 ```
-    
-Now, assuming that your implementations are immutable (they don't mutate state after creation), you can create following 
-class to hold the data about customer:
+
+   
+Now, assuming that you did go out of your way to create these value-based objects mutable (which you shouldn't), 
+you can create this immutable class to hold the data about customer:
 
 ```java
 /*
@@ -93,6 +147,7 @@ public final class Customer extends BaseObject {
     private final FirstName firstName;
     private final LastName lastName;
     private final EmailAddress emailAddress;
+    // And whatever else you need
 
     public Customer(CustomerId customerId, FirstName firstName, LastName lastName, EmailAddress emailAddress) {
         this.customerId = customerId;
@@ -116,42 +171,6 @@ public final class Customer extends BaseObject {
     public EmailAddress getEmailAddress() {
         return emailAddress;
     }
-}
-```
-
-Next you can adapt your API/business logic to use these defined types to make sure _nobody_ mistakenly passes first name
-where email address should be:
-
-```java
-/*
- * Without this library the above method signature would probably look like:
- *
- * public void notifyOncall(String, Event);
- */
-public void notifyOncall(EmailAddress address, Event badEvent) { [...] }
-```
-
-```java
-/*
- * Without this library the above method signature would probably look like:
- *
- * public void modifyAccountValue(long, long);
- */
-public void modifyAccountValue(CustomerId id, long delta) { [...] }
-```
-
-```java
-/*
- * Without this library the above method signature would probably look like:
- *
- * public void transferAccountOwnership(long, String, String, String);
- */
-public void transferAccountOwnership(CustomerId accountId,
-                                     FirstName newOwnersFirstName, 
-                                     LastName newOwnersLastName, 
-                                     EmailAddress newOwnersEmailAddress) 
-{
-    [...]
 }
 ```
 
