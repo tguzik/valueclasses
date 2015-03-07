@@ -9,7 +9,7 @@
 
     <groupId>com.tguzik</groupId>
     <artifactId>valueclasses</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>ValueClasses</name>
