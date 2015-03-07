@@ -34,12 +34,14 @@ public void processTransaction( TransactionContext context, Customer customer ) 
 ```
 
 Now, this is fine and dandy, but what happens when the method to update the balance changes its signature without 
-changing all invocations? How soon would you know that something isn't right? Of course, 
-this should come up in unit tests, but that depends on their quality.
+changing all invocations? How soon would you know that something isn't right? Of course, this should come up in
+unit tests, but that depends on their quality.
 
-Instead of relying on something that *might* be there and *might* find the mistake, 
-the idea is to enforce correctness at compilation stage. This way most of the mistakes will be weeded out by the time
- the tests are ran. Let's take a look at this method signature:
+Instead of relying on something that *might* be there and *might* find the mistake, the idea is to enforce
+correctness at compilation stage. This way most of the mistakes will be weeded out by the time the tests are
+ran.
+
+Let's take a look at this method signature:
 
 ```java
 public void updateAccountBalance( CustomerId customerId,
@@ -50,7 +52,7 @@ public void updateAccountBalance( CustomerId customerId,
 }
 ```
 
-...and tell me, how hard you would have to try to make something that would pass as an honest mistake? :-)
+...and tell me, how hard you would have to try to make an error in here to pass as an honest mistake? :-)
 
 Of course, you should use these value-based objects where it is reasonable. Data model classes, complicated APIs and 
 business logic are a good places for them. On the other hand tight loops in graphics processing are not.
@@ -63,7 +65,7 @@ The library is available in Maven Central repository. You can use it in your pro
     <dependency>
         <groupId>com.tguzik</groupId>
         <artifactId>valueclasses</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 
 
@@ -138,8 +140,8 @@ public final class EmailAddress extends StringValue { [...] }
 ```
 
    
-Now, assuming that you did go out of your way to create these value-based objects mutable (which you shouldn't), 
-you can create this immutable class to hold the data about customer:
+Now, assuming that you didn't go out of your way to create these value-based objects mutable (which you shouldn't),
+you can create this class to hold the data about customer:
 
 ```java
 /*
