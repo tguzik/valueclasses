@@ -13,7 +13,7 @@ import com.tguzik.value.Value;
  * {@link #createNewInstance(Object)}. The method is expected to create new
  * instance of the value class of expected type.
  *
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @since 0.2
  */
 @ParametersAreNullableByDefault
@@ -40,6 +40,11 @@ public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<
      * Creates new instance of correct value class with argument as the
      * contained value. It is not recommended for implementations of this method
      * to return `null` values.
+     *
+     * @param value
+     *         the value of type {@code UnderlyingType} to be encapsulated
+     *
+     * @return instance of the {@code ValueClass} containing the encapsulated value
      */
     @Nonnull
     protected abstract ValueClass createNewInstance( @Nullable UnderlyingType value );

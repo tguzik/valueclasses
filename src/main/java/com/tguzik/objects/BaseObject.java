@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * converted to string. This class should be used when overall performance does
  * not matter as much.
  *
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @see com.tguzik.objects.PerformanceAwareBaseObject
  * @since 0.1
  */
@@ -50,7 +50,13 @@ public abstract class BaseObject {
         return toString( ToStringStyle.SHORT_PREFIX_STYLE );
     }
 
-    /** @see #toString(Object, org.apache.commons.lang3.builder.ToStringStyle) */
+    /**
+     * @param style
+     *         the style to be used when converting the class to string
+     *
+     * @return Empty string if object was null, string representation obtained via reflection otherwise.
+     * @see #toString(Object, org.apache.commons.lang3.builder.ToStringStyle)
+     */
     @Nonnull
     public String toString( ToStringStyle style ) {
         return toString( this, style );
@@ -59,6 +65,11 @@ public abstract class BaseObject {
     /**
      * Convenience function that produces a string representation of object instance's fields using selected
      * ToStringStyle. Static and transient fields are not printed.
+     *
+     * @param object
+     *         the object to be converted to string using reflection
+     * @param style
+     *         the style to be used when converting the class to string
      *
      * @return Empty string if object was null, string representation obtained via reflection otherwise.
      */

@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
  * not allowing to change the reference to held value. This class cannot give
  * any guarantees about the value itself.
  *
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @see com.tguzik.value.adapters.JaxbValueAdapter
  * @since 0.1
  */

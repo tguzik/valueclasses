@@ -4,14 +4,14 @@ import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Provides a mutable value class that uses AtomicReference<T> as a base. Extends Value<T> and shadows the actual
- * value only to allow casting instances of this class to Value<T>.
- * <p/>
+ * Provides a mutable value class that uses AtomicReference&lt;T&gt; as a base. Extends Value&lt;T&gt; and shadows the
+ * actual value only to allow casting instances of this class to Value&lt;T&gt;.
+ * <br>
  * Use of this class is heavily discouraged, however it will be kept around as a last-resort workaround for
  * architectures that go against any sane design. Instead of forcing everyone to hack around what they are working
- * on, I opt to give a least horrible way to deal with the problem. Temporarily.
+ * on, I opt to give a least horrible way to deal with the problem. Temporarily at least.
  *
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @since 0.2
  */
 public abstract class MutableValue<T> extends Value<T> {

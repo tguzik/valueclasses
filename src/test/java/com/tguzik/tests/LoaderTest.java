@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import org.junit.Test;
 
 /**
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  */
 public class LoaderTest {
     @Test

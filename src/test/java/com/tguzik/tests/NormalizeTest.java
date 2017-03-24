@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 
 /**
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  */
 public class NormalizeTest {
     @Test

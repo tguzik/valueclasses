@@ -9,7 +9,7 @@ import com.tguzik.value.Value;
 /**
  * Allows returning pre-set value in <code>.hashCode()</code> calls.
  *
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @since 0.1
  */
 @Immutable

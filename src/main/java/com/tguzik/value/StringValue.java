@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Abstract class to hold {@link java.lang.String}-based values.
  *
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @see com.tguzik.value.adapters.JaxbStringValueAdapter
  * @since 0.1
  */

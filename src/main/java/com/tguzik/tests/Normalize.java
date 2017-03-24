@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  * unit test sources) to allow using this class in projects that depend on this
  * library.
  *
- * @author Tomasz Guzik <tomek@tguzik.com>
+ * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @since 0.1
  */
 public enum Normalize {
@@ -19,7 +19,7 @@ public enum Normalize {
     /**
      * Replaces different line ending styles (Windows <code>\r\n</code>, legacy
      * Mac <code>\r</code>) with single new line character (<code>\n</code>).
-     * <p/>
+     * <br>
      * Example usage:
      * <pre>
      * assertEquals( expected, Normalize.newLines( actual ) );
