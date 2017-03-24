@@ -35,11 +35,16 @@ public void processTransaction( TransactionContext context, Customer customer ) 
 
 Now, this is fine and dandy, but what happens when the method to update the balance changes its signature without 
 changing all invocations? How soon would you know that something isn't right? Of course, this should come up in
-unit tests, but that depends on their quality.
+unit tests, but that depends on their quality. 
 
 Instead of relying on something that *might* be there and *might* find the mistake, the idea is to enforce
 correctness at compilation stage. This way most of the mistakes will be weeded out by the time the tests are
 ran.
+
+Side note: Check out [errorprone](https://github.com/google/error-prone) too - it tries to achieve similar goal
+by being performing the static analysis at compile time. [Findbugs](https://github.com/findbugsproject/findbugs) 
+and [PMD](https://pmd.github.io/) are helpful as well. All three have Maven plugins for easy integration into
+your build.
 
 Let's take a look at this method signature:
 
@@ -65,7 +70,7 @@ The library is available in Maven Central repository. You can use it in your pro
     <dependency>
         <groupId>com.tguzik</groupId>
         <artifactId>valueclasses</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
 
 

@@ -131,7 +131,27 @@
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
                     <fork>true</fork>
+
+                    <!-- errorprone stuff: -->
+                    <compilerId>javac-with-errorprone</compilerId>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    <!-- /errorprone -->
                 </configuration>
+
+                <!-- errorprone stuff: -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-compiler-javac-errorprone</artifactId>
+                        <version>2.8</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.google.errorprone</groupId>
+                        <artifactId>error_prone_core</artifactId>
+                        <version>2.0.19</version>
+                    </dependency>
+                </dependencies>
+                <!-- /errorprone -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
