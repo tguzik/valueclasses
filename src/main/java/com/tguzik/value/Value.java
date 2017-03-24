@@ -47,6 +47,12 @@ public abstract class Value<T> implements HasValue<T> {
             return false;
         }
 
+        // Before somebody starts shouting "but why not instanceof?" - we want to treat different types at NOT equal.
+        // See this example:
+        // - Speed(42.0f)         (extends Value<Float>)
+        // - Temperature(42.0f)   (extends Value<Float>)
+        //
+        // Even though the contained value is the same, the type implies very different meaning.
         if ( !Objects.equals( this.getClass(), obj.getClass() ) ) {
             return false;
         }

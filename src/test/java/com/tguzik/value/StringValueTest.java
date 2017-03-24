@@ -41,11 +41,17 @@ public class StringValueTest {
     }
 
     @Test
-    public void compareTo_returns_zero_when_comparing_value() {
-        assertThat( a.compareTo( a ) ).isZero();
+    public void compareTo_returns_zero_when_comparing_value_to_itself() {
+        //noinspection EqualsWithItself
+        @SuppressWarnings( "SelfComparison" )
+        final int atoa = a.compareTo( a );
+        assertThat( atoa ).isZero();
         assertThat( a ).isEqualTo( a ); // ensure that equals is not b0rken
 
-        assertThat( b.compareTo( b ) ).isZero();
+        //noinspection EqualsWithItself
+        @SuppressWarnings( "SelfComparison" )
+        final int btob = b.compareTo( b );
+        assertThat( btob ).isZero();
         assertThat( b ).isEqualTo( b ); // ensure that equals is not b0rken
     }
 
@@ -55,20 +61,20 @@ public class StringValueTest {
         assertThat( b ).isNotEqualTo( a );
     }
 
-    @Test
     /**
      * Contract per {@link java.lang.Comparable}:
      * <tt>sgn(x.compareTo(y)) == -sgn(y.compareTo(x))</tt> for all <tt>x</tt> and <tt>y</tt>
      */
+    @Test
     public void compareTo_returns_opposite_values_when_comparing_a_to_b_and_b_to_a() {
         assertThat( signum( a.compareTo( b ) ) ).isEqualTo( -signum( b.compareTo( a ) ) );
     }
 
-    @Test
     /**
      * Contract per {@link java.lang.Comparable}:
      * <tt>(x.compareTo(y)&gt;0 &amp;&amp; y.compareTo(z)&gt;0)</tt> implies <tt>x.compareTo(z)&gt;0</tt>
      */
+    @Test
     public void compareTo_is_transitive() {
         final StringValue c = new StringValueHelper( "c" );
 
@@ -76,11 +82,11 @@ public class StringValueTest {
                                                 .isEqualTo( signum( a.compareTo( c ) ) );
     }
 
-    @Test
     /**
      * Contract per {@link java.lang.Comparable}:
      * <tt>x.compareTo(y)==0</tt> implies that <tt>sgn(x.compareTo(z)) == sgn(y.compareTo(z))</tt>, for all <tt>z</tt>
      */
+    @Test
     public void compareTo_if_a_and_b_are_equal_and_c_is_geater_than_a_then_c_is_also_greater_than_b() {
         final StringValue a2 = new StringValueHelper( "a" );
 
@@ -90,8 +96,8 @@ public class StringValueTest {
         assertThat( signum( a.compareTo( b ) ) ).isEqualTo( signum( a2.compareTo( b ) ) );
     }
 
-    @Test
     /** Contract per {@link java.lang.Comparable}: <tt>(x.compareTo(y)==0) == (x.equals(y))</tt> */
+    @Test
     public void compareTo_if_a_and_b_are_equal_then_they_should_compare_as_same() {
         final StringValue a2 = new StringValueHelper( "a" );
 
@@ -102,8 +108,8 @@ public class StringValueTest {
         assertThat( a2.compareTo( a ) ).isZero();
     }
 
-    @Test
     /** Contract per {@link java.lang.Comparable} throws: throws NullPointerException if the specified object is null */
+    @Test
     public void compareTo_throws_NullPointerException_when_parameter_was_null() {
         try {
             a.compareTo( null );
@@ -114,11 +120,11 @@ public class StringValueTest {
         }
     }
 
-    @Test( expected = ClassCastException.class )
     /**
      * Contract per {@link java.lang.Comparable}:
      * throws ClassCastException if the specified object's type prevents it from being compared to this object.
      */
+    @Test( expected = ClassCastException.class )
     public void compareTo_throws_ClassCastException_when_parameter_was_of_incompatible_type() {
         final Value<Integer> integerValue = new Value<Integer>( Integer.valueOf( 123 ) ) {
         };
@@ -126,11 +132,11 @@ public class StringValueTest {
         a.compareTo( (Value) integerValue );
     }
 
-    @Test
     /**
      * Exploding with NullPointerException when one of the value classes has null inside is damn inconvenient.
      * Instead we return zero
      */
+    @Test
     public void compareTo_returns_zero_when_at_least_one_value_class_has_null_inside() {
         assertThat( a.compareTo( nullString ) ).isZero();
         assertThat( nullString.compareTo( a ) ).isZero();

@@ -59,12 +59,12 @@ public class BaseObjectTest {
         assertThat( BaseObject.toString( null, ToStringStyle.SIMPLE_STYLE ) ).isEmpty();
     }
 
-    @Test( expected = NullPointerException.class )
+    @Test( expected = Exception.class )
     public void static_toString_throws_exception_on_null_toStringStyle() throws IOException {
         BaseObject.toString( this, null );
     }
 
-    @Test( expected = NullPointerException.class )
+    @Test( expected = Exception.class )
     public void static_toString_exception_on_null_toStringStyle_has_priority_over_null_object() throws IOException {
         BaseObject.toString( null, null );
     }

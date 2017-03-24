@@ -23,7 +23,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @since 0.1
  */
 @ParametersAreNonnullByDefault
-@ExpectedPerformanceProfile(value = Kind.REFLECTION_HEAVY)
+@ExpectedPerformanceProfile( value = Kind.REFLECTION_HEAVY )
 public abstract class BaseObject {
     public static final MultilineNoAddressStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressStyle();
 
@@ -36,11 +36,7 @@ public abstract class BaseObject {
     /** Ignores transient fields. Always returns false when parameter class doesn't match exactly */
     @Override
     public boolean equals( Object other ) {
-        if ( other != null && sameClass( other ) ) {
-            return EqualsBuilder.reflectionEquals( this, other, false );
-        }
-
-        return false;
+        return other != null && sameClass( other ) && EqualsBuilder.reflectionEquals( this, other, false );
     }
 
     private boolean sameClass( Object other ) {
@@ -67,9 +63,9 @@ public abstract class BaseObject {
      * @return Empty string if object was null, string representation obtained via reflection otherwise.
      */
     @Nonnull
-    public static String toString( @Nullable Object object, @Nonnull ToStringStyle style ) {
+    public static String toString( @Nullable Object object, ToStringStyle style ) {
         if ( style == null ) {
-            // JDK8 would make this shorter and sweeter..
+            // JDK8 would make a bit shorter..
             throw new NullPointerException( "To string style parameter cannot be null!" );
         }
 

@@ -13,29 +13,26 @@ import org.junit.Test;
  */
 public class LoaderTest {
     @Test
-    public void testLoadFile() throws IOException {
+    public void loadFile_returns_the_content_of_given_file() throws IOException {
         String fileContents = loadFile( "src/test/java", getClass(), "data", "test-file.txt" );
 
         assertThat( fileContents ).isNotNull().hasSize( 20 ).isEqualTo( "Test file contents\n\n" );
     }
 
     @Test
-    public void testLoadFile_allFunctionsLoadSameFile() throws IOException {
+    public void loadFile_all_function_variants_return_the_same_content() throws IOException {
         // Load data using all four methods
-        String fileContentsUsingPath = loadFile( Paths.get( "src/test/java/com/tguzik/tests/data/test-file.txt" ) );
-        String fileContentsUsingPrefixClassSubdirFname = loadFile( "src/test/java",
-                                                                   getClass(),
-                                                                   "data",
-                                                                   "test-file.txt" );
-        String fileContentsUsingClassSubdirFilename = loadFile( getClass(), "data", "test-file.txt" );
-        String fileContentsUsingPrefixDirSubdirFilename = loadFile( "src/test/java",
-                                                                    "com/tguzik/tests",
-                                                                    "data",
-                                                                    "test-file.txt" );
+        final String usingPath = loadFile( Paths.get( "src/test/java/com/tguzik/tests/data/test-file.txt" ) );
+        final String usingPrefixClassSubdirAndFname = loadFile( "src/test/java", getClass(), "data", "test-file.txt" );
+        final String usingClassSubdirAndFilename = loadFile( getClass(), "data", "test-file.txt" );
+        final String usingPrefixDirSubdirAndFilename = loadFile( "src/test/java",
+                                                                 "com/tguzik/tests",
+                                                                 "data",
+                                                                 "test-file.txt" );
 
-        assertThat( fileContentsUsingPath ).isEqualTo( fileContentsUsingClassSubdirFilename )
-                                           .isEqualTo( fileContentsUsingPrefixClassSubdirFname )
-                                           .isEqualTo( fileContentsUsingPrefixDirSubdirFilename )
-                                           .isEqualTo( "Test file contents\n\n" );
+        assertThat( usingPath ).isEqualTo( usingClassSubdirAndFilename )
+                               .isEqualTo( usingPrefixClassSubdirAndFname )
+                               .isEqualTo( usingPrefixDirSubdirAndFilename )
+                               .isEqualTo( "Test file contents\n\n" );
     }
 }

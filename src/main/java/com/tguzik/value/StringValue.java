@@ -21,8 +21,12 @@ public abstract class StringValue extends Value<String> implements Comparable<Va
 
     @Override
     public int compareTo( @Nonnull Value<String> other ) {
+        //noinspection ConstantConditions
         if ( other == null ) {
             throw new NullPointerException( "Parameter cannot be null." );
+        }
+        if ( other == this ) {
+            return 0;
         }
 
         String thisValue = get();
@@ -38,15 +42,19 @@ public abstract class StringValue extends Value<String> implements Comparable<Va
         return thisValue.compareTo( otherValue );
     }
 
+    /** @return the length of the contained string, or zero if the contained string is null */
     public int length() {
         return StringUtils.length( get() );
     }
 
+    /** @return true if the contained string is null or has length of zero, false otherwise */
     public boolean isEmpty() {
         return length() == 0;
     }
 
+    /** @return true if the contained string is null or has length of zero after being trimmed, false otherwise */
     public boolean isBlank() {
         return StringUtils.isBlank( get() );
     }
+
 }

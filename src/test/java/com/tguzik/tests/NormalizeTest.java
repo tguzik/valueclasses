@@ -3,7 +3,6 @@ package com.tguzik.tests;
 import static com.tguzik.tests.Normalize.newLines;
 import static com.tguzik.tests.Normalize.tabsToSpaces;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -12,30 +11,30 @@ import org.junit.Test;
  */
 public class NormalizeTest {
     @Test
-    public void testNewLines() {
-        assertEquals( "abc   \n  ", newLines( "abc   \r\n\r  " ) );
-        assertEquals( "  \n \nabc  \n", newLines( "  \n \nabc  \r" ) );
-        assertEquals( "\n\n\n", newLines( "\n\n\n" ) );
-        assertEquals( "\n\n", newLines( "\r\n\r\n\r" ) );
+    public void newLines_kills_off_CR_and_leaves_LF() {
+        assertThat( newLines( "abc   \r\n\r  " ) ).isEqualTo( "abc   \n  " );
+        assertThat( newLines( "  \n \nabc  \r" ) ).isEqualTo( "  \n \nabc  \n" );
+        assertThat( newLines( "\n\n\n" ) ).isEqualTo( "\n\n\n" );
+        assertThat( newLines( "\r\n\r\n\r" ) ).isEqualTo( "\n\n" );
     }
 
     @Test
-    public void testNewLines_nullGiven_nullReturned() {
+    public void newLines_returns_null_given_null() {
         assertThat( newLines( null ) ).isNull();
     }
 
     @Test
-    public void testNewLines_emptyString() {
+    public void newLines_returns_empty_string_given_empy_string() {
         assertThat( newLines( "" ) ).isEqualTo( "" );
     }
 
     @Test
-    public void testNewLines_stringWithoutWhitespaceNotChanged() {
+    public void newLines_returns_the_same_string_if_it_didnt_have_any_newlines() {
         assertThat( newLines( "abc" ) ).isEqualTo( "abc" );
     }
 
     @Test
-    public void testTabsToSpaces() {
+    public void tabsToSpaces_changes_tabulation_character_to_given_number_of_spaces() {
         assertThat( tabsToSpaces( "a", 4 ) ).isEqualTo( "a" );
 
         assertThat( tabsToSpaces( "\ta\t", 4 ) ).isEqualTo( "    a    " );
@@ -44,17 +43,17 @@ public class NormalizeTest {
     }
 
     @Test
-    public void testTabsToSpaces_nullGiven_nullReturned() {
+    public void tabsToSpaces_returns_null_given_null() {
         assertThat( tabsToSpaces( null, 4 ) ).isNull();
     }
 
     @Test
-    public void testTabsToSpaces_emptyString() {
+    public void tabsToSpaces_returns_empty_string_given_empty_string() {
         assertThat( tabsToSpaces( "", 4 ) ).isEqualTo( "" );
     }
 
     @Test
-    public void testTabsToSpaces_differentTabWidths() {
+    public void tabsToSpaces_works_consistently_with_different_tab_widths() {
         assertThat( tabsToSpaces( "\t", Integer.MIN_VALUE ) ).isEqualTo( "" );
         assertThat( tabsToSpaces( "\t", -1024 ) ).isEqualTo( "" );
         assertThat( tabsToSpaces( "\t", -1 ) ).isEqualTo( "" );
@@ -65,7 +64,7 @@ public class NormalizeTest {
     }
 
     @Test
-    public void testTabsToSpaces_tabWidthCanBeNegative() {
+    public void tabsToSpaces_negative_tab_width_means_remove_tabulation_characters() {
         assertThat( tabsToSpaces( " \t", Integer.MIN_VALUE ) ).isEqualTo( " " );
         assertThat( tabsToSpaces( " \t", -1024 ) ).isEqualTo( " " );
         assertThat( tabsToSpaces( " \t", -1 ) ).isEqualTo( " " );

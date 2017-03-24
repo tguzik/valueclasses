@@ -15,7 +15,7 @@ import com.tguzik.value.Value;
 @Immutable
 @ParametersAreNonnullByDefault
 public final class SettableHashCode extends Value<Integer> {
-    private SettableHashCode( int value ) {
+    public SettableHashCode( int value ) {
         super( value );
     }
 
