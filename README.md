@@ -62,6 +62,19 @@ public void updateAccountBalance( CustomerId customerId,
 Of course, you should use these value-based objects where it is reasonable. Data model classes, complicated APIs and 
 business logic are a good places for them. On the other hand tight loops in graphics processing are not.
 
+## JDK14 Records
+
+The JDK Record feature is proposed to target JDK14: <https://openjdk.java.net/jeps/359>
+
+This feature would replace most of what this library is providing with JDK built-in stuff. If you can migrate when 
+JDK14 is released, you should migrate. If your project cannot migrate or you are stuck on a lower JDK version, you 
+can keep on using this library.
+
+I don't plan on archiving/abandoning/removing it anytime soon (hey, i use it myself ;) ), but at the same time 
+there's just not that much one can innovate in this space without making breaking changes, and I don't want to make 
+breaking changes. I don't want to bump the JDK requirement either, because I know people are still using JDK 1.8 
+and below.
+
 
 ## How do I get it?
 
