@@ -21,17 +21,17 @@ public class ValueTest {
     private String containedValue;
 
     @Before
-    public void setUp() throws Exception {
-        containedValue = "some value";
+    public void setUp() {
+        this.containedValue = "some value";
 
-        secondValueContainingNull = ValueTestHelper.create( null );
-        valueContainingNull = ValueTestHelper.create( null );
+        this.secondValueContainingNull = ValueTestHelper.create( null );
+        this.valueContainingNull = ValueTestHelper.create( null );
 
-        value = ValueTestHelper.create( containedValue );
-        secondValue = ValueTestHelper.create( containedValue );
+        this.value = ValueTestHelper.create( containedValue );
+        this.secondValue = ValueTestHelper.create( containedValue );
 
-        childOfValue = ChildOfValueTestHelper.create( containedValue );
-        siblingOfValue = SiblingOfValueTestHelper.create( containedValue );
+        this.childOfValue = ChildOfValueTestHelper.create( containedValue );
+        this.siblingOfValue = SiblingOfValueTestHelper.create( containedValue );
     }
 
     @Test
@@ -152,7 +152,7 @@ public class ValueTest {
 
     @Test
     public void hashCode_returns_hash_of_contained_value() {
-        assertThat( ValueTestHelper.create( SettableHashCode.create( 123 ) ).hashCode() ).isEqualTo( 123 );
+        assertThat( ValueTestHelper.create( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
     }
 
     @Test

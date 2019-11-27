@@ -26,29 +26,34 @@ public enum Loader {
     ;
 
     @Nullable
-    public static String loadFile( Path path ) throws IOException {
-        byte[] fileBytes = java.nio.file.Files.readAllBytes( path );
-        String contents = new String( fileBytes, StandardCharsets.UTF_8 );
+    public static String loadFile( final Path path ) throws IOException {
+        final byte[] fileBytes = java.nio.file.Files.readAllBytes( path );
+        final String contents = new String( fileBytes, StandardCharsets.UTF_8 );
         return Normalize.newLines( contents );
     }
 
     @Nullable
-    public static String loadFile( String prefix, Class<?> classFromPackage, String subdirectory, String fileName )
-    throws IOException {
-        String classPackage = classFromPackage.getPackage().getName().replace( ".", "/" );
+    public static String loadFile( final String prefix,
+                                   final Class<?> classFromPackage,
+                                   final String subdirectory,
+                                   final String fileName ) throws IOException {
+        final String classPackage = classFromPackage.getPackage().getName().replace( ".", "/" );
         return loadFile( Paths.get( prefix, classPackage, subdirectory, fileName ) );
     }
 
     @Nullable
-    public static String loadFile( String prefix, String directory, String subdirectory, String fileName )
-    throws IOException {
+    public static String loadFile( final String prefix,
+                                   final String directory,
+                                   final String subdirectory,
+                                   final String fileName ) throws IOException {
         return loadFile( Paths.get( prefix, directory, subdirectory, fileName ) );
     }
 
+    /**
+     * Assumes that the prefix will be 'src/test/java/'
+     */
     @Nullable
-    /** Assumes that the prefix will be 'src/test/java/' */ public static String loadFile( Class<?> classFromPackage,
-                                                                                           String subdirectory,
-                                                                                           String fileName )
+    public static String loadFile( final Class<?> classFromPackage, final String subdirectory, final String fileName )
     throws IOException {
         return loadFile( "src/test/java", classFromPackage, subdirectory, fileName );
     }

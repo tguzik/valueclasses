@@ -6,9 +6,6 @@ import com.tguzik.tests.SettableHashCode;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
 public class MutableValueTest {
     private MutableValue<?> secondValueContainingNull;
     private MutableValue<?> valueContainingNull;
@@ -20,16 +17,16 @@ public class MutableValueTest {
     private String containedValue;
 
     @Before
-    public void setUp() throws Exception {
-        containedValue = "some value";
+    public void setUp() {
+        this.containedValue = "some value";
 
-        secondValueContainingNull = ValueTestHelper.create( null );
-        valueContainingNull = ValueTestHelper.create( null );
-        secondValue = ValueTestHelper.create( containedValue );
-        value = ValueTestHelper.create( containedValue );
+        this.secondValueContainingNull = ValueTestHelper.create( null );
+        this.valueContainingNull = ValueTestHelper.create( null );
+        this.secondValue = ValueTestHelper.create( containedValue );
+        this.value = ValueTestHelper.create( containedValue );
 
-        childOfValue = ChildOfValueTestHelper.create( containedValue );
-        siblingOfValue = SiblingOfValueTestHelper.create( containedValue );
+        this.childOfValue = ChildOfValueTestHelper.create( containedValue );
+        this.siblingOfValue = SiblingOfValueTestHelper.create( containedValue );
     }
 
     @Test
@@ -164,7 +161,7 @@ public class MutableValueTest {
 
     @Test
     public void hashCode_returns_hash_of_contained_value() {
-        assertThat( ValueTestHelper.create( SettableHashCode.create( 123 ) ).hashCode() ).isEqualTo( 123 );
+        assertThat( ValueTestHelper.create( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
     }
 
     @Test

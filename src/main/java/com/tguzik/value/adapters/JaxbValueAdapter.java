@@ -22,13 +22,13 @@ public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<
 
     @Override
     @Nonnull
-    public ValueClass unmarshal( @Nullable UnderlyingType value ) throws Exception {
+    public ValueClass unmarshal( @Nullable final UnderlyingType value ) throws Exception {
         return createNewInstance( value );
     }
 
     @Override
     @Nullable
-    public UnderlyingType marshal( @Nullable ValueClass valueClass ) throws Exception {
+    public UnderlyingType marshal( @Nullable final ValueClass valueClass ) throws Exception {
         if ( valueClass == null ) {
             return null;
         }
@@ -41,9 +41,7 @@ public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<
      * contained value. It is not recommended for implementations of this method
      * to return `null` values.
      *
-     * @param value
-     *         the value of type {@code UnderlyingType} to be encapsulated
-     *
+     * @param value the value of type {@code UnderlyingType} to be encapsulated
      * @return instance of the {@code ValueClass} containing the encapsulated value
      */
     @Nonnull

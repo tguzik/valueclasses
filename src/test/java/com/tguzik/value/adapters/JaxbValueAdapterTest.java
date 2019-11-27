@@ -6,15 +6,12 @@ import com.tguzik.value.StringValue;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
 public class JaxbValueAdapterTest {
     private TestingAdapter adapterReturningInstances;
     private TestingAdapter adapterReturningNulls;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         adapterReturningInstances = new TestingAdapter( true );
         adapterReturningNulls = new TestingAdapter( false );
     }
@@ -37,7 +34,7 @@ public class JaxbValueAdapterTest {
     @Test
     public void testMarshal() throws Exception {
         assertThat( adapterReturningInstances.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
-        assertThat(  adapterReturningNulls.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
+        assertThat( adapterReturningNulls.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
     }
 
     @Test

@@ -8,10 +8,8 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
 public class LoaderTest {
+
     @Test
     public void loadFile_returns_the_content_of_given_file() throws IOException {
         String fileContents = loadFile( "src/test/java", getClass(), "data", "test-file.txt" );
@@ -35,4 +33,5 @@ public class LoaderTest {
                                .isEqualTo( usingPrefixDirSubdirAndFilename )
                                .isEqualTo( "Test file contents\n\n" );
     }
+
 }

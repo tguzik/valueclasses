@@ -3,6 +3,7 @@ package com.tguzik.value;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -15,22 +16,20 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Immutable
 public abstract class StringValue extends Value<String> implements Comparable<Value<String>> {
-    protected StringValue( @Nullable String value ) {
+    protected StringValue( @Nullable final String value ) {
         super( value );
     }
 
     @Override
-    public int compareTo( @Nonnull Value<String> other ) {
-        //noinspection ConstantConditions
-        if ( other == null ) {
-            throw new NullPointerException( "Parameter cannot be null." );
-        }
+    public int compareTo( @Nonnull final Value<String> other ) {
+        Objects.requireNonNull( other, "Parameter cannot be null." );
+
         if ( other == this ) {
             return 0;
         }
 
-        String thisValue = get();
-        String otherValue = other.get();
+        final String thisValue = get();
+        final String otherValue = other.get();
 
         if ( thisValue == null || otherValue == null ) {
             /* Exploding with NullPointerException when one of the value classes has null inside is damn inconvenient.
@@ -42,17 +41,23 @@ public abstract class StringValue extends Value<String> implements Comparable<Va
         return thisValue.compareTo( otherValue );
     }
 
-    /** @return the length of the contained string, or zero if the contained string is null */
+    /**
+     * @return the length of the contained string, or zero if the contained string is null
+     */
     public int length() {
         return StringUtils.length( get() );
     }
 
-    /** @return true if the contained string is null or has length of zero, false otherwise */
+    /**
+     * @return true if the contained string is null or has length of zero, false otherwise
+     */
     public boolean isEmpty() {
         return length() == 0;
     }
 
-    /** @return true if the contained string is null or has length of zero after being trimmed, false otherwise */
+    /**
+     * @return true if the contained string is null or has length of zero after being trimmed, false otherwise
+     */
     public boolean isBlank() {
         return StringUtils.isBlank( get() );
     }
