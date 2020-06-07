@@ -11,9 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
 public class BaseObjectTest {
     private BaseObjectTestHelper secondValueContainingNull;
     private BaseObjectTestHelper differentInstanceField;
@@ -22,7 +19,7 @@ public class BaseObjectTest {
     private BaseObjectTestHelper value;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         secondValueContainingNull = new BaseObjectTestHelper();
         secondValueContainingNull.first = null;
 
@@ -43,9 +40,12 @@ public class BaseObjectTest {
     }
 
     @Test
-    public void static_toString_introspects_objects_via_reflection() throws IOException {
-        Object object = new Object() {
+    public void static_toString_introspects_objects_via_reflection() {
+        final Object object = new Object() {
+            @SuppressWarnings( "unused" )
             private String value = "value contents";
+
+            @SuppressWarnings( "unused" )
             private String secondValue = "different contents";
         };
         final String expected = "value contents,different contents";
@@ -55,17 +55,17 @@ public class BaseObjectTest {
     }
 
     @Test
-    public void static_toString_returns_empty_string_on_null_object() throws IOException {
+    public void static_toString_returns_empty_string_on_null_object() {
         assertThat( BaseObject.toString( null, ToStringStyle.SIMPLE_STYLE ) ).isEmpty();
     }
 
     @Test( expected = Exception.class )
-    public void static_toString_throws_exception_on_null_toStringStyle() throws IOException {
+    public void static_toString_throws_exception_on_null_toStringStyle() {
         BaseObject.toString( this, null );
     }
 
     @Test( expected = Exception.class )
-    public void static_toString_exception_on_null_toStringStyle_has_priority_over_null_object() throws IOException {
+    public void static_toString_exception_on_null_toStringStyle_has_priority_over_null_object() {
         BaseObject.toString( null, null );
     }
 
@@ -269,19 +269,14 @@ public class BaseObjectTest {
         assertThat( value.hashCode() ).isEqualTo( other.hashCode() );
     }
 
+    @SuppressWarnings( "unused" )
     static class BaseObjectTestHelper extends BaseObject {
-        @SuppressWarnings( "unused" )
         protected volatile String first = "first string";
-
-        @SuppressWarnings( "unused" )
         private static String staticString = "this is static";
-
         public static String publicStatic = "this is static";
-
         final String second = "second string";
         public String third = "third string";
         double almostPI = 3.14;
-
         public transient String transientField = "transient ";
     }
 
@@ -289,19 +284,14 @@ public class BaseObjectTest {
 
     }
 
+    @SuppressWarnings( "unused" )
     static class SiblingOfBaseObjectTestHelper extends BaseObject {
-        @SuppressWarnings( "unused" )
         protected volatile String first = "first string";
-
-        @SuppressWarnings( "unused" )
         private static String staticString = "this is static";
-
         public static String publicStatic = "this is static";
-
         final String second = "second string";
         public String third = "third string";
         double almostPI = 3.14;
-
         public transient String transientField = "transient ";
     }
 }

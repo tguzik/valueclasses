@@ -6,17 +6,16 @@ import com.tguzik.value.Value;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
+@SuppressWarnings( { "deprecation" } )
 public class SettableHashCodeTest {
+
     private SettableHashCode secondValue;
     private SettableHashCode value;
 
     @Before
     public void setUp() {
-        secondValue = SettableHashCode.create( 42 );
-        value = SettableHashCode.create( 42 );
+        this.secondValue = new SettableHashCode( 42 );
+        this.value = SettableHashCode.create( 42 );
     }
 
     @Test
@@ -77,4 +76,5 @@ public class SettableHashCodeTest {
         assertThat( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
         assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
     }
+
 }

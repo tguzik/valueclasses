@@ -6,10 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
 public class NormalizeTest {
+
     @Test
     public void newLines_kills_off_CR_and_leaves_LF() {
         assertThat( newLines( "abc   \r\n\r  " ) ).isEqualTo( "abc   \n  " );

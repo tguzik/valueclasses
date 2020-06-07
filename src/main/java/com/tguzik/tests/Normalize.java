@@ -25,38 +25,34 @@ public enum Normalize {
      * assertEquals( expected, Normalize.newLines( actual ) );
      * </pre>
      *
-     * @param input
-     *         nullable input string
-     *
+     * @param input nullable input string
      * @return new string with all newline sequences replaced with LF ending
      */
     @Nullable
-    public static String newLines( @Nullable String input ) {
+    public static String newLines( @Nullable final String input ) {
         if ( input == null ) {
             return null;
         }
 
-        return input.replaceAll( "(\r)?\n(\r)?", "\n" ).replaceAll( "\r", "\n" );
+        return input.replaceAll( "(\r)?\n(\r)?", "\n" ) //
+                    .replaceAll( "\r", "\n" );
     }
 
     /**
      * Replaces all tabulation (<code>\t</code>) characters with spaces.
      *
-     * @param input
-     *         nullable input string
-     * @param tabWidth
-     *         width in spaces of each tabulation character
-     *
+     * @param input    nullable input string
+     * @param tabWidth width in spaces of each tabulation character
      * @return If input was not null, returns new string with all tabulation characters replaces by spaces. If input
      * was null, returns null.
      */
     @Nullable
-    public static String tabsToSpaces( @Nullable String input, int tabWidth ) {
+    public static String tabsToSpaces( @Nullable final String input, final int tabWidth ) {
         if ( input == null ) {
             return null;
         }
 
-        final int spacesInSingleTab = (tabWidth < 0) ? 0 : tabWidth;
+        final int spacesInSingleTab = Math.max( tabWidth, 0 );
         final String replacement = StringUtils.repeat( ' ', spacesInSingleTab );
         return input.replaceAll( "\t", replacement );
     }

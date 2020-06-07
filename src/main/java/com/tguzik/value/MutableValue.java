@@ -16,15 +16,15 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public abstract class MutableValue<T> extends Value<T> {
     /* This is a hacky way to work around generic types not allowing to pass AtomicReference<> itself to superclass.
-     * If we passed the AtomicReference object to superclass, method {@link #get()} would have to return object of 
+     * If we passed the AtomicReference object to superclass, method {@link #get()} would have to return object of
      * type AtomicReference<T> instead of T.
-     * 
-     * As long as the superclass keeps using method {@link #get()} instead of directly referencing the field, we 
+     *
+     * As long as the superclass keeps using method {@link #get()} instead of directly referencing the field, we
      * should be fine.
      */
     private final AtomicReference<T> value;
 
-    protected MutableValue( T value ) {
+    protected MutableValue( final T value ) {
         super( null );
         this.value = new AtomicReference<>( value );
     }
@@ -35,7 +35,7 @@ public abstract class MutableValue<T> extends Value<T> {
         return value.get();
     }
 
-    public void set( @Nullable T newValue ) {
+    public void set( @Nullable final T newValue ) {
         value.set( newValue );
     }
 }

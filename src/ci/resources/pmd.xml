@@ -1,44 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ruleset xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
-         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd"
+<ruleset name="Custom Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://pmd.sf.net/ruleset/1.0.0"
-         name="PMD rule set"
-        >
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
 
-    <description>Somewhat sane PMD rule set</description>
+    <description>
+        This ruleset will be tightened (rule excludes removed) later on, after i fixup the build on new JDKs.
+    </description>
 
-    <rule ref="rulesets/java/basic.xml" />
-    <rule ref="rulesets/java/braces.xml" />
-    <rule ref="rulesets/java/clone.xml" />
-    <rule ref="rulesets/java/codesize.xml" />
-    <rule ref="rulesets/java/codesize.xml/NcssTypeCount">
-        <properties>
-            <property name="minimum" value="800" />
-        </properties>
-    </rule>
-    <rule ref="rulesets/java/controversial.xml/DontImportSun" />
-    <rule ref="rulesets/java/controversial.xml/AvoidUsingNativeCode" />
-    <rule ref="rulesets/java/controversial.xml/DoNotCallGarbageCollectionExplicitly" />
-    <rule ref="rulesets/java/controversial.xml/OneDeclarationPerLine" />
-    <rule ref="rulesets/java/coupling.xml/LooseCoupling" />
-    <rule ref="rulesets/java/design.xml">
-        <!-- These trip on conscious project decisions -->
-        <exclude name="AbstractClassWithoutAbstractMethod" />
-        <exclude name="AbstractClassWithoutAnyMethod" />
-    </rule>
-    <rule ref="rulesets/java/empty.xml" />
-    <rule ref="rulesets/java/finalizers.xml" />
-    <rule ref="rulesets/java/naming.xml">
-        <!-- These trip on conscious project decisions -->
-        <exclude name="AbstractNaming" />
+
+    <rule ref="category/java/bestpractices.xml" />
+
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="AtLeastOneConstructor" />
+        <exclude name="LongVariable" />
+        <exclude name="OnlyOneReturn" />
         <exclude name="GenericsNaming" />
     </rule>
-    <rule ref="rulesets/java/naming.xml/LongVariable">
-        <properties>
-            <property name="minimum" value="35" />
-        </properties>
+
+    <rule ref="category/java/design.xml">
+        <exclude name="LawOfDemeter" />
+        <exclude name="UseObjectForClearerAPI" />
+        <exclude name="AbstractClassWithoutAnyMethod" />
     </rule>
-    <rule ref="rulesets/java/strings.xml" />
+
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="BeanMembersShouldSerialize" />
+    </rule>
+
+    <rule ref="category/java/multithreading.xml" />
+
+    <rule ref="category/java/performance.xml" />
+
+    <rule ref="category/java/security.xml" />
 
 </ruleset>

@@ -9,8 +9,6 @@ import org.junit.Test;
 
 /**
  * Most test cases are already covered in {@link ValueTest}
- *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  */
 public class StringValueTest {
     private StringValue newlinesAndSpaces;
@@ -23,15 +21,15 @@ public class StringValueTest {
     private StringValue b;
 
     @Before
-    public void setUp() throws Exception {
-        newlinesAndSpaces = new StringValueHelper( "\n\n \r \n" );
-        spacesAndAlpha = new StringValueHelper( "  a " );
-        nullString = new StringValueHelper( null );
-        emptyString = new StringValueHelper( "" );
-        spaces = new StringValueHelper( "   " );
-        abcd = new StringValueHelper( "abcd" );
-        a = new StringValueHelper( "a" );
-        b = new StringValueHelper( "b" );
+    public void setUp() {
+        this.newlinesAndSpaces = new StringValueHelper( "\n\n \r \n" );
+        this.spacesAndAlpha = new StringValueHelper( "  a " );
+        this.nullString = new StringValueHelper( null );
+        this.emptyString = new StringValueHelper( "" );
+        this.spaces = new StringValueHelper( "   " );
+        this.abcd = new StringValueHelper( "abcd" );
+        this.a = new StringValueHelper( "a" );
+        this.b = new StringValueHelper( "b" );
     }
 
     @Test
@@ -96,7 +94,9 @@ public class StringValueTest {
         assertThat( signum( a.compareTo( b ) ) ).isEqualTo( signum( a2.compareTo( b ) ) );
     }
 
-    /** Contract per {@link java.lang.Comparable}: <tt>(x.compareTo(y)==0) == (x.equals(y))</tt> */
+    /**
+     * Contract per {@link java.lang.Comparable}: <tt>(x.compareTo(y)==0) == (x.equals(y))</tt>
+     */
     @Test
     public void compareTo_if_a_and_b_are_equal_then_they_should_compare_as_same() {
         final StringValue a2 = new StringValueHelper( "a" );
@@ -108,7 +108,9 @@ public class StringValueTest {
         assertThat( a2.compareTo( a ) ).isZero();
     }
 
-    /** Contract per {@link java.lang.Comparable} throws: throws NullPointerException if the specified object is null */
+    /**
+     * Contract per {@link java.lang.Comparable} throws: throws NullPointerException if the specified object is null
+     */
     @Test
     public void compareTo_throws_NullPointerException_when_parameter_was_null() {
         try {
@@ -124,6 +126,7 @@ public class StringValueTest {
      * Contract per {@link java.lang.Comparable}:
      * throws ClassCastException if the specified object's type prevents it from being compared to this object.
      */
+    @SuppressWarnings( "unchecked" )
     @Test( expected = ClassCastException.class )
     public void compareTo_throws_ClassCastException_when_parameter_was_of_incompatible_type() {
         final Value<Integer> integerValue = new Value<Integer>( Integer.valueOf( 123 ) ) {
@@ -186,4 +189,5 @@ public class StringValueTest {
             super( str );
         }
     }
+
 }
