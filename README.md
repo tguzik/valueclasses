@@ -1,4 +1,7 @@
-# valueclasses [![Build Status](https://travis-ci.org/tguzik/valueclasses.png?branch=master)](https://travis-ci.org/tguzik/valueclasses)
+# valueclasses 
+
+[![Build Status](https://travis-ci.org/tguzik/valueclasses.png?branch=master)](https://travis-ci.org/tguzik/valueclasses)
+![Java CI with Maven](https://github.com/tguzik/valueclasses/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 
 This small library aims to provide a blueprint for [value-based classes](http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html)
 on JVM before Project Valhalla becomes widely available. 
