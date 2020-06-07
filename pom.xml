@@ -44,13 +44,20 @@
     </ciManagement>
 
     <properties>
-        <jdk.version>1.7</jdk.version>
+        <!-- Basics -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.language.version>1.7</java.language.version>
+        <java.jdk.version>1.7</java.jdk.version>
 
-        <error.prone.core.version>2.3.3</error.prone.core.version>
-        <spotbugs.version>3.1.12.2</spotbugs.version>
-        <pmd.version>3.12.0</pmd.version>
-        <pitest.version>1.4.10</pitest.version>
+        <!-- Build system and static code analysis -->
+        <linters.errorprone.version>2.3.2</linters.errorprone.version>
+        <linters.spotbugs.plugin.version>4.0.0</linters.spotbugs.plugin.version>
+        <linters.spotbugs.core.version>4.0.3</linters.spotbugs.core.version>
+        <linters.pmd.version>3.13.0</linters.pmd.version>
+
+        <!-- Unit tests and friends -->
+        <tests.junit.jupiter.launcher.version>1.7.0-M1</tests.junit.jupiter.launcher.version>
+        <tests.junit.jupiter.version>5.7.0-M1</tests.junit.jupiter.version>
     </properties>
 
     <developers>
@@ -62,32 +69,6 @@
     </developers>
 
     <profiles>
-        <profile>
-            <id>jdk8</id>
-            <activation>
-                <jdk>1.8</jdk>
-            </activation>
-            <properties>
-                <javac.version>9+181-r4173-1</javac.version>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <fork>true</fork>
-                            <compilerArgs combine.children="append">
-                                <arg>
-                                    -J-Xbootclasspath/p:${settings.localRepository}/com/google/errorprone/javac/${javac.version}/javac-${javac.version}.jar
-                                </arg>
-                            </compilerArgs>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <profile>
             <id>javadoc</id>
             <activation>
@@ -110,7 +91,50 @@
         </profile>
 
         <profile>
-            <id>upgrades</id>
+            <id>extra-jdk1.8-options</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <!-- error_prone on jdk1.8 -->
+                                <compilerId>javac-with-errorprone</compilerId>
+                                <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                                <!-- /error_prone on jdk1.8 -->
+                            </configuration>
+
+                            <!-- error_prone on jdk1.8 -->
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.codehaus.plexus</groupId>
+                                    <artifactId>plexus-compiler-javac-errorprone</artifactId>
+                                    <version>2.8.5</version>
+                                </dependency>
+                                <dependency>
+                                    <!--
+                                    Override plexus-compiler-javac-errorprone's dependency with the latest version
+                                    -->
+                                    <groupId>com.google.errorprone</groupId>
+                                    <artifactId>error_prone_core</artifactId>
+                                    <version>${linters.errorprone.version}</version>
+                                </dependency>
+                            </dependencies>
+                            <!-- /error_prone on jdk1.8 -->
+
+                            <inherited>true</inherited>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>outdated</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -141,16 +165,35 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.2.12</version>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${tests.junit.jupiter.launcher.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${tests.junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${tests.junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.3.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.14.0</version>
+            <version>3.16.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -172,8 +215,11 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.5.0</version>
+                                    <version>3.6</version>
                                 </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${java.language.version}</version>
+                                </requireJavaVersion>
                             </rules>
                         </configuration>
                     </execution>
@@ -188,11 +234,9 @@
                 <configuration>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
+                    <source>${java.jdk.version}</source>
+                    <target>${java.jdk.version}</target>
                     <fork>true</fork>
-
-                    <!-- errorprone on jdk9+ -->
                     <compilerArgs>
                         <arg>-XDcompilePolicy=simple</arg>
                         <arg>-Xplugin:ErrorProne</arg>
@@ -201,10 +245,9 @@
                         <path>
                             <groupId>com.google.errorprone</groupId>
                             <artifactId>error_prone_core</artifactId>
-                            <version>${error.prone.core.version}</version>
+                            <version>${linters.errorprone.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <!-- /errorprone -->
                 </configuration>
             </plugin>
 
@@ -226,7 +269,7 @@
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${spotbugs.version}</version>
+                <version>${linters.spotbugs.plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>verify</phase>
@@ -240,13 +283,14 @@
                     <threshold>Default</threshold>
                     <xmlOutput>true</xmlOutput>
                     <detail>true</detail>
+                    <excludeFilterFile>${project.basedir}/src/ci/resources/spotbugs-exclude.xml</excludeFilterFile>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>${pmd.version}</version>
+                <version>${linters.pmd.version}</version>
                 <executions>
                     <execution>
                         <phase>verify</phase>
@@ -258,43 +302,13 @@
                 </executions>
                 <configuration>
                     <verbose>true</verbose>
-                    <targetJdk>${jdk.version}</targetJdk>
+                    <targetJdk>${java.jdk.version}</targetJdk>
                     <rulesets>
                         <ruleset>${project.basedir}/src/ci/resources/pmd.xml</ruleset>
                     </rulesets>
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>${pitest.version}</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>mutationCoverage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <timestampedReports>false</timestampedReports>
-                    <exportLineCoverage>true</exportLineCoverage>
-                    <targetClasses>
-                        <param>com.tguzik*</param>
-                    </targetClasses>
-                    <targetTests>
-                        <param>com.tguzik*</param>
-                    </targetTests>
-                    <mutators>
-                        <mutator>DEFAULTS</mutator>
-                        <mutator>REMOVE_CONDITIONALS</mutator>
-                        <mutator>INLINE_CONSTS</mutator>
-                        <mutator>NON_VOID_METHOD_CALLS</mutator>
-                        <mutator>EXPERIMENTAL_SWITCH</mutator>
-                    </mutators>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
