@@ -3,6 +3,8 @@ package com.tguzik.value;
 import static java.lang.Integer.signum;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -126,13 +128,13 @@ public class StringValueTest {
      * Contract per {@link java.lang.Comparable}:
      * throws ClassCastException if the specified object's type prevents it from being compared to this object.
      */
-    @SuppressWarnings( "unchecked" )
     @Test( expected = ClassCastException.class )
     public void compareTo_throws_ClassCastException_when_parameter_was_of_incompatible_type() {
-        final Value<Integer> integerValue = new Value<Integer>( Integer.valueOf( 123 ) ) {
-        };
+        final StringValue integerValue = mock(StringValue.class);
+        doReturn( 42 ).when( integerValue ).get();
 
-        a.compareTo( (Value) integerValue );
+
+        a.compareTo( integerValue );
     }
 
     /**

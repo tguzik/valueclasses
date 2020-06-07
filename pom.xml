@@ -50,7 +50,7 @@
         <java.jdk.version>1.7</java.jdk.version>
 
         <!-- Build system and static code analysis -->
-        <linters.errorprone.version>2.3.2</linters.errorprone.version>
+        <linters.errorprone.version>2.4.0</linters.errorprone.version>
         <linters.spotbugs.plugin.version>4.0.0</linters.spotbugs.plugin.version>
         <linters.spotbugs.core.version>4.0.3</linters.spotbugs.core.version>
         <linters.pmd.version>3.13.0</linters.pmd.version>
@@ -114,14 +114,6 @@
                                     <groupId>org.codehaus.plexus</groupId>
                                     <artifactId>plexus-compiler-javac-errorprone</artifactId>
                                     <version>2.8.6</version>
-                                </dependency>
-                                <dependency>
-                                    <!--
-                                    Override plexus-compiler-javac-errorprone's dependency with the latest version
-                                    -->
-                                    <groupId>com.google.errorprone</groupId>
-                                    <artifactId>error_prone_core</artifactId>
-                                    <version>${linters.errorprone.version}</version>
                                 </dependency>
                             </dependencies>
                             <!-- /error_prone on jdk1.8 -->
