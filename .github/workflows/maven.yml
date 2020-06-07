@@ -1,0 +1,29 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java_version: [8, 11]
+        os:
+        - ubuntu-latest
+        - windows-latest
+        - macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.java_version }}
+    - name: Print Java and Maven versions
+      run: mvn --fail-fast --batch-mode --strict-checksums --version
+    - name: Build, run tests, run static analysis
+      run: mvn --fail-fast --batch-mode --strict-checksums clean verify
