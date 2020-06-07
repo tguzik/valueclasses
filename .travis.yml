@@ -4,7 +4,6 @@ jdk:
   - openjdk8
   - openjdk10
   - openjdk11
-  - oraclejdk9
   - oraclejdk11
 
 install: echo "Don't install to local repo."
