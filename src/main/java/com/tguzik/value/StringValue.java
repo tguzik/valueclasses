@@ -15,13 +15,13 @@ import org.apache.commons.lang3.StringUtils;
  * @since 0.1
  */
 @Immutable
-public abstract class StringValue extends Value<String> implements Comparable<Value<String>> {
+public abstract class StringValue extends Value<String> implements Comparable<StringValue> {
     protected StringValue( @Nullable final String value ) {
         super( value );
     }
 
     @Override
-    public int compareTo( @Nonnull final Value<String> other ) {
+    public int compareTo( @Nonnull final StringValue other ) {
         Objects.requireNonNull( other, "Parameter cannot be null." );
 
         if ( other == this ) {
