@@ -57,7 +57,7 @@
 
         <!-- Unit tests and friends -->
         <tests.junit.jupiter.launcher.version>1.7.1</tests.junit.jupiter.launcher.version>
-        <tests.junit.jupiter.version>5.7.0</tests.junit.jupiter.version>
+        <tests.junit.jupiter.version>5.7.1</tests.junit.jupiter.version>
     </properties>
 
     <developers>
