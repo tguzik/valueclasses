@@ -51,7 +51,7 @@
 
         <!-- Build system and static code analysis -->
         <linters.errorprone.version>2.4.0</linters.errorprone.version>
-        <linters.spotbugs.plugin.version>4.2.2</linters.spotbugs.plugin.version>
+        <linters.spotbugs.plugin.version>4.2.3</linters.spotbugs.plugin.version>
         <linters.spotbugs.core.version>4.0.3</linters.spotbugs.core.version>
         <linters.pmd.version>3.14.0</linters.pmd.version>
 
