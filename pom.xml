@@ -56,7 +56,7 @@
         <linters.pmd.version>3.14.0</linters.pmd.version>
 
         <!-- Unit tests and friends -->
-        <tests.junit.jupiter.launcher.version>1.8.0</tests.junit.jupiter.launcher.version>
+        <tests.junit.jupiter.launcher.version>1.8.1</tests.junit.jupiter.launcher.version>
         <tests.junit.jupiter.version>5.8.0</tests.junit.jupiter.version>
     </properties>
 
