@@ -9,11 +9,11 @@
   </parent>
 
   <groupId>com.tguzik</groupId>
-  <artifactId>valueclasses</artifactId>
+  <artifactId>valueclasses-parent</artifactId>
   <version>2.0.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
-  <name>ValueClasses</name>
+  <name>ValueClasses Parent POM</name>
   <url>https://github.com/tguzik/valueclasses</url>
   <description>
     This library provides an easy-to-use template for implementing value classes that contain domain data.
@@ -45,6 +45,7 @@
 
   <properties>
     <!-- Basics -->
+    <plugin-settings.directory>${project.basedir}/.mvn/plugins</plugin-settings.directory>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.release>17</jdk.release>
 
@@ -62,85 +63,81 @@
 
   <profiles>
     <profile>
-      <id>javadoc</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <defaultGoal>javadoc:javadoc</defaultGoal>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.4.0</version>
-            <configuration>
-              <fixTags>true</fixTags>
-              <additionalparam>-Xdoclint:none</additionalparam>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
       <id>upgrades</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <build>
-        <defaultGoal>versions:display-dependency-updates versions:display-plugin-updates</defaultGoal>
+        <defaultGoal>
+          versions:display-parent-updates
+          versions:display-property-updates
+          versions:display-dependency-updates
+          versions:display-plugin-updates
+        </defaultGoal>
       </build>
     </profile>
   </profiles>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.jspecify</groupId>
-      <artifactId>jspecify</artifactId>
-      <version>1.0.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.19.0</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>2.3.1</version>
-    </dependency>
+  <modules>
+    <module>valueclasses</module>
+    <module>valueclasses-legacy</module>
+  </modules>
 
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>6.0.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>5.20.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>3.27.6</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava-testlib</artifactId>
-      <version>33.5.0-jre</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.19.0</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.3.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>6.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.20.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.27.6</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava-testlib</artifactId>
+        <version>33.5.0-jre</version>
+      </dependency>
+
+      <!-- Plugins-for-plugins -->
+      <!-- These are listed here so that they are included when searching for newer versions -->
+      <dependency>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_core</artifactId>
+        <version>${linters.errorprone.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <defaultGoal>clean verify</defaultGoal>
+
     <plugins>
-      <!-- Enforce maven version -->
       <plugin>
+        <!-- Enforce maven version -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <version>3.1.0</version>
@@ -163,108 +160,121 @@
           </execution>
         </executions>
       </plugin>
+    </plugins>
 
-      <!-- Basic plugins: -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.14.1</version>
-        <configuration>
-          <showDeprecation>true</showDeprecation>
-          <showWarnings>true</showWarnings>
-          <release>${jdk.release}</release>
-          <fork>true</fork>
-          <compilerArgs>
-            <!-- Contents of these arguments may not contain newlines, except at start and end. -->
-            <arg>-XDcompilePolicy=simple</arg>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.19.1</version>
+          <configuration>
+            <!-- When scanning for upgrades ignore pre-release artifacts -->
+            <ignoredVersions>.*-M.*,.*-alpha.*</ignoredVersions>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.14.1</version>
+          <configuration>
+            <showDeprecation>true</showDeprecation>
+            <showWarnings>true</showWarnings>
+            <release>${jdk.release}</release>
+            <fork>true</fork>
+            <compilerArgs>
+              <!-- Contents of these arguments may not contain newlines, except at start and end. -->
+              <arg>-XDcompilePolicy=simple</arg>
 
-            <!-- error_prone & friends -->
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
-            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
-            <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
-            <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
-            <arg>--should-stop=ifError=FLOW</arg>
+              <!-- error_prone & friends -->
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+              <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+              <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+              <arg>--should-stop=ifError=FLOW</arg>
 
-            <arg><![CDATA[
+              <arg><![CDATA[
               -Xplugin:ErrorProne -Xep:MissingSummary:OFF
             ]]>
-            </arg>
-            <!-- /error_prone -->
-          </compilerArgs>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>com.google.errorprone</groupId>
-              <artifactId>error_prone_core</artifactId>
-              <version>${linters.errorprone.version}</version>
-            </path>
-          </annotationProcessorPaths>
-        </configuration>
-      </plugin>
+              </arg>
+              <!-- /error_prone -->
+            </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_core</artifactId>
+                <version>${linters.errorprone.version}</version>
+              </path>
+            </annotationProcessorPaths>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.5.4</version>
+          <configuration>
+            <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
+            <useUnlimitedThreads>true</useUnlimitedThreads>
+            <failIfNoTests>true</failIfNoTests>
+            <parallel>classes</parallel>
+            <runOrder>random</runOrder>
+            <useFile>false</useFile>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.12.0</version>
+        </plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.5.4</version>
-        <configuration>
-          <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
-          <useUnlimitedThreads>true</useUnlimitedThreads>
-          <failIfNoTests>true</failIfNoTests>
-          <parallel>classes</parallel>
-          <runOrder>random</runOrder>
-          <useFile>false</useFile>
-        </configuration>
-      </plugin>
-
-      <!-- Static code analysis and mutation testing plugins: -->
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.9.8.1</version>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <effort>Max</effort>
-          <threshold>Default</threshold>
-          <xmlOutput>true</xmlOutput>
-          <detail>true</detail>
-          <excludeFilterFile>${project.basedir}/.mvn/plugins/spotbugs-exclude.xml</excludeFilterFile>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.28.0</version>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <verbose>true</verbose>
-          <targetJdk>${jdk.release}</targetJdk>
-          <rulesets>
-            <ruleset>${project.basedir}/.mvn/plugins/pmd.xml</ruleset>
-          </rulesets>
-        </configuration>
-      </plugin>
-
-    </plugins>
+        <!-- Static code analysis and mutation testing plugins: -->
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>4.9.8.1</version>
+          <executions>
+            <execution>
+              <phase>verify</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <effort>Max</effort>
+            <threshold>Default</threshold>
+            <xmlOutput>true</xmlOutput>
+            <detail>true</detail>
+            <excludeFilterFile>${project.basedir}/.mvn/plugins/spotbugs-exclude.xml</excludeFilterFile>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.28.0</version>
+          <executions>
+            <execution>
+              <phase>verify</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <verbose>true</verbose>
+            <targetJdk>${jdk.release}</targetJdk>
+            <rulesets>
+              <ruleset>${project.basedir}/.mvn/plugins/pmd.xml</ruleset>
+            </rulesets>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
-
 </project>
