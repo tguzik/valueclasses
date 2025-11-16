@@ -95,12 +95,16 @@
         <artifactId>commons-lang3</artifactId>
         <version>3.19.0</version>
       </dependency>
+
+      <!-- Dependencies specific to the legacy module -->
       <dependency>
+        <!-- Uses legacy javax.xml.* namespace -->
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
         <version>2.3.1</version>
       </dependency>
 
+      <!-- Dependencies related specifically to unit testing -->
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>

@@ -29,6 +29,7 @@
     </dependency>
 
     <dependency>
+      <!-- Uses legacy javax.xml.* namespace -->
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
     </dependency>
