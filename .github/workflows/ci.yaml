@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  workflow_dispatch:  # No additional yaml keys are necessary
+  pull_request:  # No additional yaml keys are necessary
+  push:
+    branches:
+      - "master"
+      - "main"
+
+jobs:
+  ci-using-devenv:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v16
+        with:
+          name: devenv
+
+      - name: Install devenv.sh
+        run: nix profile install nixpkgs#devenv
+
+      - name: Run devenv test
+        run: devenv test
+
+      - name: Build, run tests, run static analysis
+        shell: devenv shell bash -- -e {0}
+        run: |
+          mvn --fail-fast --batch-mode --strict-checksums --version
+          mvn --fail-fast --batch-mode --strict-checksums clean verify
+
+  check-supported-jdks:
+    needs: ci-using-devenv
+    strategy:
+      matrix:
+        jdk_version: [8, 11]
+
+    name: "JDK ${{ matrix.jdk_version }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: ${{ matrix.jdk_version }}
+          cache: "maven"
+          cache-dependency-path: |
+            **/pom.xml
+
+      - name: Build, run tests, run static analysis
+        shell: bash
+        run: |
+          mvn --fail-fast --batch-mode --strict-checksums --version
+          mvn --fail-fast --batch-mode --strict-checksums clean verify
+
+# eof
