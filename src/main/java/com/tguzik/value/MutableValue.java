@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * architectures that go against any sane design. Instead of forcing everyone to hack around what they are working
  * on, I opt to give a least horrible way to deal with the problem. Temporarily at least.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @since 0.2
  */
 public abstract class MutableValue<T> extends Value<T> {

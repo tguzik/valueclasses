@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
  * unit test sources) to allow using this class in projects that depend on this
  * library.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @since 0.1
  */
 public enum Normalize {

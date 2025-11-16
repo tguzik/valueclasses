@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * converted to string. This class should be used when overall performance does
  * not matter as much.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @see com.tguzik.objects.PerformanceAwareBaseObject
  * @since 0.1
  */

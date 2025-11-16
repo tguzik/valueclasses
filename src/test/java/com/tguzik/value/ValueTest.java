@@ -6,9 +6,6 @@ import com.tguzik.tests.SettableHashCode;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
 public class ValueTest {
   private SiblingOfValueTestHelper siblingOfValue;
   private ChildOfValueTestHelper childOfValue;

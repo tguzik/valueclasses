@@ -11,7 +11,7 @@ package com.tguzik.objects;
  * faster, please provide your own implementation (basing the implementation on
  * {@link StringBuilder} is recommended).
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @since 0.3
  */
 public abstract class PerformanceAwareBaseObject extends BaseObject {

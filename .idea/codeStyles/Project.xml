@@ -17,7 +17,6 @@
     <JavaCodeStyleSettings>
       <option name="ALIGN_MULTILINE_ANNOTATION_PARAMETERS" value="true" />
       <option name="ALIGN_MULTILINE_TEXT_BLOCKS" value="true" />
-      <option name="USE_FQ_CLASS_NAMES" value="true" />
       <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="9999" />
       <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="9999" />
       <option name="IMPORT_LAYOUT_TABLE">
@@ -31,6 +30,7 @@
         </value>
       </option>
       <option name="RECORD_COMPONENTS_WRAP" value="2" />
+      <option name="JD_INDENT_ON_CONTINUATION" value="true" />
     </JavaCodeStyleSettings>
     <XML>
       <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />

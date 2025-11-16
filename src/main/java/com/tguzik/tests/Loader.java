@@ -18,7 +18,7 @@ import java.nio.file.Paths;
  * not trimmed - whitespace at the beginning and the end of the file will be
  * preserved.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @since 0.1
  */
 @ParametersAreNonnullByDefault

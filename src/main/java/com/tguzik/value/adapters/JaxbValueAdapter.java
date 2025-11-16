@@ -13,7 +13,7 @@ import com.tguzik.value.Value;
  * {@link #createNewInstance(Object)}. The method is expected to create new
  * instance of the value class of expected type.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @since 0.2
  */
 @ParametersAreNullableByDefault
