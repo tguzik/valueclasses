@@ -1,8 +1,8 @@
 name: CI on multiple JDK versions
 
 on:
-  workflow_dispatch: # No additional yaml keys are necessary
-  pull_request: # No additional yaml keys are necessary
+  workflow_dispatch:  # No additional yaml keys are necessary
+  pull_request:  # No additional yaml keys are necessary
   push:
     branches:
       - "master"

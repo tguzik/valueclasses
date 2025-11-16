@@ -1,23 +1,20 @@
-# valueclasses 
-
-[![Build Status](https://travis-ci.org/tguzik/valueclasses.png?branch=master)](https://travis-ci.org/tguzik/valueclasses)
-![Java CI with Maven](https://github.com/tguzik/valueclasses/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
+# valueclasses
 
 This small library aims to provide a blueprint for [value-based classes](http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html)
-on JVM before Project Valhalla becomes widely available. 
+on JVM before Project Valhalla becomes widely available.
 
-These blueprints are designed to hold a single, usually primitive, value while at the same time giving them distinct 
-*type* information and thus leveraging Java type system. The aim is to help you create your complex applications by 
-spending less time on frustrating tasks fixing bugs that are the result of using wrong variable in function call, 
+These blueprints are designed to hold a single, usually primitive, value while at the same time giving them distinct
+*type* information and thus leveraging Java type system. The aim is to help you create your complex applications by
+spending less time on frustrating tasks fixing bugs that are the result of using wrong variable in function call,
 which is often the case in *Stringly-typed* frameworks (we've all seen these).
 
-For example, let's say that you have an use case where you have to update account balance for a customer, 
+For example, let's say that you have an use case where you have to update account balance for a customer,
 while saving Point Of Sale identifier and an optional comment:
 
 ```java
-public void updateAccountBalance( Long customerId, 
-                                  Long pointOfSaleId, 
-                                  Long delta, 
+public void updateAccountBalance( Long customerId,
+                                  Long pointOfSaleId,
+                                  Long delta,
                                   @Nullable String comment ) {
     // [...]
 }
@@ -36,16 +33,16 @@ public void processTransaction( TransactionContext context, Customer customer ) 
 }
 ```
 
-Now, this is fine and dandy, but what happens when the method to update the balance changes its signature without 
+Now, this is fine and dandy, but what happens when the method to update the balance changes its signature without
 changing all invocations? How soon would you know that something isn't right? Of course, this should come up in
-unit tests, but that depends on their quality. 
+unit tests, but that depends on their quality.
 
 Instead of relying on something that *might* be there and *might* find the mistake, the idea is to enforce
 correctness at compilation stage. This way most of the mistakes will be weeded out by the time the tests are
 ran.
 
 Side note: Check out [errorprone](https://github.com/google/error-prone) too - it tries to achieve similar goal
-by being performing the static analysis at compile time. [Findbugs](https://github.com/findbugsproject/findbugs) 
+by being performing the static analysis at compile time. [Findbugs](https://github.com/findbugsproject/findbugs)
 and [PMD](https://pmd.github.io/) are helpful as well. All three have Maven plugins for easy integration into
 your build.
 
@@ -62,38 +59,37 @@ public void updateAccountBalance( CustomerId customerId,
 
 ...and tell me, how hard you would have to try to make an error in here to pass as an honest mistake? :-)
 
-Of course, you should use these value-based objects where it is reasonable. Data model classes, complicated APIs and 
+Of course, you should use these value-based objects where it is reasonable. Data model classes, complicated APIs and
 business logic are a good places for them. On the other hand tight loops in graphics processing are not.
 
 ## JDK14 Records
 
 The JDK Record feature is proposed to target JDK14: <https://openjdk.java.net/jeps/359>
 
-This feature would replace most of what this library is providing with JDK built-in stuff. If you can migrate when 
-JDK14 is released, you should migrate. If your project cannot migrate or you are stuck on a lower JDK version, you 
+This feature would replace most of what this library is providing with JDK built-in stuff. If you can migrate when
+JDK14 is released, you should migrate. If your project cannot migrate or you are stuck on a lower JDK version, you
 can keep on using this library.
 
-I don't plan on archiving/abandoning/removing it anytime soon (hey, i use it myself ;) ), but at the same time 
-there's just not that much one can innovate in this space without making breaking changes, and I don't want to make 
-breaking changes. I don't want to bump the JDK requirement either, because I know people are still using JDK 1.8 
+I don't plan on archiving/abandoning/removing it anytime soon (hey, i use it myself ;) ), but at the same time
+there's just not that much one can innovate in this space without making breaking changes, and I don't want to make
+breaking changes. I don't want to bump the JDK requirement either, because I know people are still using JDK 1.8
 and below.
-
 
 ## How do I get it?
 
 The library is available in Maven Central repository. You can use it in your projects via this dependency:
 
-    <dependency>
-        <groupId>com.tguzik</groupId>
-        <artifactId>valueclasses</artifactId>
-        <version>1.0.2</version>
-    </dependency>
-
+```xml
+<dependency>
+  <groupId>com.tguzik</groupId>
+  <artifactId>valueclasses</artifactId>
+  <version>1.0.2</version>
+</dependency>
+```
 
 ## So what's inside?
 
 See [Javadoc](http://tguzik.github.io/valueclasses/) or the demo code below for more information.
-
 
 ## Short demo
 
@@ -160,13 +156,12 @@ public final class LastName extends StringValue { [...] }
 public final class EmailAddress extends StringValue { [...] }
 ```
 
-   
 Now, assuming that you didn't go out of your way to create these value-based objects mutable (which you shouldn't),
 you can create this class to hold the data about customer:
 
 ```java
 /*
- * Reflection-based .hashCode(), .equals() and .toString() are already defined in 
+ * Reflection-based .hashCode(), .equals() and .toString() are already defined in
  * the com.tguzik.objects.BaseObject class.
  */
 @Immutable
@@ -178,9 +173,9 @@ public final class Customer extends BaseObject {
     private final EmailAddress emailAddress;
     // ..and whatever else you need
 
-    public Customer( CustomerId customerId, 
-                     FirstName firstName, 
-                     LastName lastName, 
+    public Customer( CustomerId customerId,
+                     FirstName firstName,
+                     LastName lastName,
                      EmailAddress emailAddress ) {
         this.customerId = Objects.requireNonNull( customerId );
         this.firstName = Objects.requireNonNull( firstName );
@@ -215,8 +210,6 @@ Outside of unit test dependencies, this project requires following third party l
 * `com.tguzik:annotatons` (includes JSR 305 annotations)
 * JDK 1.7+
 
-
 ## License
 
 Source code in this repository is available under [MIT License](LICENSE).
- 
