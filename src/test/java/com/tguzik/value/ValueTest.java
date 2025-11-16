@@ -4,12 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.testing.EqualsTester;
 import com.tguzik.tests.SettableHashCode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class ValueTest {
-  private SiblingOfValueTestHelper siblingOfValue;
-  private ChildOfValueTestHelper childOfValue;
+class ValueTest {
+  private SiblingOfFakeValue siblingOfValue;
+  private ChildOfFakeValue childOfValue;
 
   private Value<?> secondValueContainingNull;
   private Value<?> valueContainingNull;
@@ -18,52 +18,52 @@ public class ValueTest {
 
   private String containedValue;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     this.containedValue = "some value";
 
-    this.secondValueContainingNull = new ValueTestHelper( null );
-    this.valueContainingNull = new ValueTestHelper( null );
+    this.secondValueContainingNull = new FakeValue( null );
+    this.valueContainingNull = new FakeValue( null );
 
-    this.value = new ValueTestHelper( containedValue );
-    this.secondValue = new ValueTestHelper( containedValue );
+    this.value = new FakeValue( containedValue );
+    this.secondValue = new FakeValue( containedValue );
 
-    this.childOfValue = new ChildOfValueTestHelper( containedValue );
-    this.siblingOfValue = new SiblingOfValueTestHelper( containedValue );
+    this.childOfValue = new ChildOfFakeValue( containedValue );
+    this.siblingOfValue = new SiblingOfFakeValue( containedValue );
   }
 
   @Test
-  public void get_returns_internal_value() {
+  void get_returns_internal_value() {
     assertThat( value.get() ).isSameAs( containedValue );
   }
 
   @Test
-  public void get_returns_null_on_null_internal_value() {
+  void get_returns_null_on_null_internal_value() {
     assertThat( valueContainingNull.get() ).isNull();
   }
 
   @Test
-  public void toString_returns_toString_of_internal_value() {
+  void toString_returns_toString_of_internal_value() {
     assertThat( value.toString() ).isEqualTo( "some value" );
   }
 
   @Test
-  public void toString_returns_empty_string_on_null_internal_value() {
+  void toString_returns_empty_string_on_null_internal_value() {
     assertThat( valueContainingNull.toString() ).isEqualTo( "" );
   }
 
   @Test
-  public void equals_returns_false_on_different_objects() {
-    new EqualsTester().addEqualityGroup( new ValueTestHelper( "some value" ), new ValueTestHelper( "some value" ) )
-                      .addEqualityGroup( new ValueTestHelper( null ), new ValueTestHelper( null ) )
-                      .addEqualityGroup( new ChildOfValueTestHelper( "val" ), new ChildOfValueTestHelper( "val" ) )
-                      .addEqualityGroup( new SiblingOfValueTestHelper( "val" ), new SiblingOfValueTestHelper( "val" ) )
+  void equals_returns_false_on_different_objects() {
+    new EqualsTester().addEqualityGroup( new FakeValue( "some value" ), new FakeValue( "some value" ) )
+                      .addEqualityGroup( new FakeValue( null ), new FakeValue( null ) )
+                      .addEqualityGroup( new ChildOfFakeValue( "val" ), new ChildOfFakeValue( "val" ) )
+                      .addEqualityGroup( new SiblingOfFakeValue( "val" ), new SiblingOfFakeValue( "val" ) )
                       .testEquals();
   }
 
   @Test
-  public void equals_doesnt_consider_child_classes_equal() {
-    final Value<?> childOfValueContainingNull = new ChildOfValueTestHelper( null );
+  void equals_doesnt_consider_child_classes_equal() {
+    final Value<?> childOfValueContainingNull = new ChildOfFakeValue( null );
 
     // Same contents
     assertThat( value.get() ).isEqualTo( childOfValue.get() );
@@ -78,8 +78,8 @@ public class ValueTest {
   }
 
   @Test
-  public void equals_doesnt_consider_sibling_classes_equal() {
-    final Value<?> siblingOfValueContainingNull = new SiblingOfValueTestHelper( null );
+  void equals_doesnt_consider_sibling_classes_equal() {
+    final Value<?> siblingOfValueContainingNull = new SiblingOfFakeValue( null );
 
     // Same contents
     assertThat( value.get() ).isEqualTo( siblingOfValue.get() );
@@ -94,17 +94,17 @@ public class ValueTest {
   }
 
   @Test
-  public void hashCode_returns_hash_of_contained_value() {
-    assertThat( new ValueTestHelper( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
+  void hashCode_returns_hash_of_contained_value() {
+    assertThat( new FakeValue( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
   }
 
   @Test
-  public void hashCode_returns_zero_if_contained_value_is_null() {
+  void hashCode_returns_zero_if_contained_value_is_null() {
     assertThat( valueContainingNull.hashCode() ).isZero();
   }
 
   @Test
-  public void hashCode_returns_same_value_for_equal_object() {
+  void hashCode_returns_same_value_for_equal_object() {
     // Regular instances
     assertThat( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
@@ -115,27 +115,27 @@ public class ValueTest {
   }
 
   @Test
-  public void hashCode_returns_different_value_for_different_object() {
-    final Value<?> differentValue = new ValueTestHelper( "different value" );
+  void hashCode_returns_different_value_for_different_object() {
+    final Value<?> differentValue = new FakeValue( "different value" );
 
     assertThat( value ).isNotEqualTo( differentValue );
     assertThat( value.hashCode() ).isNotEqualTo( differentValue.hashCode() );
   }
 
-  static class ValueTestHelper extends Value<Object> {
-    public ValueTestHelper( Object obj ) {
+  static class FakeValue extends Value<Object> {
+    public FakeValue( Object obj ) {
       super( obj );
     }
   }
 
-  static class ChildOfValueTestHelper extends ValueTestHelper {
-    public ChildOfValueTestHelper( Object obj ) {
+  static class ChildOfFakeValue extends FakeValue {
+    public ChildOfFakeValue( Object obj ) {
       super( obj );
     }
   }
 
-  static class SiblingOfValueTestHelper extends Value<Object> {
-    public SiblingOfValueTestHelper( Object obj ) {
+  static class SiblingOfFakeValue extends Value<Object> {
+    public SiblingOfFakeValue( Object obj ) {
       super( obj );
     }
   }

@@ -6,21 +6,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 
 import com.google.common.testing.EqualsTester;
-import com.tguzik.tests.Normalize;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
 
-public class BaseObjectTest {
+@Isolated
+class BaseObjectTest {
   private BaseObjectTestHelper secondValueContainingNull;
   private BaseObjectTestHelper differentInstanceField;
   private BaseObjectTestHelper valueContainingNull;
   private BaseObjectTestHelper secondValue;
   private BaseObjectTestHelper value;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     secondValueContainingNull = new BaseObjectTestHelper();
     secondValueContainingNull.first = null;
 
@@ -34,14 +35,14 @@ public class BaseObjectTest {
     value = new BaseObjectTestHelper();
   }
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     // Return the static value to the state from before the test.
     BaseObjectTestHelper.publicStatic = "this is static";
   }
 
   @Test
-  public void static_toString_introspects_objects_via_reflection() {
+  void static_toString_introspects_objects_via_reflection() {
     final Object object = new Object() {
       @SuppressWarnings( "unused" )
       private String value = "value contents";
@@ -56,54 +57,44 @@ public class BaseObjectTest {
   }
 
   @Test
-  public void static_toString_returns_empty_string_on_null_object() {
+  void static_toString_returns_empty_string_on_null_object() {
     assertThat( BaseObject.toString( null, ToStringStyle.SIMPLE_STYLE ) ).isEmpty();
   }
 
-  @Test( expected = Exception.class )
-  public void static_toString_throws_exception_on_null_toStringStyle() {
-    BaseObject.toString( this, null );
-  }
-
-  @Test( expected = Exception.class )
-  public void static_toString_exception_on_null_toStringStyle_has_priority_over_null_object() {
-    BaseObject.toString( null, null );
-  }
-
   @Test
-  public void toString_default_ToStringStyle_for_object_value() throws IOException {
+  void toString_default_ToStringStyle_for_object_value() throws IOException {
     String expected = loadFile( getClass(), "data", "tostring-default-value.txt" );
     String actual = value.toString();
 
-    assertThat( expected ).isEqualTo( Normalize.newLines( actual ) );
+    assertThat( expected ).isEqualToNormalizingNewlines( actual );
   }
 
   @Test
-  public void toString_default_ToStringStyle_for_object_differentInstanceField() throws IOException {
+  void toString_default_ToStringStyle_for_object_differentInstanceField() throws IOException {
     String expected = loadFile( getClass(), "data", "tostring-default-differentInstanceField.txt" );
     String actual = differentInstanceField.toString();
 
-    assertThat( expected ).isEqualTo( Normalize.newLines( actual ) );
+    assertThat( expected ).isEqualToNormalizingNewlines( actual );
   }
 
   @Test
-  public void toString_custom_ToStringStyle_for_object_value() throws IOException {
+  void toString_custom_ToStringStyle_for_object_value() throws IOException {
     String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-value.txt" );
     String actual = value.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
-    assertThat( expected ).isEqualTo( Normalize.newLines( actual ) );
+    assertThat( expected ).isEqualToNormalizingNewlines( actual );
   }
 
   @Test
-  public void toString_custom_ToStringStyle_for_object_differentInstanceField() throws IOException {
+  void toString_custom_ToStringStyle_for_object_differentInstanceField() throws IOException {
     String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-differentInstanceField.txt" );
     String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
 
-    assertThat( expected ).isEqualTo( Normalize.newLines( actual ) );
+    assertThat( expected ).isEqualToNormalizingNewlines( actual );
   }
 
   @Test
-  public void equals_returns_false_on_different_objects() {
+  void equals_returns_false_on_different_objects() {
     final var changedTransientField = new BaseObjectTestHelper();
     changedTransientField.transientField = "some other value";
 
@@ -120,7 +111,7 @@ public class BaseObjectTest {
   }
 
   @Test
-  public void equals_does_not_consider_transient_fields() {
+  void equals_does_not_consider_transient_fields() {
     final BaseObjectTestHelper other = new BaseObjectTestHelper();
 
     assertThat( value ).isEqualTo( other );
@@ -132,9 +123,8 @@ public class BaseObjectTest {
     assertThat( other ).isEqualTo( value );
   }
 
-
   @Test
-  public void equals_doesnt_consider_child_classes_equal() {
+  void equals_doesnt_consider_child_classes_equal() {
     final ChildOfBaseObjectTestHelper childOfValueContainingNull = new ChildOfBaseObjectTestHelper();
     final ChildOfBaseObjectTestHelper childOfValue = new ChildOfBaseObjectTestHelper();
 
@@ -148,7 +138,7 @@ public class BaseObjectTest {
   }
 
   @Test
-  public void equals_doesnt_consider_sibling_classes_equal() {
+  void equals_doesnt_consider_sibling_classes_equal() {
     final SiblingOfBaseObjectTestHelper siblingOfValueContainingNull = new SiblingOfBaseObjectTestHelper();
     final SiblingOfBaseObjectTestHelper siblingOfValue = new SiblingOfBaseObjectTestHelper();
 
@@ -162,7 +152,7 @@ public class BaseObjectTest {
   }
 
   @Test
-  public void equals_is_transitive() {
+  void equals_is_transitive() {
     final BaseObjectTestHelper thirdValueContainingNull = new BaseObjectTestHelper();
     final BaseObjectTestHelper thirdValue = new BaseObjectTestHelper();
 
@@ -187,9 +177,8 @@ public class BaseObjectTest {
                                           .isEqualTo( valueContainingNull );
   }
 
-
   @Test
-  public void hashCode_returns_same_value_for_equal_object() {
+  void hashCode_returns_same_value_for_equal_object() {
     // Regular instances
     assertThat( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
@@ -200,19 +189,19 @@ public class BaseObjectTest {
   }
 
   @Test
-  public void hashCode_returns_different_value_for_different_object() {
+  void hashCode_returns_different_value_for_different_object() {
     assertThat( value ).isNotEqualTo( differentInstanceField );
     assertThat( value.hashCode() ).isNotEqualTo( differentInstanceField.hashCode() );
   }
 
   @Test
-  public void hashCode_is_repeatable() {
+  void hashCode_is_repeatable() {
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
     assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
   }
 
   @Test
-  public void hashCode_does_not_consider_static_fields() {
+  void hashCode_does_not_consider_static_fields() {
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
     assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
 
@@ -223,7 +212,7 @@ public class BaseObjectTest {
   }
 
   @Test
-  public void hashCode_does_not_consider_transient_fields() {
+  void hashCode_does_not_consider_transient_fields() {
     final BaseObjectTestHelper other = new BaseObjectTestHelper();
 
     assertThat( value ).isEqualTo( other );

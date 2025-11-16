@@ -16,7 +16,7 @@
   <name>ValueClasses</name>
   <url>https://github.com/tguzik/valueclasses</url>
   <description>
-    This library provides an easy to use template for implementing value classes that contain domain data.
+    This library provides an easy-to-use template for implementing value classes that contain domain data.
   </description>
 
   <licenses>
@@ -48,12 +48,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jdk.release>17</jdk.release>
 
-    <!-- Build system and static code analysis -->
+    <!-- Unit tests, static analysis and friends -->
     <linters.errorprone.version>2.42.0</linters.errorprone.version>
-
-    <!-- Unit tests and friends -->
-    <tests.junit.jupiter.launcher.version>1.9.1</tests.junit.jupiter.launcher.version>
-    <tests.junit.jupiter.version>5.9.1</tests.junit.jupiter.version>
   </properties>
 
   <developers>
@@ -115,33 +111,21 @@
     </dependency>
 
     <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
-      <version>${tests.junit.jupiter.launcher.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>${tests.junit.jupiter.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>${tests.junit.jupiter.version}</version>
+      <version>6.0.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>4.9.0</version>
+      <version>5.20.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.23.1</version>
+      <version>3.27.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -226,7 +210,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M7</version>
+        <version>3.5.4</version>
         <configuration>
           <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
           <useUnlimitedThreads>true</useUnlimitedThreads>

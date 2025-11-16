@@ -3,53 +3,53 @@ package com.tguzik.value.adapters;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tguzik.value.StringValue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class JaxbValueAdapterTest {
+class JaxbValueAdapterTest {
   private TestingAdapter adapterReturningInstances;
   private TestingAdapter adapterReturningNulls;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     adapterReturningInstances = new TestingAdapter( true );
     adapterReturningNulls = new TestingAdapter( false );
   }
 
   @Test
-  public void testUnmarshal_createNewInstanceReturnsInstances() throws Exception {
-    TestingValueClass value = adapterReturningInstances.unmarshal( "string" );
+  void testUnmarshal_createNewInstanceReturnsInstances() throws Exception {
+    FakeValue value = adapterReturningInstances.unmarshal( "string" );
 
     assertThat( value ).isNotNull();
     assertThat( value.get() ).isEqualTo( "string" );
   }
 
   @Test
-  public void testUnmarshal_createNewInstanceReturnsNulls() throws Exception {
-    TestingValueClass value = adapterReturningNulls.unmarshal( "string" );
+  void testUnmarshal_createNewInstanceReturnsNulls() throws Exception {
+    FakeValue value = adapterReturningNulls.unmarshal( "string" );
 
     assertThat( value ).isNull();
   }
 
   @Test
-  public void testMarshal() throws Exception {
-    assertThat( adapterReturningInstances.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
-    assertThat( adapterReturningNulls.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
+  void testMarshal() throws Exception {
+    assertThat( adapterReturningInstances.marshal( new FakeValue( "string" ) ) ).isEqualTo( "string" );
+    assertThat( adapterReturningNulls.marshal( new FakeValue( "string" ) ) ).isEqualTo( "string" );
   }
 
   @Test
-  public void testMarshal_nullValueClass() throws Exception {
+  void testMarshal_nullValueClass() throws Exception {
     assertThat( adapterReturningInstances.marshal( null ) ).isNull();
     assertThat( adapterReturningNulls.marshal( null ) ).isNull();
   }
 
   @Test
-  public void testMarshal_nullValueInValueClass() throws Exception {
-    assertThat( adapterReturningInstances.marshal( new TestingValueClass( null ) ) ).isNull();
-    assertThat( adapterReturningNulls.marshal( new TestingValueClass( null ) ) ).isNull();
+  void testMarshal_nullValueInValueClass() throws Exception {
+    assertThat( adapterReturningInstances.marshal( new FakeValue( null ) ) ).isNull();
+    assertThat( adapterReturningNulls.marshal( new FakeValue( null ) ) ).isNull();
   }
 
-  static class TestingAdapter extends JaxbValueAdapter<String, TestingValueClass> {
+  static class TestingAdapter extends JaxbValueAdapter<String, FakeValue> {
     private final boolean shouldReturnInstance;
 
     public TestingAdapter( boolean shouldReturnInstance ) {
@@ -57,13 +57,13 @@ public class JaxbValueAdapterTest {
     }
 
     @Override
-    protected TestingValueClass createNewInstance( String value ) {
-      return (shouldReturnInstance ? new TestingValueClass( value ) : null);
+    protected FakeValue createNewInstance( String value ) {
+      return (shouldReturnInstance ? new FakeValue( value ) : null);
     }
   }
 
-  static class TestingValueClass extends StringValue {
-    public TestingValueClass( String value ) {
+  static class FakeValue extends StringValue {
+    public FakeValue( String value ) {
       super( value );
     }
   }
