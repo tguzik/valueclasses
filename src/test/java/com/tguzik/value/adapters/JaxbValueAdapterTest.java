@@ -18,7 +18,7 @@ class JaxbValueAdapterTest {
 
   @Test
   void testUnmarshal_createNewInstanceReturnsInstances() throws Exception {
-    TestingValueClass value = adapterReturningInstances.unmarshal( "string" );
+    FakeValue value = adapterReturningInstances.unmarshal( "string" );
 
     assertThat( value ).isNotNull();
     assertThat( value.get() ).isEqualTo( "string" );
@@ -26,15 +26,15 @@ class JaxbValueAdapterTest {
 
   @Test
   void testUnmarshal_createNewInstanceReturnsNulls() throws Exception {
-    TestingValueClass value = adapterReturningNulls.unmarshal( "string" );
+    FakeValue value = adapterReturningNulls.unmarshal( "string" );
 
     assertThat( value ).isNull();
   }
 
   @Test
   void testMarshal() throws Exception {
-    assertThat( adapterReturningInstances.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
-    assertThat( adapterReturningNulls.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
+    assertThat( adapterReturningInstances.marshal( new FakeValue( "string" ) ) ).isEqualTo( "string" );
+    assertThat( adapterReturningNulls.marshal( new FakeValue( "string" ) ) ).isEqualTo( "string" );
   }
 
   @Test
@@ -45,11 +45,11 @@ class JaxbValueAdapterTest {
 
   @Test
   void testMarshal_nullValueInValueClass() throws Exception {
-    assertThat( adapterReturningInstances.marshal( new TestingValueClass( null ) ) ).isNull();
-    assertThat( adapterReturningNulls.marshal( new TestingValueClass( null ) ) ).isNull();
+    assertThat( adapterReturningInstances.marshal( new FakeValue( null ) ) ).isNull();
+    assertThat( adapterReturningNulls.marshal( new FakeValue( null ) ) ).isNull();
   }
 
-  static class TestingAdapter extends JaxbValueAdapter<String, TestingValueClass> {
+  static class TestingAdapter extends JaxbValueAdapter<String, FakeValue> {
     private final boolean shouldReturnInstance;
 
     public TestingAdapter( boolean shouldReturnInstance ) {
@@ -57,13 +57,13 @@ class JaxbValueAdapterTest {
     }
 
     @Override
-    protected TestingValueClass createNewInstance( String value ) {
-      return (shouldReturnInstance ? new TestingValueClass( value ) : null);
+    protected FakeValue createNewInstance( String value ) {
+      return (shouldReturnInstance ? new FakeValue( value ) : null);
     }
   }
 
-  static class TestingValueClass extends StringValue {
-    public TestingValueClass( String value ) {
+  static class FakeValue extends StringValue {
+    public FakeValue( String value ) {
       super( value );
     }
   }

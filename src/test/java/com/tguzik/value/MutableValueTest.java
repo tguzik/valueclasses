@@ -21,25 +21,25 @@ class MutableValueTest {
   void setUp() {
     this.containedValue = "some value";
 
-    this.secondValueContainingNull = new ValueTestHelper( null );
-    this.valueContainingNull = new ValueTestHelper( null );
-    this.secondValue = new ValueTestHelper( containedValue );
-    this.value = new ValueTestHelper( containedValue );
+    this.secondValueContainingNull = new FakeMutableValue( null );
+    this.valueContainingNull = new FakeMutableValue( null );
+    this.secondValue = new FakeMutableValue( containedValue );
+    this.value = new FakeMutableValue( containedValue );
 
-    this.childOfValue = new ChildOfValueTestHelper( containedValue );
-    this.siblingOfValue = new SiblingOfValueTestHelper( containedValue );
+    this.childOfValue = new ChildOfFakeMutableValue( containedValue );
+    this.siblingOfValue = new SiblingOfFakeMutableValue( containedValue );
   }
 
   @Test
   void valueSetInConstructor() {
-    final var value = new ValueTestHelper( containedValue );
+    final var value = new FakeMutableValue( containedValue );
 
     assertThat( value.get() ).isEqualTo( containedValue );
   }
 
   @Test
   void set_changes_internal_value() {
-    final var localValue = new ValueTestHelper( containedValue );
+    final var localValue = new FakeMutableValue( containedValue );
     final String newString = "new value";
 
     assertThat( localValue.get() ).isEqualTo( containedValue );
@@ -89,7 +89,7 @@ class MutableValueTest {
 
   @Test
   void equals_is_symmetric_doesnt_consider_child_classes_equal() {
-    final var childOfValueContainingNull = new ChildOfValueTestHelper( null );
+    final var childOfValueContainingNull = new ChildOfFakeMutableValue( null );
 
     // Same contents
     assertThat( value.get() ).isEqualTo( childOfValue.get() );
@@ -105,7 +105,7 @@ class MutableValueTest {
 
   @Test
   void equals_doesnt_consider_sibling_classes_equal() {
-    final var siblingOfValueContainingNull = new SiblingOfValueTestHelper( null );
+    final var siblingOfValueContainingNull = new SiblingOfFakeMutableValue( null );
 
     // Same contents
     assertThat( value.get() ).isEqualTo( siblingOfValue.get() );
@@ -127,7 +127,7 @@ class MutableValueTest {
 
   @Test
   void hashCode_returns_hash_of_contained_value() {
-    assertThat( new ValueTestHelper( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
+    assertThat( new FakeMutableValue( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
   }
 
   @Test
@@ -148,26 +148,26 @@ class MutableValueTest {
 
   @Test
   void hashCode_returns_different_value_for_different_object() {
-    final Value<?> differentValue = new ValueTestHelper( "different value" );
+    final Value<?> differentValue = new FakeMutableValue( "different value" );
 
     assertThat( value ).isNotEqualTo( differentValue );
     assertThat( value.hashCode() ).isNotEqualTo( differentValue.hashCode() );
   }
 
-  static class ValueTestHelper extends MutableValue<Object> {
-    public ValueTestHelper( Object obj ) {
+  static class FakeMutableValue extends MutableValue<Object> {
+    public FakeMutableValue( Object obj ) {
       super( obj );
     }
   }
 
-  static class ChildOfValueTestHelper extends ValueTestHelper {
-    public ChildOfValueTestHelper( Object obj ) {
+  static class ChildOfFakeMutableValue extends FakeMutableValue {
+    public ChildOfFakeMutableValue( Object obj ) {
       super( obj );
     }
   }
 
-  static class SiblingOfValueTestHelper extends MutableValue<Object> {
-    public SiblingOfValueTestHelper( Object obj ) {
+  static class SiblingOfFakeMutableValue extends MutableValue<Object> {
+    public SiblingOfFakeMutableValue( Object obj ) {
       super( obj );
     }
   }
