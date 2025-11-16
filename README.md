@@ -1,16 +1,16 @@
 # valueclasses
 
-This small library aims to provide a blueprint
+This library aims to provide blueprints
 for [value-based classes](http://docs.oracle.com/javase/8/docs/api/java/lang/doc-files/ValueBased.html)
 on JVM before [Project Valhalla](https://openjdk.org/projects/valhalla/) becomes widely available.
 
-These blueprints are designed to hold a single, immutable, and usually primitive value. At the same time, instances of
-these classes give them distinct *type* information to distinguish pieces of data that may have equal value but vastly
-different meaning at compile time. Since this check is performed at compile time, this helps in refactoring and
-maintenance of complex applications, especially when dealing with "*stringly-typed*" APIs or frameworks.
+These blueprints help in creation of objects that hold a single, immutable, and usually a primitive value. At the
+same time, instances of these objects give them distinct compile-time *type* information to distinguish pieces of
+data that may have equal value but vastly different meaning. Since this check is performed at as early as possible
+in the development process, it saves time during refactoring and maintenance of complex applications, especially
+when dealing with "*stringly-typed*" APIs or frameworks.
 
-For example, let's say we have an API that updates account balance that also saves the identifier of the Point Of Sale
-and an optional transaction title/comment:
+For example, let's say we have an API that updates account balance during a transaction:
 
 ```java
 public void updateAccountBalance( long customerId, long pointOfSaleId, long centsDelta, @Nullable String title ) {
@@ -18,7 +18,7 @@ public void updateAccountBalance( long customerId, long pointOfSaleId, long cent
 }
 ```
 
-Now, let's say that another module contains transaction processing business logic that boils down to:
+Now, let's say that another module contains business logic that boils down to:
 
 ```java
 public void processTransaction( TransactionContext context, Customer customer ) {
@@ -46,6 +46,9 @@ public void updateAccountBalance( CustomerId customerId,
   // [...]
 }
 ```
+
+Since these value-based classes are regular objects, you can also define methods that convert the data into
+different forms.
 
 Of course, you should use these value-based objects where it is reasonable. Data model classes, handlers for complicated
 APIs and business logic are a good places for them. On the other hand tight loops in graphics processing are not.
