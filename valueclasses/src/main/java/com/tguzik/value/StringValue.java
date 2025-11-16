@@ -12,7 +12,6 @@ import org.jspecify.annotations.NullMarked;
  * still here for backward compatibility.
  *
  * @author Tomasz Guzik
- * @see com.tguzik.value.adapters.JaxbStringValueAdapter
  * @since 0.1
  */
 @NullMarked

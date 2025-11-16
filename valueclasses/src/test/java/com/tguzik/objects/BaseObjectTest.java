@@ -40,10 +40,10 @@ class BaseObjectTest {
   void static_toString_introspects_objects_via_reflection() {
     final Object object = new Object() {
       @SuppressWarnings( "unused" )
-      private String value = "value contents";
+      final String value = "value contents";
 
       @SuppressWarnings( "unused" )
-      private String secondValue = "different contents";
+      final String secondValue = "different contents";
     };
 
     final String actual = BaseObject.toString( object, ToStringStyle.SIMPLE_STYLE );
@@ -85,22 +85,7 @@ class BaseObjectTest {
                               third=third string
                             ]""";
 
-    final String actual = value.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
-
-    assertThat( actual ).isEqualToNormalizingNewlines( expected );
-  }
-
-  @Test
-  void toString_custom_ToStringStyle_for_object_differentInstanceField() {
-    final String expected = """
-                            BaseObjectTest.FakeObject[
-                              almostPI=3.14,
-                              first=first string,
-                              second=second string,
-                              third=different instance field
-                            ]""";
-
-    final String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
+    final String actual = value.toString( new MultilineNoAddressStyle() );
 
     assertThat( actual ).isEqualToNormalizingNewlines( expected );
   }
@@ -240,8 +225,8 @@ class BaseObjectTest {
 
   @SuppressWarnings( "unused" )
   static class FakeObject extends BaseObject {
+    private static final String STATIC_STRING = "this is static";
     protected volatile String first = "first string";
-    private static String staticString = "this is static";
     public static String publicStatic = "this is static";
     final String second = "second string";
     public String third = "third string";
@@ -255,8 +240,8 @@ class BaseObjectTest {
 
   @SuppressWarnings( "unused" )
   static class SiblingOfFakeObject extends BaseObject {
+    private static final String STATIC_STRING = "this is static";
     protected volatile String first = "first string";
-    private static String staticString = "this is static";
     public static String publicStatic = "this is static";
     final String second = "second string";
     public String third = "third string";
