@@ -15,9 +15,9 @@ package com.tguzik.objects;
  * @since 0.3
  */
 public abstract class PerformanceAwareBaseObject extends BaseObject {
-    @Override
-    public abstract boolean equals( Object other );
+  @Override
+  public abstract boolean equals( Object other );
 
-    @Override
-    public abstract int hashCode();
+  @Override
+  public abstract int hashCode();
 }
