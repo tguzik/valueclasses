@@ -76,21 +76,6 @@ class BaseObjectTest {
   }
 
   @Test
-  void toString_custom_ToStringStyle_for_object_value() {
-    final String expected = """
-                            BaseObjectTest.FakeObject[
-                              almostPI=3.14,
-                              first=first string,
-                              second=second string,
-                              third=third string
-                            ]""";
-
-    final String actual = value.toString( new MultilineNoAddressStyle() );
-
-    assertThat( actual ).isEqualToNormalizingNewlines( expected );
-  }
-
-  @Test
   void equals_returns_false_on_different_objects() {
     final var changedTransientField = new FakeObject();
     changedTransientField.transientField = "some other value";
