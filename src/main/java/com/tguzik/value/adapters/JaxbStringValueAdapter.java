@@ -8,7 +8,6 @@ import com.tguzik.value.StringValue;
  * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
  * @since 0.3
  */
-public abstract class JaxbStringValueAdapter<ValueClass extends StringValue>
-        extends JaxbValueAdapter<String, ValueClass> {
-    // Nothing defined.
+public abstract class JaxbStringValueAdapter<ValueClass extends StringValue> extends JaxbValueAdapter<String, ValueClass> {
+  // Nothing defined.
 }

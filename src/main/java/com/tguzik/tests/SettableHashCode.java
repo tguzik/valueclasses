@@ -15,36 +15,36 @@ import com.tguzik.value.Value;
 @Immutable
 @ParametersAreNonnullByDefault
 public final class SettableHashCode extends Value<Integer> {
-    public SettableHashCode( final int value ) {
-        super( value );
+  public SettableHashCode( final int value ) {
+    super( value );
+  }
+
+  @Override
+  public int hashCode() {
+    return get();
+  }
+
+  @Override
+  public boolean equals( final Object obj ) {
+    if ( obj == null ) {
+      return false;
     }
 
-    @Override
-    public int hashCode() {
-        return get();
+    if ( this == obj ) {
+      return true;
     }
 
-    @Override
-    public boolean equals( final Object obj ) {
-        if ( obj == null ) {
-            return false;
-        }
-
-        if ( this == obj ) {
-            return true;
-        }
-
-        if ( obj instanceof SettableHashCode ) {
-            // Class is final, so we don't have to check for child classes.
-            final SettableHashCode other = (SettableHashCode) obj;
-            return Objects.equals( this.get(), other.get() );
-        }
-
-        return false;
+    if ( obj instanceof SettableHashCode ) {
+      // Class is final, so we don't have to check for child classes.
+      final SettableHashCode other = (SettableHashCode) obj;
+      return Objects.equals( this.get(), other.get() );
     }
 
-    @Deprecated
-    public static SettableHashCode create( final int desiredHashCode ) {
-        return new SettableHashCode( desiredHashCode );
-    }
+    return false;
+  }
+
+  @Deprecated
+  public static SettableHashCode create( final int desiredHashCode ) {
+    return new SettableHashCode( desiredHashCode );
+  }
 }

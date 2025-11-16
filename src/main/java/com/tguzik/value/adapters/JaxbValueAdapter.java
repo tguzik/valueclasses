@@ -18,32 +18,32 @@ import com.tguzik.value.Value;
  */
 @ParametersAreNullableByDefault
 public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<UnderlyingType>>
-        extends XmlAdapter<UnderlyingType, ValueClass> {
+  extends XmlAdapter<UnderlyingType, ValueClass> {
 
-    @Override
-    @Nonnull
-    public ValueClass unmarshal( @Nullable final UnderlyingType value ) throws Exception {
-        return createNewInstance( value );
+  @Override
+  @Nonnull
+  public ValueClass unmarshal( @Nullable final UnderlyingType value ) throws Exception {
+    return createNewInstance( value );
+  }
+
+  @Override
+  @Nullable
+  public UnderlyingType marshal( @Nullable final ValueClass valueClass ) throws Exception {
+    if ( valueClass == null ) {
+      return null;
     }
 
-    @Override
-    @Nullable
-    public UnderlyingType marshal( @Nullable final ValueClass valueClass ) throws Exception {
-        if ( valueClass == null ) {
-            return null;
-        }
+    return valueClass.get();
+  }
 
-        return valueClass.get();
-    }
-
-    /**
-     * Creates new instance of correct value class with argument as the
-     * contained value. It is not recommended for implementations of this method
-     * to return `null` values.
-     *
-     * @param value the value of type {@code UnderlyingType} to be encapsulated
-     * @return instance of the {@code ValueClass} containing the encapsulated value
-     */
-    @Nonnull
-    protected abstract ValueClass createNewInstance( @Nullable UnderlyingType value );
+  /**
+   * Creates new instance of correct value class with argument as the
+   * contained value. It is not recommended for implementations of this method
+   * to return `null` values.
+   *
+   * @param value the value of type {@code UnderlyingType} to be encapsulated
+   * @return instance of the {@code ValueClass} containing the encapsulated value
+   */
+  @Nonnull
+  protected abstract ValueClass createNewInstance( @Nullable UnderlyingType value );
 }

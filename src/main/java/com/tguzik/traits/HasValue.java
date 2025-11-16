@@ -8,5 +8,5 @@ package com.tguzik.traits;
  * @since 0.1
  */
 public interface HasValue<T> {
-    T get();
+  T get();
 }

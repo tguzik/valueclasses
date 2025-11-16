@@ -16,50 +16,50 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Immutable
 public abstract class StringValue extends Value<String> implements Comparable<StringValue> {
-    protected StringValue( @Nullable final String value ) {
-        super( value );
+  protected StringValue( @Nullable final String value ) {
+    super( value );
+  }
+
+  @Override
+  public int compareTo( @Nonnull final StringValue other ) {
+    Objects.requireNonNull( other, "Parameter cannot be null." );
+
+    if ( other == this ) {
+      return 0;
     }
 
-    @Override
-    public int compareTo( @Nonnull final StringValue other ) {
-        Objects.requireNonNull( other, "Parameter cannot be null." );
+    final String thisValue = get();
+    final String otherValue = other.get();
 
-        if ( other == this ) {
-            return 0;
-        }
-
-        final String thisValue = get();
-        final String otherValue = other.get();
-
-        if ( thisValue == null || otherValue == null ) {
-            /* Exploding with NullPointerException when one of the value classes has null inside is damn inconvenient.
-             * Instead we return zero
-             */
-            return 0;
-        }
-
-        return thisValue.compareTo( otherValue );
+    if ( thisValue == null || otherValue == null ) {
+      /* Exploding with NullPointerException when one of the value classes has null inside is damn inconvenient.
+       * Instead we return zero
+       */
+      return 0;
     }
 
-    /**
-     * @return the length of the contained string, or zero if the contained string is null
-     */
-    public int length() {
-        return StringUtils.length( get() );
-    }
+    return thisValue.compareTo( otherValue );
+  }
 
-    /**
-     * @return true if the contained string is null or has length of zero, false otherwise
-     */
-    public boolean isEmpty() {
-        return length() == 0;
-    }
+  /**
+   * @return the length of the contained string, or zero if the contained string is null
+   */
+  public int length() {
+    return StringUtils.length( get() );
+  }
 
-    /**
-     * @return true if the contained string is null or has length of zero after being trimmed, false otherwise
-     */
-    public boolean isBlank() {
-        return StringUtils.isBlank( get() );
-    }
+  /**
+   * @return true if the contained string is null or has length of zero, false otherwise
+   */
+  public boolean isEmpty() {
+    return length() == 0;
+  }
+
+  /**
+   * @return true if the contained string is null or has length of zero after being trimmed, false otherwise
+   */
+  public boolean isBlank() {
+    return StringUtils.isBlank( get() );
+  }
 
 }
