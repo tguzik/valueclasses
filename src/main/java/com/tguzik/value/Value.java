@@ -6,10 +6,12 @@ import com.tguzik.traits.HasValue;
 import org.jspecify.annotations.NullMarked;
 
 /**
- * Base abstract class for wrappers on values allowing to give them their own
- * type. This class and its subclasses are meant to be immutable by themselves -
- * not allowing to change the reference to held value. This class cannot give
- * any guarantees about the value itself.
+ * Base abstract class for wrappers on values allowing to give them their own type. This class and its subclasses are meant to
+ * be immutable by themselves - not allowing to change the reference to held value. This class cannot give any guarantees about
+ * the value itself.
+ * <p>
+ * Note that with version 2.x of this library the preference is to leverage Java Records instead of this class. This class is
+ * still here for backward compatibility.
  *
  * @author Tomasz Guzik
  * @see com.tguzik.value.adapters.JaxbValueAdapter
@@ -41,6 +43,7 @@ public abstract class Value<T> implements HasValue<T> {
   }
 
   @Override
+  @SuppressWarnings("EqualsGetClass")
   public boolean equals( final Object obj ) {
     if ( obj == null ) {
       return false;

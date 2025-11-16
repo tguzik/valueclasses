@@ -14,6 +14,7 @@ import org.jspecify.annotations.Nullable;
  */
 @NullMarked
 public final class SettableHashCode extends Value<Integer> {
+
   public SettableHashCode( final int value ) {
     super( value );
   }
@@ -24,6 +25,7 @@ public final class SettableHashCode extends Value<Integer> {
   }
 
   @Override
+  @SuppressWarnings( "PMD.SimplifyBooleanReturns" )
   public boolean equals( @Nullable final Object obj ) {
     if ( obj == null ) {
       return false;

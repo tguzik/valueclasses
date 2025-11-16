@@ -7,12 +7,16 @@ import org.jspecify.annotations.NullMarked;
 
 /**
  * Abstract class to hold {@link java.lang.String}-based values.
+ * <p>
+ * Note that with version 2.x of this library the preference is to leverage Java Records instead of this class. This class is
+ * still here for backward compatibility.
  *
  * @author Tomasz Guzik
  * @see com.tguzik.value.adapters.JaxbStringValueAdapter
  * @since 0.1
  */
 @NullMarked
+@SuppressWarnings( "PMD.OverrideBothEqualsAndHashCodeOnComparable" )
 public abstract class StringValue extends Value<String> implements Comparable<StringValue> {
 
   protected StringValue( final String value ) {
@@ -22,10 +26,6 @@ public abstract class StringValue extends Value<String> implements Comparable<St
   @Override
   public int compareTo( final StringValue other ) {
     Objects.requireNonNull( other, "Parameter cannot be null." );
-
-    if ( other == this ) {
-      return 0;
-    }
 
     final String thisValue = get();
     final String otherValue = other.get();

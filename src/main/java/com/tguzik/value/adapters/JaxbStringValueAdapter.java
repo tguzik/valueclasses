@@ -10,6 +10,6 @@ import org.jspecify.annotations.NullMarked;
  * @since 0.3
  */
 @NullMarked
-public abstract class JaxbStringValueAdapter<ValueClass extends StringValue> extends JaxbValueAdapter<String, ValueClass> {
+public abstract class JaxbStringValueAdapter<T extends StringValue> extends JaxbValueAdapter<String, T> {
   // Nothing defined.
 }

@@ -38,20 +38,18 @@ public class BaseObject {
    * Ignores transient fields. Always returns false when parameter class doesn't match exactly
    */
   @Override
+  @SuppressWarnings( "EqualsGetClass" )
   public boolean equals( @Nullable final Object other ) {
-    if ( null == other ) {
-      return false;
-    }
     if ( this == other ) {
       return true;
     }
-
-    // TODO: See the comment in Value#equals() for why it is the way it is and how it's going to change
-    if ( !Objects.equals( this.getClass(), other.getClass() ) ) {
+    if ( null == other ) {
       return false;
     }
 
-    return EqualsBuilder.reflectionEquals( this, other, false );
+    // See the comment in Value#equals() for why we are requiring exact class match
+    return Objects.equals( this.getClass(), other.getClass() ) && //
+           EqualsBuilder.reflectionEquals( this, other, false );
   }
 
   /**

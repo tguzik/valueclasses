@@ -144,6 +144,12 @@
       <version>3.23.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-testlib</artifactId>
+      <version>33.5.0-jre</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -201,12 +207,8 @@
             <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
             <arg>--should-stop=ifError=FLOW</arg>
 
-            <!--
-            re: SelfAssertion - affected tests will be updated in subsequent PR, just to keep JDK-related upgrades in
-            isolation
-            -->
             <arg><![CDATA[
-              -Xplugin:ErrorProne -Xep:MissingSummary:OFF -Xep:SelfAssertion:WARN
+              -Xplugin:ErrorProne -Xep:MissingSummary:OFF
             ]]>
             </arg>
             <!-- /error_prone -->

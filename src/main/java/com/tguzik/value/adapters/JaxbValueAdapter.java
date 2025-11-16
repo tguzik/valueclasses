@@ -16,17 +16,16 @@ import org.jspecify.annotations.Nullable;
  * @since 0.2
  */
 @NullMarked
-public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<UnderlyingType>>
-  extends XmlAdapter<UnderlyingType, ValueClass> {
+public abstract class JaxbValueAdapter<T, C extends Value<T>> extends XmlAdapter<T, C> {
 
   @Override
-  public ValueClass unmarshal( @Nullable final UnderlyingType value ) throws Exception {
+  public C unmarshal( @Nullable final T value ) throws Exception {
     return createNewInstance( value );
   }
 
   @Override
   @Nullable
-  public UnderlyingType marshal( @Nullable final ValueClass valueClass ) throws Exception {
+  public T marshal( @Nullable final C valueClass ) throws Exception {
     if ( valueClass == null ) {
       return null;
     }
@@ -42,5 +41,5 @@ public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<
    * @param value the value of type {@code UnderlyingType} to be encapsulated
    * @return instance of the {@code ValueClass} containing the encapsulated value
    */
-  protected abstract ValueClass createNewInstance( @Nullable UnderlyingType value );
+  protected abstract C createNewInstance( @Nullable T value );
 }

@@ -10,6 +10,7 @@ import org.jspecify.annotations.NullMarked;
  * @since 0.1
  */
 @NullMarked
+@FunctionalInterface
 public interface HasValue<T> {
   T get();
 }
