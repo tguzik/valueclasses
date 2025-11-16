@@ -12,10 +12,11 @@ change and/or change the expected functionality.
 -----
 
 Version `1.0.0`:
+
 * *Breaking* Renamed `AbstractStringValueAdapter` to `JaxbStringValueAdapter`
 * *Breaking* Renamed `AbstractJaxbValueAdapter` to `JaxbValueAdapter`
-* Class `BaseObject` now has a convenience static method 
-  `toString(@Nullable Object, @Nonnull ToStringStyle)` that, as you might have 
+* Class `BaseObject` now has a convenience static method
+  `toString(@Nullable Object, @Nonnull ToStringStyle)` that, as you might have
   guessed, does reflection toString on given object using given style.
 * Class `MultilineNoAddressStyle` is now a public class with public constructor.
 * Switched from `Charset.forName(String)` to `StandardCharsets` in `Loader`.
@@ -23,6 +24,7 @@ Version `1.0.0`:
 * Added static code analysis and mutation testing to the `verify` build phase
 
 Version `0.6`:
+
 * Pinned dependencies to specific versions. This should make this library less
   annoying to use when you have access to Maven Central Releases repository,
   but not to the Snapshots repository. This occurs fairly often if you use a
@@ -32,8 +34,8 @@ Version `0.6`:
   methods.
 * Next release will jump to version 1.0 and start using semantic versioning.
 
-
 Version `0.5`:
+
 * *Breaking*: `BaseObject.MULTILINE_NO_ADDRESS_TOSTRING_STYLE` renamed to
   `BaseObject.MULTILINE_NO_ADDRESS_STYLE`.
 * *Breaking*: Changed the style for `BaseObject.MULTILINE_NO_ADDRESS_STYLE` to
@@ -44,6 +46,6 @@ Version `0.5`:
 * Updated `pom.xml` with correct links to the license, CI and issue management
   sites.
 
-
 Version `0.4`:
+
 * Library available on Maven Central
