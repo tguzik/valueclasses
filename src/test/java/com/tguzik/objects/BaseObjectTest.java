@@ -1,44 +1,39 @@
 package com.tguzik.objects;
 
-import static com.tguzik.tests.Loader.loadFile;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
 
 import com.google.common.testing.EqualsTester;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Isolated;
 
-@Isolated
 class BaseObjectTest {
-  private BaseObjectTestHelper secondValueContainingNull;
-  private BaseObjectTestHelper differentInstanceField;
-  private BaseObjectTestHelper valueContainingNull;
-  private BaseObjectTestHelper secondValue;
-  private BaseObjectTestHelper value;
+  private FakeObject secondValueContainingNull;
+  private FakeObject differentInstanceField;
+  private FakeObject valueContainingNull;
+  private FakeObject secondValue;
+  private FakeObject value;
 
   @BeforeEach
   void setUp() {
-    secondValueContainingNull = new BaseObjectTestHelper();
+    secondValueContainingNull = new FakeObject();
     secondValueContainingNull.first = null;
 
-    differentInstanceField = new BaseObjectTestHelper();
+    differentInstanceField = new FakeObject();
     differentInstanceField.third = "different instance field";
 
-    valueContainingNull = new BaseObjectTestHelper();
+    valueContainingNull = new FakeObject();
     valueContainingNull.first = null;
 
-    secondValue = new BaseObjectTestHelper();
-    value = new BaseObjectTestHelper();
+    secondValue = new FakeObject();
+    value = new FakeObject();
   }
 
   @AfterEach
   void tearDown() {
     // Return the static value to the state from before the test.
-    BaseObjectTestHelper.publicStatic = "this is static";
+    FakeObject.publicStatic = "this is static";
   }
 
   @Test
@@ -50,10 +45,10 @@ class BaseObjectTest {
       @SuppressWarnings( "unused" )
       private String secondValue = "different contents";
     };
-    final String expected = "value contents,different contents";
+
     final String actual = BaseObject.toString( object, ToStringStyle.SIMPLE_STYLE );
 
-    assertThat( actual ).isEqualTo( expected );
+    assertThat( actual ).isEqualTo( "different contents,value contents" );
   }
 
   @Test
@@ -62,57 +57,74 @@ class BaseObjectTest {
   }
 
   @Test
-  void toString_default_ToStringStyle_for_object_value() throws IOException {
-    String expected = loadFile( getClass(), "data", "tostring-default-value.txt" );
-    String actual = value.toString();
+  void toString_default_ToStringStyle_for_object_value() {
+    final String expected = "BaseObjectTest.FakeObject[almostPI=3.14,first=first string,second=second string,third=third string]";
 
-    assertThat( expected ).isEqualToNormalizingNewlines( actual );
+    final String actual = value.toString();
+
+    assertThat( actual ).isEqualToNormalizingNewlines( expected );
   }
 
   @Test
-  void toString_default_ToStringStyle_for_object_differentInstanceField() throws IOException {
-    String expected = loadFile( getClass(), "data", "tostring-default-differentInstanceField.txt" );
-    String actual = differentInstanceField.toString();
+  void toString_default_ToStringStyle_for_object_differentInstanceField() {
+    final String expected =
+      "BaseObjectTest.FakeObject[almostPI=3.14,first=first string,second=second string,third=different " + "instance field]";
 
-    assertThat( expected ).isEqualToNormalizingNewlines( actual );
+    final String actual = differentInstanceField.toString();
+
+    assertThat( actual ).isEqualTo( expected );
   }
 
   @Test
-  void toString_custom_ToStringStyle_for_object_value() throws IOException {
-    String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-value.txt" );
-    String actual = value.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
+  void toString_custom_ToStringStyle_for_object_value() {
+    final String expected = """
+                            BaseObjectTest.FakeObject[
+                              almostPI=3.14,
+                              first=first string,
+                              second=second string,
+                              third=third string
+                            ]""";
 
-    assertThat( expected ).isEqualToNormalizingNewlines( actual );
+    final String actual = value.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
+
+    assertThat( actual ).isEqualToNormalizingNewlines( expected );
   }
 
   @Test
-  void toString_custom_ToStringStyle_for_object_differentInstanceField() throws IOException {
-    String expected = loadFile( getClass(), "data", "tostring-customToStringStyle-differentInstanceField.txt" );
-    String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
+  void toString_custom_ToStringStyle_for_object_differentInstanceField() {
+    final String expected = """
+                            BaseObjectTest.FakeObject[
+                              almostPI=3.14,
+                              first=first string,
+                              second=second string,
+                              third=different instance field
+                            ]""";
 
-    assertThat( expected ).isEqualToNormalizingNewlines( actual );
+    final String actual = differentInstanceField.toString( BaseObject.MULTILINE_NO_ADDRESS_STYLE );
+
+    assertThat( actual ).isEqualToNormalizingNewlines( expected );
   }
 
   @Test
   void equals_returns_false_on_different_objects() {
-    final var changedTransientField = new BaseObjectTestHelper();
+    final var changedTransientField = new FakeObject();
     changedTransientField.transientField = "some other value";
 
-    final var modifiedInstanceFieldOne = new BaseObjectTestHelper();
+    final var modifiedInstanceFieldOne = new FakeObject();
     modifiedInstanceFieldOne.third = "modified value";
 
-    final var modifiedInstanceFieldTwo = new BaseObjectTestHelper();
+    final var modifiedInstanceFieldTwo = new FakeObject();
     modifiedInstanceFieldTwo.third = "modified value";
     modifiedInstanceFieldTwo.transientField = "this value should be ignored because the field is transient";
 
-    new EqualsTester().addEqualityGroup( new BaseObjectTestHelper(), new BaseObjectTestHelper(), changedTransientField )
+    new EqualsTester().addEqualityGroup( new FakeObject(), new FakeObject(), changedTransientField )
                       .addEqualityGroup( modifiedInstanceFieldOne, modifiedInstanceFieldTwo )
                       .testEquals();
   }
 
   @Test
   void equals_does_not_consider_transient_fields() {
-    final BaseObjectTestHelper other = new BaseObjectTestHelper();
+    final FakeObject other = new FakeObject();
 
     assertThat( value ).isEqualTo( other );
     assertThat( other ).isEqualTo( value );
@@ -125,8 +137,8 @@ class BaseObjectTest {
 
   @Test
   void equals_doesnt_consider_child_classes_equal() {
-    final ChildOfBaseObjectTestHelper childOfValueContainingNull = new ChildOfBaseObjectTestHelper();
-    final ChildOfBaseObjectTestHelper childOfValue = new ChildOfBaseObjectTestHelper();
+    final ChildOfFakeObject childOfValueContainingNull = new ChildOfFakeObject();
+    final ChildOfFakeObject childOfValue = new ChildOfFakeObject();
 
     childOfValueContainingNull.first = null;
 
@@ -139,8 +151,8 @@ class BaseObjectTest {
 
   @Test
   void equals_doesnt_consider_sibling_classes_equal() {
-    final SiblingOfBaseObjectTestHelper siblingOfValueContainingNull = new SiblingOfBaseObjectTestHelper();
-    final SiblingOfBaseObjectTestHelper siblingOfValue = new SiblingOfBaseObjectTestHelper();
+    final SiblingOfFakeObject siblingOfValueContainingNull = new SiblingOfFakeObject();
+    final SiblingOfFakeObject siblingOfValue = new SiblingOfFakeObject();
 
     siblingOfValueContainingNull.first = null;
 
@@ -153,8 +165,8 @@ class BaseObjectTest {
 
   @Test
   void equals_is_transitive() {
-    final BaseObjectTestHelper thirdValueContainingNull = new BaseObjectTestHelper();
-    final BaseObjectTestHelper thirdValue = new BaseObjectTestHelper();
+    final FakeObject thirdValueContainingNull = new FakeObject();
+    final FakeObject thirdValue = new FakeObject();
 
     thirdValueContainingNull.first = null;
 
@@ -205,7 +217,7 @@ class BaseObjectTest {
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
     assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
 
-    BaseObjectTestHelper.publicStatic = "different static value";
+    FakeObject.publicStatic = "different static value";
 
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
     assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
@@ -213,7 +225,7 @@ class BaseObjectTest {
 
   @Test
   void hashCode_does_not_consider_transient_fields() {
-    final BaseObjectTestHelper other = new BaseObjectTestHelper();
+    final FakeObject other = new FakeObject();
 
     assertThat( value ).isEqualTo( other );
     assertThat( other ).isEqualTo( value );
@@ -227,7 +239,7 @@ class BaseObjectTest {
   }
 
   @SuppressWarnings( "unused" )
-  static class BaseObjectTestHelper extends BaseObject {
+  static class FakeObject extends BaseObject {
     protected volatile String first = "first string";
     private static String staticString = "this is static";
     public static String publicStatic = "this is static";
@@ -237,12 +249,12 @@ class BaseObjectTest {
     public transient String transientField = "transient ";
   }
 
-  static class ChildOfBaseObjectTestHelper extends BaseObjectTestHelper {
+  static class ChildOfFakeObject extends FakeObject {
 
   }
 
   @SuppressWarnings( "unused" )
-  static class SiblingOfBaseObjectTestHelper extends BaseObject {
+  static class SiblingOfFakeObject extends BaseObject {
     protected volatile String first = "first string";
     private static String staticString = "this is static";
     public static String publicStatic = "this is static";
