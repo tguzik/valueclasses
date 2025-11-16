@@ -1,40 +1,38 @@
 package com.tguzik.value;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Abstract class to hold {@link java.lang.String}-based values.
+ * <p>
+ * Note that with version 2.x of this library the preference is to leverage Java Records instead of this class. This class is
+ * still here for backward compatibility.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @see com.tguzik.value.adapters.JaxbStringValueAdapter
  * @since 0.1
  */
-@Immutable
+@NullMarked
+@SuppressWarnings( "PMD.OverrideBothEqualsAndHashCodeOnComparable" )
 public abstract class StringValue extends Value<String> implements Comparable<StringValue> {
-  protected StringValue( @Nullable final String value ) {
+
+  protected StringValue( final String value ) {
     super( value );
   }
 
   @Override
-  public int compareTo( @Nonnull final StringValue other ) {
+  public int compareTo( final StringValue other ) {
     Objects.requireNonNull( other, "Parameter cannot be null." );
-
-    if ( other == this ) {
-      return 0;
-    }
 
     final String thisValue = get();
     final String otherValue = other.get();
 
     if ( thisValue == null || otherValue == null ) {
-      /* Exploding with NullPointerException when one of the value classes has null inside is damn inconvenient.
-       * Instead we return zero
-       */
+      // Exploding with NullPointerException when one of the value classes has null inside is damn inconvenient.
+      // Let's return zero instead
       return 0;
     }
 

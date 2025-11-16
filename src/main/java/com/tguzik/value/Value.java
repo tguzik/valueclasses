@@ -3,18 +3,21 @@ package com.tguzik.value;
 import java.util.Objects;
 
 import com.tguzik.traits.HasValue;
-import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NullMarked;
 
 /**
- * Base abstract class for wrappers on values allowing to give them their own
- * type. This class and its subclasses are meant to be immutable by themselves -
- * not allowing to change the reference to held value. This class cannot give
- * any guarantees about the value itself.
+ * Base abstract class for wrappers on values allowing to give them their own type. This class and its subclasses are meant to
+ * be immutable by themselves - not allowing to change the reference to held value. This class cannot give any guarantees about
+ * the value itself.
+ * <p>
+ * Note that with version 2.x of this library the preference is to leverage Java Records instead of this class. This class is
+ * still here for backward compatibility.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @see com.tguzik.value.adapters.JaxbValueAdapter
  * @since 0.1
  */
+@NullMarked
 public abstract class Value<T> implements HasValue<T> {
   private final T encapsulatedValue;
 
@@ -31,15 +34,16 @@ public abstract class Value<T> implements HasValue<T> {
   public int hashCode() {
     final T localValue = get();
 
-    if ( localValue != null ) {
-      return localValue.hashCode();
+    if ( Objects.isNull( localValue ) ) {
+      // This shouldn't happen, but better safe than sorry
+      return 0;
     }
 
-    return 0;
+    return localValue.hashCode();
   }
 
   @Override
-  @SuppressWarnings( "EqualsGetClass" )
+  @SuppressWarnings("EqualsGetClass")
   public boolean equals( final Object obj ) {
     if ( obj == null ) {
       return false;
@@ -54,16 +58,7 @@ public abstract class Value<T> implements HasValue<T> {
     //
     // Even though they contain the same value, the type implies very different meaning.
     //
-    // The only reason why we are not changing it to use `this.getClass().isAssignableFrom( obj.getClass() )`
-    // by default again, is that it would subtly break the behaviour that existed since 2014. I'll add an
-    // optional(-ish) constructor parameter to switch between behaviours, defaulting to the one that existed for
-    // the past five years, just to avoid breaking random applications.
-    //
-    // Perhaps with a major version number bump we could change the default, but considering that Records are to be
-    // available in JDK14, I doubt we would even see a next major version of this library :/
-    //
-    // TODO: New constructor argument to change the behaviour. Change BaseObject#equals() as well, as it is has a
-    //  similar story
+    // The only reason why we are using `instanceof` is that it would subtly break the behaviour that existed since 2014.
     if ( !Objects.equals( this.getClass(), obj.getClass() ) ) {
       return false;
     }
@@ -76,11 +71,12 @@ public abstract class Value<T> implements HasValue<T> {
   public String toString() {
     final T localValue = get();
 
-    if ( localValue != null ) {
-      return localValue.toString();
+    if ( Objects.isNull( localValue ) ) {
+      // This shouldn't happen, but better safe than sorry
+      return "";
     }
 
-    return StringUtils.EMPTY;
+    return localValue.toString();
   }
 
 }

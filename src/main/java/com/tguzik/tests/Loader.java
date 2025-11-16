@@ -1,11 +1,11 @@
 package com.tguzik.tests;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test utility that loads files. Primary use case is reading text files
@@ -18,21 +18,19 @@ import java.nio.file.Paths;
  * not trimmed - whitespace at the beginning and the end of the file will be
  * preserved.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @since 0.1
  */
-@ParametersAreNonnullByDefault
+@NullMarked
 public enum Loader {
   ;
 
-  @Nullable
   public static String loadFile( final Path path ) throws IOException {
     final byte[] fileBytes = java.nio.file.Files.readAllBytes( path );
     final String contents = new String( fileBytes, StandardCharsets.UTF_8 );
     return Normalize.newLines( contents );
   }
 
-  @Nullable
   public static String loadFile( final String prefix,
                                  final Class<?> classFromPackage,
                                  final String subdirectory,
@@ -41,7 +39,6 @@ public enum Loader {
     return loadFile( Paths.get( prefix, classPackage, subdirectory, fileName ) );
   }
 
-  @Nullable
   public static String loadFile( final String prefix, final String directory, final String subdirectory, final String fileName )
   throws IOException {
     return loadFile( Paths.get( prefix, directory, subdirectory, fileName ) );
@@ -50,7 +47,6 @@ public enum Loader {
   /**
    * Assumes that the prefix will be 'src/test/java/'
    */
-  @Nullable
   public static String loadFile( final Class<?> classFromPackage, final String subdirectory, final String fileName )
   throws IOException {
     return loadFile( "src/test/java", classFromPackage, subdirectory, fileName );

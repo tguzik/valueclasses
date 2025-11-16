@@ -1,11 +1,10 @@
 package com.tguzik.value.adapters;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNullableByDefault;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import com.tguzik.value.Value;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * JaxB adapter template for value classes in this package. The user is expected
@@ -13,22 +12,20 @@ import com.tguzik.value.Value;
  * {@link #createNewInstance(Object)}. The method is expected to create new
  * instance of the value class of expected type.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @since 0.2
  */
-@ParametersAreNullableByDefault
-public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<UnderlyingType>>
-  extends XmlAdapter<UnderlyingType, ValueClass> {
+@NullMarked
+public abstract class JaxbValueAdapter<T, C extends Value<T>> extends XmlAdapter<T, C> {
 
   @Override
-  @Nonnull
-  public ValueClass unmarshal( @Nullable final UnderlyingType value ) throws Exception {
+  public C unmarshal( @Nullable final T value ) throws Exception {
     return createNewInstance( value );
   }
 
   @Override
   @Nullable
-  public UnderlyingType marshal( @Nullable final ValueClass valueClass ) throws Exception {
+  public T marshal( @Nullable final C valueClass ) throws Exception {
     if ( valueClass == null ) {
       return null;
     }
@@ -44,6 +41,5 @@ public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<
    * @param value the value of type {@code UnderlyingType} to be encapsulated
    * @return instance of the {@code ValueClass} containing the encapsulated value
    */
-  @Nonnull
-  protected abstract ValueClass createNewInstance( @Nullable UnderlyingType value );
+  protected abstract C createNewInstance( @Nullable T value );
 }

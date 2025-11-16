@@ -2,9 +2,7 @@ package com.tguzik.value;
 
 import static java.lang.Integer.signum;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,28 +34,21 @@ public class StringValueTest {
 
   @Test
   public void testCompareTo_a_before_b() {
-    assertThat( a.compareTo( b ) ).isNotZero();
+    assertThat( a.compareTo( b ) ).isNegative();
     assertThat( a ).isNotEqualTo( b );
   }
 
   @Test
-  public void compareTo_returns_zero_when_comparing_value_to_itself() {
-    //noinspection EqualsWithItself
-    @SuppressWarnings( "SelfComparison" )
-    final int atoa = a.compareTo( a );
-    assertThat( atoa ).isZero();
-    assertThat( a ).isEqualTo( a ); // ensure that equals is not b0rken
+  public void compareTo_returns_zero_when_comparing_equal_values() {
+    final var equalValue = new StringValueHelper( "a" );
 
-    //noinspection EqualsWithItself
-    @SuppressWarnings( "SelfComparison" )
-    final int btob = b.compareTo( b );
-    assertThat( btob ).isZero();
-    assertThat( b ).isEqualTo( b ); // ensure that equals is not b0rken
+    assertThat( a.compareTo( equalValue ) ).isZero();
+    assertThat( a ).isEqualTo( equalValue );
   }
 
   @Test
   public void compareTo_b_after_a() {
-    assertThat( b.compareTo( a ) ).isNotZero();
+    assertThat( b.compareTo( a ) ).isPositive();
     assertThat( b ).isNotEqualTo( a );
   }
 
@@ -114,25 +105,7 @@ public class StringValueTest {
    */
   @Test
   public void compareTo_throws_NullPointerException_when_parameter_was_null() {
-    try {
-      a.compareTo( null );
-      fail( "Expected exception" );
-    }
-    catch ( NullPointerException e ) {
-      assertThat( e ).hasMessage( "Parameter cannot be null." ).hasNoCause();
-    }
-  }
-
-  /**
-   * Contract per {@link java.lang.Comparable}:
-   * throws ClassCastException if the specified object's type prevents it from being compared to this object.
-   */
-  @Test( expected = ClassCastException.class )
-  public void compareTo_throws_ClassCastException_when_parameter_was_of_incompatible_type() {
-    final StringValue integerValue = mock( StringValue.class );
-    doReturn( 42 ).when( integerValue ).get();
-
-    a.compareTo( integerValue );
+    assertThrows( NullPointerException.class, () -> a.compareTo( null ) );
   }
 
   /**

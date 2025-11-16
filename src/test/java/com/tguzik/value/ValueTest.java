@@ -2,13 +2,11 @@ package com.tguzik.value;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.google.common.testing.EqualsTester;
 import com.tguzik.tests.SettableHashCode;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
- */
 public class ValueTest {
   private SiblingOfValueTestHelper siblingOfValue;
   private ChildOfValueTestHelper childOfValue;
@@ -24,14 +22,14 @@ public class ValueTest {
   public void setUp() {
     this.containedValue = "some value";
 
-    this.secondValueContainingNull = ValueTestHelper.create( null );
-    this.valueContainingNull = ValueTestHelper.create( null );
+    this.secondValueContainingNull = new ValueTestHelper( null );
+    this.valueContainingNull = new ValueTestHelper( null );
 
-    this.value = ValueTestHelper.create( containedValue );
-    this.secondValue = ValueTestHelper.create( containedValue );
+    this.value = new ValueTestHelper( containedValue );
+    this.secondValue = new ValueTestHelper( containedValue );
 
-    this.childOfValue = ChildOfValueTestHelper.create( containedValue );
-    this.siblingOfValue = SiblingOfValueTestHelper.create( containedValue );
+    this.childOfValue = new ChildOfValueTestHelper( containedValue );
+    this.siblingOfValue = new SiblingOfValueTestHelper( containedValue );
   }
 
   @Test
@@ -56,31 +54,16 @@ public class ValueTest {
 
   @Test
   public void equals_returns_false_on_different_objects() {
-    assertThat( value ).isEqualTo( value ).isNotEqualTo( ValueTestHelper.create( "some other value" ) );
+    new EqualsTester().addEqualityGroup( new ValueTestHelper( "some value" ), new ValueTestHelper( "some value" ) )
+                      .addEqualityGroup( new ValueTestHelper( null ), new ValueTestHelper( null ) )
+                      .addEqualityGroup( new ChildOfValueTestHelper( "val" ), new ChildOfValueTestHelper( "val" ) )
+                      .addEqualityGroup( new SiblingOfValueTestHelper( "val" ), new SiblingOfValueTestHelper( "val" ) )
+                      .testEquals();
   }
 
   @Test
-  public void equals_is_reflexive() {
-    assertThat( value ).isEqualTo( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
-    assertThat( valueContainingNull ).isEqualTo( valueContainingNull )
-                                     .isNotSameAs( secondValueContainingNull )
-                                     .isEqualTo( secondValueContainingNull );
-  }
-
-  @Test
-  public void equals_is_symmetric() {
-    // Regular values
-    assertThat( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
-    assertThat( secondValue ).isNotSameAs( value ).isEqualTo( value );
-
-    // Instances containing null
-    assertThat( valueContainingNull ).isNotSameAs( secondValueContainingNull ).isEqualTo( secondValueContainingNull );
-    assertThat( secondValueContainingNull ).isNotSameAs( valueContainingNull ).isEqualTo( valueContainingNull );
-  }
-
-  @Test
-  public void equals_is_symmetric_doesnt_consider_child_classes_equal() {
-    final Value<?> childOfValueContainingNull = ChildOfValueTestHelper.create( null );
+  public void equals_doesnt_consider_child_classes_equal() {
+    final Value<?> childOfValueContainingNull = new ChildOfValueTestHelper( null );
 
     // Same contents
     assertThat( value.get() ).isEqualTo( childOfValue.get() );
@@ -95,8 +78,8 @@ public class ValueTest {
   }
 
   @Test
-  public void equals_is_symmetric_doesnt_consider_sibling_classes_equal() {
-    final Value<?> siblingOfValueContainingNull = SiblingOfValueTestHelper.create( null );
+  public void equals_doesnt_consider_sibling_classes_equal() {
+    final Value<?> siblingOfValueContainingNull = new SiblingOfValueTestHelper( null );
 
     // Same contents
     assertThat( value.get() ).isEqualTo( siblingOfValue.get() );
@@ -111,47 +94,8 @@ public class ValueTest {
   }
 
   @Test
-  public void equals_is_transitive() {
-    final Value<?> thirdValueContainingNull = ValueTestHelper.create( null );
-    final Value<?> thirdValue = ValueTestHelper.create( containedValue );
-
-    // Regular values
-    assertThat( value ).isNotSameAs( secondValue ).isNotSameAs( thirdValue ).isEqualTo( secondValue );
-    assertThat( secondValue ).isNotSameAs( value ).isNotSameAs( thirdValue ).isEqualTo( thirdValue );
-    assertThat( thirdValue ).isNotSameAs( value ).isNotSameAs( secondValue ).isEqualTo( value );
-
-    // Instances containing null
-    assertThat( valueContainingNull ).isNotSameAs( secondValueContainingNull )
-                                     .isNotSameAs( thirdValueContainingNull )
-                                     .isEqualTo( secondValueContainingNull );
-    assertThat( secondValueContainingNull ).isNotSameAs( valueContainingNull )
-                                           .isNotSameAs( thirdValueContainingNull )
-                                           .isEqualTo( thirdValueContainingNull );
-    assertThat( thirdValueContainingNull ).isNotSameAs( valueContainingNull )
-                                          .isNotSameAs( secondValueContainingNull )
-                                          .isEqualTo( valueContainingNull );
-  }
-
-  @Test
-  public void equals_is_consistent() {
-    // Regular values
-    assertThat( value ).isEqualTo( value ).isEqualTo( value ).isEqualTo( value );
-
-    // Instances containing null
-    assertThat( valueContainingNull ).isEqualTo( valueContainingNull )
-                                     .isEqualTo( valueContainingNull )
-                                     .isEqualTo( valueContainingNull );
-  }
-
-  @Test
-  public void equals_returns_false_for_any_null_argument() {
-    assertThat( value ).isNotEqualTo( null );
-    assertThat( valueContainingNull ).isNotEqualTo( null );
-  }
-
-  @Test
   public void hashCode_returns_hash_of_contained_value() {
-    assertThat( ValueTestHelper.create( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
+    assertThat( new ValueTestHelper( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
   }
 
   @Test
@@ -172,39 +116,27 @@ public class ValueTest {
 
   @Test
   public void hashCode_returns_different_value_for_different_object() {
-    final Value<?> differentValue = ValueTestHelper.create( "different value" );
+    final Value<?> differentValue = new ValueTestHelper( "different value" );
 
     assertThat( value ).isNotEqualTo( differentValue );
     assertThat( value.hashCode() ).isNotEqualTo( differentValue.hashCode() );
   }
 
   static class ValueTestHelper extends Value<Object> {
-    protected ValueTestHelper( Object obj ) {
+    public ValueTestHelper( Object obj ) {
       super( obj );
-    }
-
-    public static ValueTestHelper create( Object obj ) {
-      return new ValueTestHelper( obj );
     }
   }
 
   static class ChildOfValueTestHelper extends ValueTestHelper {
-    protected ChildOfValueTestHelper( Object obj ) {
+    public ChildOfValueTestHelper( Object obj ) {
       super( obj );
-    }
-
-    public static ChildOfValueTestHelper create( Object obj ) {
-      return new ChildOfValueTestHelper( obj );
     }
   }
 
   static class SiblingOfValueTestHelper extends Value<Object> {
-    protected SiblingOfValueTestHelper( Object obj ) {
+    public SiblingOfValueTestHelper( Object obj ) {
       super( obj );
-    }
-
-    public static SiblingOfValueTestHelper create( Object obj ) {
-      return new SiblingOfValueTestHelper( obj );
     }
   }
 }

@@ -1,29 +1,25 @@
 package com.tguzik.objects;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 
-import com.tguzik.annotations.ExpectedPerformanceProfile;
-import com.tguzik.annotations.ExpectedPerformanceProfile.Kind;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Convenience base class for objects that are not constantly compared or
  * converted to string. This class should be used when overall performance does
  * not matter as much.
  *
- * @author <a href="mailto:tomek+github@tguzik.com">Tomasz Guzik</a>
+ * @author Tomasz Guzik
  * @see com.tguzik.objects.PerformanceAwareBaseObject
  * @since 0.1
  */
-@ParametersAreNonnullByDefault
-@ExpectedPerformanceProfile( Kind.REFLECTION_HEAVY )
+@NullMarked
 public class BaseObject {
   public static final MultilineNoAddressStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressStyle();
 
@@ -43,26 +39,22 @@ public class BaseObject {
    */
   @Override
   @SuppressWarnings( "EqualsGetClass" )
-  public boolean equals( final Object other ) {
-    if ( null == other ) {
-      return false;
-    }
+  public boolean equals( @Nullable final Object other ) {
     if ( this == other ) {
       return true;
     }
-
-    // TODO: See the comment in Value#equals() for why it is the way it is and how it's going to change
-    if ( !Objects.equals( this.getClass(), other.getClass() ) ) {
+    if ( null == other ) {
       return false;
     }
 
-    return EqualsBuilder.reflectionEquals( this, other, false );
+    // See the comment in Value#equals() for why we are requiring exact class match
+    return Objects.equals( this.getClass(), other.getClass() ) && //
+           EqualsBuilder.reflectionEquals( this, other, false );
   }
 
   /**
    * @see #toString(Object, org.apache.commons.lang3.builder.ToStringStyle)
    */
-  @Nonnull
   @Override
   public String toString() {
     return toString( ToStringStyle.SHORT_PREFIX_STYLE );
@@ -73,7 +65,6 @@ public class BaseObject {
    * @return Empty string if object was null, string representation obtained via reflection otherwise.
    * @see #toString(Object, org.apache.commons.lang3.builder.ToStringStyle)
    */
-  @Nonnull
   public String toString( final ToStringStyle style ) {
     return toString( this, style );
   }
@@ -86,7 +77,6 @@ public class BaseObject {
    * @param style  the style to be used when converting the class to string
    * @return Empty string if object was null, string representation obtained via reflection otherwise.
    */
-  @Nonnull
   public static String toString( @Nullable final Object object, final ToStringStyle style ) {
     Objects.requireNonNull( style, "To string style parameter cannot be null!" );
 

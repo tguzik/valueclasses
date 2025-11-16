@@ -17,8 +17,8 @@ public class NormalizeTest {
   }
 
   @Test
-  public void newLines_returns_null_given_null() {
-    assertThat( newLines( null ) ).isNull();
+  public void newLines_returns_empty_string_given_null() {
+    assertThat( newLines( null ) ).isNotNull().isEmpty();
   }
 
   @Test
@@ -41,8 +41,8 @@ public class NormalizeTest {
   }
 
   @Test
-  public void tabsToSpaces_returns_null_given_null() {
-    assertThat( tabsToSpaces( null, 4 ) ).isNull();
+  public void tabsToSpaces_returns_empty_string_given_null() {
+    assertThat( tabsToSpaces( null, 4 ) ).isNotNull().isEmpty();
   }
 
   @Test

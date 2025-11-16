@@ -1,17 +1,25 @@
 package com.tguzik.objects;
 
-import org.apache.commons.lang3.builder.ToStringStyle;
+import java.io.Serial;
 
-public class MultilineNoAddressStyle extends ToStringStyle {
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.jspecify.annotations.NullMarked;
+
+@NullMarked
+public final class MultilineNoAddressStyle extends ToStringStyle {
+  @Serial
   private static final long serialVersionUID = 1L;
 
   public MultilineNoAddressStyle() {
     super();
-    this.setContentStart( "[" + System.lineSeparator() + "  " );
+
+    final String separator = System.lineSeparator();
+
+    this.setContentStart( "[" + separator + "  " );
     this.setUseShortClassName( true );
     this.setUseIdentityHashCode( false );
-    this.setFieldSeparator( "," + System.lineSeparator() + "  " );
+    this.setFieldSeparator( "," + separator + "  " );
     this.setFieldSeparatorAtStart( false );
-    this.setContentEnd( System.lineSeparator() + "]" );
+    this.setContentEnd( separator + "]" );
   }
 }

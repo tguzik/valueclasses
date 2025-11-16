@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
+import com.google.common.testing.EqualsTester;
 import com.tguzik.tests.Normalize;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.After;
@@ -103,18 +104,19 @@ public class BaseObjectTest {
 
   @Test
   public void equals_returns_false_on_different_objects() {
-    assertThat( value ).isEqualTo( value ).isNotEqualTo( differentInstanceField );
-  }
+    final var changedTransientField = new BaseObjectTestHelper();
+    changedTransientField.transientField = "some other value";
 
-  @Test
-  public void equals_does_not_consider_static_fields() {
-    assertThat( value ).isEqualTo( value );
-    assertThat( differentInstanceField ).isEqualTo( differentInstanceField );
+    final var modifiedInstanceFieldOne = new BaseObjectTestHelper();
+    modifiedInstanceFieldOne.third = "modified value";
 
-    BaseObjectTestHelper.publicStatic = "different static value";
+    final var modifiedInstanceFieldTwo = new BaseObjectTestHelper();
+    modifiedInstanceFieldTwo.third = "modified value";
+    modifiedInstanceFieldTwo.transientField = "this value should be ignored because the field is transient";
 
-    assertThat( value ).isEqualTo( value );
-    assertThat( differentInstanceField ).isEqualTo( differentInstanceField );
+    new EqualsTester().addEqualityGroup( new BaseObjectTestHelper(), new BaseObjectTestHelper(), changedTransientField )
+                      .addEqualityGroup( modifiedInstanceFieldOne, modifiedInstanceFieldTwo )
+                      .testEquals();
   }
 
   @Test
@@ -130,27 +132,9 @@ public class BaseObjectTest {
     assertThat( other ).isEqualTo( value );
   }
 
-  @Test
-  public void equals_is_reflexive() {
-    assertThat( value ).isEqualTo( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
-    assertThat( valueContainingNull ).isEqualTo( valueContainingNull )
-                                     .isNotSameAs( secondValueContainingNull )
-                                     .isEqualTo( secondValueContainingNull );
-  }
 
   @Test
-  public void equals_is_symmetric() {
-    // Regular values
-    assertThat( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
-    assertThat( secondValue ).isNotSameAs( value ).isEqualTo( value );
-
-    // Instances containing null
-    assertThat( valueContainingNull ).isNotSameAs( secondValueContainingNull ).isEqualTo( secondValueContainingNull );
-    assertThat( secondValueContainingNull ).isNotSameAs( valueContainingNull ).isEqualTo( valueContainingNull );
-  }
-
-  @Test
-  public void equals_is_symmetric_doesnt_consider_child_classes_equal() {
+  public void equals_doesnt_consider_child_classes_equal() {
     final ChildOfBaseObjectTestHelper childOfValueContainingNull = new ChildOfBaseObjectTestHelper();
     final ChildOfBaseObjectTestHelper childOfValue = new ChildOfBaseObjectTestHelper();
 
@@ -164,7 +148,7 @@ public class BaseObjectTest {
   }
 
   @Test
-  public void equals_is_symmetric_doesnt_consider_sibling_classes_equal() {
+  public void equals_doesnt_consider_sibling_classes_equal() {
     final SiblingOfBaseObjectTestHelper siblingOfValueContainingNull = new SiblingOfBaseObjectTestHelper();
     final SiblingOfBaseObjectTestHelper siblingOfValue = new SiblingOfBaseObjectTestHelper();
 
@@ -193,30 +177,16 @@ public class BaseObjectTest {
     assertThat( valueContainingNull ).isNotSameAs( secondValueContainingNull )
                                      .isNotSameAs( thirdValueContainingNull )
                                      .isEqualTo( secondValueContainingNull );
+
     assertThat( secondValueContainingNull ).isNotSameAs( valueContainingNull )
                                            .isNotSameAs( thirdValueContainingNull )
                                            .isEqualTo( thirdValueContainingNull );
+
     assertThat( thirdValueContainingNull ).isNotSameAs( valueContainingNull )
                                           .isNotSameAs( secondValueContainingNull )
                                           .isEqualTo( valueContainingNull );
   }
 
-  @Test
-  public void equals_is_consistent() {
-    // Regular values
-    assertThat( value ).isEqualTo( value ).isEqualTo( value ).isEqualTo( value );
-
-    // Instances containing null
-    assertThat( valueContainingNull ).isEqualTo( valueContainingNull )
-                                     .isEqualTo( valueContainingNull )
-                                     .isEqualTo( valueContainingNull );
-  }
-
-  @Test
-  public void equals_returns_false_for_any_null_argument() {
-    assertThat( value ).isNotEqualTo( null );
-    assertThat( valueContainingNull ).isNotEqualTo( null );
-  }
 
   @Test
   public void hashCode_returns_same_value_for_equal_object() {

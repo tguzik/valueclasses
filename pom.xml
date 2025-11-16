@@ -10,7 +10,7 @@
 
   <groupId>com.tguzik</groupId>
   <artifactId>valueclasses</artifactId>
-  <version>1.0.3-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>ValueClasses</name>
@@ -46,14 +46,10 @@
   <properties>
     <!-- Basics -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.language.version>1.7</java.language.version>
-    <java.jdk.version>1.7</java.jdk.version>
+    <jdk.release>17</jdk.release>
 
     <!-- Build system and static code analysis -->
-    <linters.errorprone.version>2.4.0</linters.errorprone.version>
-    <linters.spotbugs.plugin.version>4.7.2.1</linters.spotbugs.plugin.version>
-    <linters.spotbugs.core.version>4.0.3</linters.spotbugs.core.version>
-    <linters.pmd.version>3.14.0</linters.pmd.version>
+    <linters.errorprone.version>2.42.0</linters.errorprone.version>
 
     <!-- Unit tests and friends -->
     <tests.junit.jupiter.launcher.version>1.9.1</tests.junit.jupiter.launcher.version>
@@ -91,42 +87,7 @@
     </profile>
 
     <profile>
-      <id>extra-jdk1.8-options</id>
-      <activation>
-        <jdk>1.8</jdk>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <configuration>
-                <!-- error_prone on jdk1.8 -->
-                <compilerId>javac-with-errorprone</compilerId>
-                <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                <!-- /error_prone on jdk1.8 -->
-              </configuration>
-
-              <!-- error_prone on jdk1.8 -->
-              <dependencies>
-                <dependency>
-                  <groupId>org.codehaus.plexus</groupId>
-                  <artifactId>plexus-compiler-javac-errorprone</artifactId>
-                  <version>2.8.6</version>
-                </dependency>
-              </dependencies>
-              <!-- /error_prone on jdk1.8 -->
-
-              <inherited>true</inherited>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-
-    <profile>
-      <id>outdated</id>
+      <id>upgrades</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
@@ -138,14 +99,9 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>3.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.tguzik</groupId>
-      <artifactId>annotations</artifactId>
-      <version>1.0.1</version>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -188,6 +144,12 @@
       <version>3.23.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-testlib</artifactId>
+      <version>33.5.0-jre</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -207,10 +169,10 @@
             <configuration>
               <rules>
                 <requireMavenVersion>
-                  <version>3.6</version>
+                  <version>3.9.0</version>
                 </requireMavenVersion>
                 <requireJavaVersion>
-                  <version>${java.language.version}</version>
+                  <version>[${jdk.release},)</version>
                 </requireJavaVersion>
               </rules>
             </configuration>
@@ -222,16 +184,34 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.1</version>
+        <version>3.14.1</version>
         <configuration>
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
-          <source>${java.jdk.version}</source>
-          <target>${java.jdk.version}</target>
+          <release>${jdk.release}</release>
           <fork>true</fork>
           <compilerArgs>
+            <!-- Contents of these arguments may not contain newlines, except at start and end. -->
             <arg>-XDcompilePolicy=simple</arg>
-            <arg>-Xplugin:ErrorProne</arg>
+
+            <!-- error_prone & friends -->
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+            <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+            <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+            <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+            <arg>--should-stop=ifError=FLOW</arg>
+
+            <arg><![CDATA[
+              -Xplugin:ErrorProne -Xep:MissingSummary:OFF
+            ]]>
+            </arg>
+            <!-- /error_prone -->
           </compilerArgs>
           <annotationProcessorPaths>
             <path>
@@ -261,7 +241,7 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${linters.spotbugs.plugin.version}</version>
+        <version>4.9.8.1</version>
         <executions>
           <execution>
             <phase>verify</phase>
@@ -275,28 +255,27 @@
           <threshold>Default</threshold>
           <xmlOutput>true</xmlOutput>
           <detail>true</detail>
-          <excludeFilterFile>${project.basedir}/src/ci/resources/spotbugs-exclude.xml</excludeFilterFile>
+          <excludeFilterFile>${project.basedir}/.mvn/plugins/spotbugs-exclude.xml</excludeFilterFile>
         </configuration>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>${linters.pmd.version}</version>
+        <version>3.28.0</version>
         <executions>
           <execution>
             <phase>verify</phase>
             <goals>
               <goal>check</goal>
-              <goal>cpd-check</goal>
             </goals>
           </execution>
         </executions>
         <configuration>
           <verbose>true</verbose>
-          <targetJdk>${java.jdk.version}</targetJdk>
+          <targetJdk>${jdk.release}</targetJdk>
           <rulesets>
-            <ruleset>${project.basedir}/src/ci/resources/pmd.xml</ruleset>
+            <ruleset>${project.basedir}/.mvn/plugins/pmd.xml</ruleset>
           </rulesets>
         </configuration>
       </plugin>
