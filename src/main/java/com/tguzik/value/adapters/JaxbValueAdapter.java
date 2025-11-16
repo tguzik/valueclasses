@@ -1,11 +1,10 @@
 package com.tguzik.value.adapters;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNullableByDefault;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import com.tguzik.value.Value;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * JaxB adapter template for value classes in this package. The user is expected
@@ -16,12 +15,11 @@ import com.tguzik.value.Value;
  * @author Tomasz Guzik
  * @since 0.2
  */
-@ParametersAreNullableByDefault
+@NullMarked
 public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<UnderlyingType>>
   extends XmlAdapter<UnderlyingType, ValueClass> {
 
   @Override
-  @Nonnull
   public ValueClass unmarshal( @Nullable final UnderlyingType value ) throws Exception {
     return createNewInstance( value );
   }
@@ -44,6 +42,5 @@ public abstract class JaxbValueAdapter<UnderlyingType, ValueClass extends Value<
    * @param value the value of type {@code UnderlyingType} to be encapsulated
    * @return instance of the {@code ValueClass} containing the encapsulated value
    */
-  @Nonnull
   protected abstract ValueClass createNewInstance( @Nullable UnderlyingType value );
 }

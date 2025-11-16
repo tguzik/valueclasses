@@ -1,7 +1,9 @@
 package com.tguzik.value;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicReference;
+
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides a mutable value class that uses AtomicReference&lt;T&gt; as a base. Extends Value&lt;T&gt; and shadows the
@@ -14,6 +16,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Tomasz Guzik
  * @since 0.2
  */
+@NullMarked
 public abstract class MutableValue<T> extends Value<T> {
   /**
    * This is a hacky way to work around generic types not allowing to pass AtomicReference<> itself to superclass.

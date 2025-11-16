@@ -1,5 +1,8 @@
 package com.tguzik.objects;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
 /**
  * Base class for data objects that need to be performance aware. Compared to
  * the {@link BaseObject} this class forces implementations to define their own
@@ -14,9 +17,10 @@ package com.tguzik.objects;
  * @author Tomasz Guzik
  * @since 0.3
  */
+@NullMarked
 public abstract class PerformanceAwareBaseObject extends BaseObject {
   @Override
-  public abstract boolean equals( Object other );
+  public abstract boolean equals( @Nullable Object other );
 
   @Override
   public abstract int hashCode();

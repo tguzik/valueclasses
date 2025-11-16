@@ -1,8 +1,8 @@
 package com.tguzik.tests;
 
-import javax.annotation.Nullable;
-
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test utility that normalizes Windows (\r\n) and legacy OSX (\r) line
@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Tomasz Guzik
  * @since 0.1
  */
+@NullMarked
 public enum Normalize {
   ;
 
@@ -26,12 +27,12 @@ public enum Normalize {
    * </pre>
    *
    * @param input nullable input string
-   * @return new string with all newline sequences replaced with LF ending
+   * @return If input was not null, returns new string with all newline sequences replaced with LF ending. If input
+   *   was null, returns empty string.
    */
-  @Nullable
   public static String newLines( @Nullable final String input ) {
     if ( input == null ) {
-      return null;
+      return "";
     }
 
     return input.replaceAll( "(\r)?\n(\r)?", "\n" ) //
@@ -44,12 +45,11 @@ public enum Normalize {
    * @param input    nullable input string
    * @param tabWidth width in spaces of each tabulation character
    * @return If input was not null, returns new string with all tabulation characters replaces by spaces. If input
-   * was null, returns null.
+   *   was null, returns empty string.
    */
-  @Nullable
   public static String tabsToSpaces( @Nullable final String input, final int tabWidth ) {
     if ( input == null ) {
-      return null;
+      return "";
     }
 
     final int spacesInSingleTab = Math.max( tabWidth, 0 );
