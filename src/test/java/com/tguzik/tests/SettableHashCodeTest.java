@@ -4,30 +4,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.testing.EqualsTester;
 import com.tguzik.value.Value;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-@SuppressWarnings( { "deprecation" } )
-public class SettableHashCodeTest {
+class SettableHashCodeTest {
 
-  private SettableHashCode secondValue;
-  private SettableHashCode value;
+  @ParameterizedTest
+  @ValueSource( ints = { Integer.MIN_VALUE, -42, -3, -2, -1, 0, 1, 2, 3, 42, Integer.MAX_VALUE } )
+  void hashCode_returns_hash_of_contained_value( final int value ) {
+    final var instance = new SettableHashCode( value );
 
-  @Before
-  public void setUp() {
-    this.secondValue = new SettableHashCode( 42 );
-    this.value = new SettableHashCode( 42 );
+    assertThat( instance.hashCode() ).isEqualTo( value );
   }
 
   @Test
-  public void equals_returns_false_on_different_objects() {
+  void equals_returns_false_on_different_objects() {
     new EqualsTester().addEqualityGroup( new SettableHashCode( 42 ), new SettableHashCode( 42 ) )
                       .addEqualityGroup( new SettableHashCode( 123 ), new SettableHashCode( 123 ) )
                       .testEquals();
   }
 
   @Test
-  public void equals_is_symmetric_doesnt_consider_sibling_classes_equal() {
+  void equals_is_symmetric_doesnt_consider_sibling_classes_equal() {
+    final var value = new SettableHashCode( 42 );
     final Value<?> sibling = new Value<>( 42 ) {
     };
 
@@ -40,28 +40,13 @@ public class SettableHashCodeTest {
   }
 
   @Test
-  public void equals_is_transitive() {
-    final Value<?> thirdValue = SettableHashCode.create( 42 );
+  void equals_is_transitive() {
+    final var value = new SettableHashCode( 42 );
+    final var secondValue = new SettableHashCode( 42 );
+    final Value<?> thirdValue = new SettableHashCode( 42 );
 
     assertThat( value ).isNotSameAs( secondValue ).isNotSameAs( thirdValue ).isEqualTo( secondValue );
     assertThat( secondValue ).isNotSameAs( value ).isNotSameAs( thirdValue ).isEqualTo( thirdValue );
     assertThat( thirdValue ).isNotSameAs( value ).isNotSameAs( secondValue ).isEqualTo( value );
   }
-
-  @Test
-  public void equals_returns_false_for_any_null_argument() {
-    assertThat( value ).isNotEqualTo( null );
-  }
-
-  @Test
-  public void hashCode_returns_hash_of_contained_value() {
-    assertThat( SettableHashCode.create( 123 ).hashCode() ).isEqualTo( 123 );
-  }
-
-  @Test
-  public void hashCode_returns_same_value_for_equal_object() {
-    assertThat( value ).isNotSameAs( secondValue ).isEqualTo( secondValue );
-    assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
-  }
-
 }

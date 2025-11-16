@@ -3,21 +3,21 @@ package com.tguzik.value.adapters;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.tguzik.value.StringValue;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class JaxbValueAdapterTest {
+class JaxbValueAdapterTest {
   private TestingAdapter adapterReturningInstances;
   private TestingAdapter adapterReturningNulls;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     adapterReturningInstances = new TestingAdapter( true );
     adapterReturningNulls = new TestingAdapter( false );
   }
 
   @Test
-  public void testUnmarshal_createNewInstanceReturnsInstances() throws Exception {
+  void testUnmarshal_createNewInstanceReturnsInstances() throws Exception {
     TestingValueClass value = adapterReturningInstances.unmarshal( "string" );
 
     assertThat( value ).isNotNull();
@@ -25,26 +25,26 @@ public class JaxbValueAdapterTest {
   }
 
   @Test
-  public void testUnmarshal_createNewInstanceReturnsNulls() throws Exception {
+  void testUnmarshal_createNewInstanceReturnsNulls() throws Exception {
     TestingValueClass value = adapterReturningNulls.unmarshal( "string" );
 
     assertThat( value ).isNull();
   }
 
   @Test
-  public void testMarshal() throws Exception {
+  void testMarshal() throws Exception {
     assertThat( adapterReturningInstances.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
     assertThat( adapterReturningNulls.marshal( new TestingValueClass( "string" ) ) ).isEqualTo( "string" );
   }
 
   @Test
-  public void testMarshal_nullValueClass() throws Exception {
+  void testMarshal_nullValueClass() throws Exception {
     assertThat( adapterReturningInstances.marshal( null ) ).isNull();
     assertThat( adapterReturningNulls.marshal( null ) ).isNull();
   }
 
   @Test
-  public void testMarshal_nullValueInValueClass() throws Exception {
+  void testMarshal_nullValueInValueClass() throws Exception {
     assertThat( adapterReturningInstances.marshal( new TestingValueClass( null ) ) ).isNull();
     assertThat( adapterReturningNulls.marshal( new TestingValueClass( null ) ) ).isNull();
   }

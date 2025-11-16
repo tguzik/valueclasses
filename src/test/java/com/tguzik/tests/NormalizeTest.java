@@ -1,71 +1,65 @@
 package com.tguzik.tests;
 
-import static com.tguzik.tests.Normalize.newLines;
-import static com.tguzik.tests.Normalize.tabsToSpaces;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import java.util.stream.Stream;
 
-public class NormalizeTest {
+import org.jspecify.annotations.Nullable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-  @Test
-  public void newLines_kills_off_CR_and_leaves_LF() {
-    assertThat( newLines( "abc   \r\n\r  " ) ).isEqualTo( "abc   \n  " );
-    assertThat( newLines( "  \n \nabc  \r" ) ).isEqualTo( "  \n \nabc  \n" );
-    assertThat( newLines( "\n\n\n" ) ).isEqualTo( "\n\n\n" );
-    assertThat( newLines( "\r\n\r\n\r" ) ).isEqualTo( "\n\n" );
+class NormalizeTest {
+
+  static Stream<Arguments> newLinesTestCases() {
+    return Stream.of( Arguments.of( null, "" ),
+                      Arguments.of( "", "" ),
+                      Arguments.of( "abc", "abc" ),
+                      Arguments.of( "abc   \r\n\r  ", "abc   \n  " ),
+                      Arguments.of( "  \n \nabc  \r", "  \n \nabc  \n" ),
+                      Arguments.of( "\n\n\n", "\n\n\n" ),
+                      Arguments.of( "\r\n\r\n\r", "\n\n" ) );
   }
 
-  @Test
-  public void newLines_returns_empty_string_given_null() {
-    assertThat( newLines( null ) ).isNotNull().isEmpty();
+  @ParameterizedTest
+  @MethodSource( "newLinesTestCases" )
+  void newLines_returns_expected_string_for_given_argument( @Nullable final String input, final String expected ) {
+    final String actual = Normalize.newLines( input );
+
+    assertThat( actual ).isEqualTo( expected );
   }
 
-  @Test
-  public void newLines_returns_empty_string_given_empy_string() {
-    assertThat( newLines( "" ) ).isEqualTo( "" );
+  static Stream<Arguments> tabsToSpacesTestCases() {
+    return Stream.of( Arguments.of( null, "" ),
+                      Arguments.of( "", "" ),
+                      Arguments.of( "a", "a" ),
+                      Arguments.of( "\ta\t", "    a    " ),
+                      Arguments.of( "a \t", "a     " ),
+                      Arguments.of( "\ta\r\nx\t\r\n", "    a\r\nx    \r\n" ) );
   }
 
-  @Test
-  public void newLines_returns_the_same_string_if_it_didnt_have_any_newlines() {
-    assertThat( newLines( "abc" ) ).isEqualTo( "abc" );
+  @ParameterizedTest
+  @MethodSource( "tabsToSpacesTestCases" )
+  void tabsToSpaces_returns_expected_string_for_given_argument( @Nullable final String input, final String expected ) {
+    final String actual = Normalize.tabsToSpaces( input, 4 );
+
+    assertThat( actual ).isEqualTo( expected );
   }
 
-  @Test
-  public void tabsToSpaces_changes_tabulation_character_to_given_number_of_spaces() {
-    assertThat( tabsToSpaces( "a", 4 ) ).isEqualTo( "a" );
+  @ParameterizedTest
+  @ValueSource( ints = { Integer.MIN_VALUE, -1024, -42, -3, -2, -1, 0 } )
+  void tabsToSpaces_called_with_nonpositive_tab_width_removes_tabulation_characters( final int tabWidth ) {
+    final String actual = Normalize.tabsToSpaces( "\t", tabWidth );
 
-    assertThat( tabsToSpaces( "\ta\t", 4 ) ).isEqualTo( "    a    " );
-    assertThat( tabsToSpaces( "a \t", 4 ) ).isEqualTo( "a     " );
-    assertThat( tabsToSpaces( "\ta\r\nx\t\r\n", 4 ) ).isEqualTo( "    a\r\nx    \r\n" );
+    assertThat( actual ).isEmpty();
   }
 
-  @Test
-  public void tabsToSpaces_returns_empty_string_given_null() {
-    assertThat( tabsToSpaces( null, 4 ) ).isNotNull().isEmpty();
-  }
+  @ParameterizedTest
+  @ValueSource( ints = { 1, 2, 3, 4, 8, 16, 32, 42 } )
+  void tabsToSpaces_called_with_positive_tab_width_will_convert_the_tab_to_given_number_of_spaces( final int tabWidth ) {
+    final String actual = Normalize.tabsToSpaces( "\t", tabWidth );
 
-  @Test
-  public void tabsToSpaces_returns_empty_string_given_empty_string() {
-    assertThat( tabsToSpaces( "", 4 ) ).isEqualTo( "" );
-  }
-
-  @Test
-  public void tabsToSpaces_works_consistently_with_different_tab_widths() {
-    assertThat( tabsToSpaces( "\t", Integer.MIN_VALUE ) ).isEqualTo( "" );
-    assertThat( tabsToSpaces( "\t", -1024 ) ).isEqualTo( "" );
-    assertThat( tabsToSpaces( "\t", -1 ) ).isEqualTo( "" );
-    assertThat( tabsToSpaces( "\t", 0 ) ).isEqualTo( "" );
-    assertThat( tabsToSpaces( "\t", 1 ) ).isEqualTo( " " );
-    assertThat( tabsToSpaces( "\t", 2 ) ).isEqualTo( "  " );
-    assertThat( tabsToSpaces( "\t", 4 ) ).isEqualTo( "    " );
-  }
-
-  @Test
-  public void tabsToSpaces_negative_tab_width_means_remove_tabulation_characters() {
-    assertThat( tabsToSpaces( " \t", Integer.MIN_VALUE ) ).isEqualTo( " " );
-    assertThat( tabsToSpaces( " \t", -1024 ) ).isEqualTo( " " );
-    assertThat( tabsToSpaces( " \t", -1 ) ).isEqualTo( " " );
-    assertThat( tabsToSpaces( " \t", 0 ) ).isEqualTo( " " );
+    assertThat( actual ).hasSize( tabWidth ).isEqualTo( " ".repeat( tabWidth ) );
   }
 }
