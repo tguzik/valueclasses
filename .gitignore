@@ -1,16 +1,18 @@
-## IDE settings
-# Eclipse:
-.settings
-.project
-.classpath
-
-# Idea:
-.idea
-*.iml
-
-
-## Build directories
+# Build and temporary directories
 bin
 dist
 build
 target
+tmp
+
+# IntelliJ IDEA
+.idea
+*.iml
+
+# <DevEnv>
+# https://devenv.sh/
+.devenv*
+.direnv
+.pre-commit-config.yaml
+devenv.local.nix
+# </DevEnv>
