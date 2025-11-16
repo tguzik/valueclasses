@@ -26,9 +26,9 @@ jobs:
             **/pom.xml
 
       - name: Print Java and Maven versions
-        run: mvn --fail-fast --batch-mode --strict-checksums --version
+        run: mvn --version
 
       - name: Build, run tests, run static analysis
-        run: mvn --fail-fast --batch-mode --strict-checksums clean verify
+        run: mvn clean verify
 
 # eof
