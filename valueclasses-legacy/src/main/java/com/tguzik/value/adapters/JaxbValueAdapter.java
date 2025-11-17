@@ -17,6 +17,7 @@ import org.jspecify.annotations.Nullable;
  * @deprecated Relies on the {@code javax.xml.*} namespace
  */
 @NullMarked
+@Deprecated( since = "2.0.0" )
 public abstract class JaxbValueAdapter<T, C extends HasValue<T>> extends XmlAdapter<T, C> {
 
   @Override
