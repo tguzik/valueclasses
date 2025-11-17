@@ -8,7 +8,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * Alternate version of {@link JaxbValueAdapter} that relies on the {@code jakarta.xml.*} namespace.
  *
- * @since 2.0
+ * @since 2.0.0
  */
 @NullMarked
 public abstract class JakartaJaxbValueAdapter<T, C extends HasValue<T>> extends XmlAdapter<T, C> {

@@ -2,8 +2,8 @@ package com.tguzik.value;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
-import org.jspecify.annotations.NullMarked;
+import com.tguzik.traits.HasStringValue;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Abstract class to hold {@link java.lang.String}-based values.
@@ -14,16 +14,15 @@ import org.jspecify.annotations.NullMarked;
  * @author Tomasz Guzik
  * @since 0.1
  */
-@NullMarked
 @SuppressWarnings( "PMD.OverrideBothEqualsAndHashCodeOnComparable" )
-public abstract class StringValue extends Value<String> implements Comparable<StringValue> {
+public abstract class StringValue extends Value<String> implements HasStringValue, Comparable<StringValue> {
 
   protected StringValue( final String value ) {
     super( value );
   }
 
   @Override
-  public int compareTo( final StringValue other ) {
+  public int compareTo( @NonNull final StringValue other ) {
     Objects.requireNonNull( other, "Parameter cannot be null." );
 
     final String thisValue = get();
@@ -37,26 +36,4 @@ public abstract class StringValue extends Value<String> implements Comparable<St
 
     return thisValue.compareTo( otherValue );
   }
-
-  /**
-   * @return the length of the contained string, or zero if the contained string is null
-   */
-  public int length() {
-    return StringUtils.length( get() );
-  }
-
-  /**
-   * @return true if the contained string is null or has length of zero, false otherwise
-   */
-  public boolean isEmpty() {
-    return length() == 0;
-  }
-
-  /**
-   * @return true if the contained string is null or has length of zero after being trimmed, false otherwise
-   */
-  public boolean isBlank() {
-    return StringUtils.isBlank( get() );
-  }
-
 }

@@ -103,6 +103,7 @@ class JaxbValueAdapterTest {
     }
   }
 
+  @SuppressWarnings( "deprecation" )
   static class Adapter extends JaxbValueAdapter<Long, FakeValue> {
     @Override
     protected FakeValue createNewInstance( Long value ) {
