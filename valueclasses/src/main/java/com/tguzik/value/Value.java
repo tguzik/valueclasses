@@ -14,7 +14,6 @@ import org.jspecify.annotations.NullMarked;
  * still here for backward compatibility.
  *
  * @author Tomasz Guzik
- * @see com.tguzik.value.adapters.JaxbValueAdapter
  * @since 0.1
  */
 @NullMarked
@@ -43,7 +42,7 @@ public abstract class Value<T> implements HasValue<T> {
   }
 
   @Override
-  @SuppressWarnings("EqualsGetClass")
+  @SuppressWarnings( "EqualsGetClass" )
   public boolean equals( final Object obj ) {
     if ( obj == null ) {
       return false;

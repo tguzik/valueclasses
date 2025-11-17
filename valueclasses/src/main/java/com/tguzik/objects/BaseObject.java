@@ -21,7 +21,6 @@ import org.jspecify.annotations.Nullable;
  */
 @NullMarked
 public class BaseObject {
-  public static final MultilineNoAddressStyle MULTILINE_NO_ADDRESS_STYLE = new MultilineNoAddressStyle();
 
   protected BaseObject() {
   }

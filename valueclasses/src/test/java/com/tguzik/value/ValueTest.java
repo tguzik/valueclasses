@@ -3,7 +3,6 @@ package com.tguzik.value;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.testing.EqualsTester;
-import com.tguzik.tests.SettableHashCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -95,7 +94,14 @@ class ValueTest {
 
   @Test
   void hashCode_returns_hash_of_contained_value() {
-    assertThat( new FakeValue( new SettableHashCode( 123 ) ).hashCode() ).isEqualTo( 123 );
+    final var predefinedHashCode = new Object() {
+      @Override
+      public int hashCode() {
+        return 123;
+      }
+    };
+
+    assertThat( new FakeValue( predefinedHashCode ).hashCode() ).isEqualTo( 123 );
   }
 
   @Test
