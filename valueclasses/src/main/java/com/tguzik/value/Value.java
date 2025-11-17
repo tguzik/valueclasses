@@ -1,9 +1,11 @@
 package com.tguzik.value;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import com.tguzik.traits.HasValue;
-import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base abstract class for wrappers on values allowing to give them their own type. This class and its subclasses are meant to
@@ -16,7 +18,6 @@ import org.jspecify.annotations.NullMarked;
  * @author Tomasz Guzik
  * @since 0.1
  */
-@NullMarked
 public abstract class Value<T> implements HasValue<T> {
   private final T encapsulatedValue;
 
@@ -31,19 +32,12 @@ public abstract class Value<T> implements HasValue<T> {
 
   @Override
   public int hashCode() {
-    final T localValue = get();
-
-    if ( Objects.isNull( localValue ) ) {
-      // This shouldn't happen, but better safe than sorry
-      return 0;
-    }
-
-    return localValue.hashCode();
+    return Optional.ofNullable( get() ).map( Object::hashCode ).orElse( 0 );
   }
 
   @Override
   @SuppressWarnings( "EqualsGetClass" )
-  public boolean equals( final Object obj ) {
+  public boolean equals( @Nullable final Object obj ) {
     if ( obj == null ) {
       return false;
     }
@@ -66,16 +60,9 @@ public abstract class Value<T> implements HasValue<T> {
     return Objects.equals( this.get(), other.get() );
   }
 
+  @NonNull
   @Override
   public String toString() {
-    final T localValue = get();
-
-    if ( Objects.isNull( localValue ) ) {
-      // This shouldn't happen, but better safe than sorry
-      return "";
-    }
-
-    return localValue.toString();
+    return Optional.ofNullable( get() ).map( Object::toString ).orElse( "" );
   }
-
 }

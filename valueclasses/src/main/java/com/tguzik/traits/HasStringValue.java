@@ -1,6 +1,6 @@
 package com.tguzik.traits;
 
-import java.util.Objects;
+import java.util.Optional;
 
 import org.jspecify.annotations.NullMarked;
 
@@ -18,23 +18,20 @@ public interface HasStringValue extends HasValue<String> {
    * @return the length of the contained string, or zero if the contained string is null
    */
   default int length() {
-    final String value = get();
-    return Objects.isNull( value ) ? 0 : value.length();
+    return Optional.ofNullable( get() ).map( String::length ).orElse( 0 );
   }
 
   /**
    * @return true if the contained string is null or has length of zero, false otherwise
    */
   default boolean isEmpty() {
-    final String value = get();
-    return Objects.isNull( value ) || value.isEmpty();
+    return Optional.ofNullable( get() ).map( String::isEmpty ).orElse( true );
   }
 
   /**
    * @return true if the contained string is null or has length of zero after being trimmed, false otherwise
    */
   default boolean isBlank() {
-    final String value = get();
-    return Objects.isNull( value ) || value.isBlank();
+    return Optional.ofNullable( get() ).map( String::isBlank ).orElse( true );
   }
 }

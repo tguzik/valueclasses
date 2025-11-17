@@ -3,7 +3,7 @@ package com.tguzik.value;
 import java.util.Objects;
 
 import com.tguzik.traits.HasStringValue;
-import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Abstract class to hold {@link java.lang.String}-based values.
@@ -14,7 +14,6 @@ import org.jspecify.annotations.NullMarked;
  * @author Tomasz Guzik
  * @since 0.1
  */
-@NullMarked
 @SuppressWarnings( "PMD.OverrideBothEqualsAndHashCodeOnComparable" )
 public abstract class StringValue extends Value<String> implements HasStringValue, Comparable<StringValue> {
 
@@ -23,7 +22,7 @@ public abstract class StringValue extends Value<String> implements HasStringValu
   }
 
   @Override
-  public int compareTo( final StringValue other ) {
+  public int compareTo( @NonNull final StringValue other ) {
     Objects.requireNonNull( other, "Parameter cannot be null." );
 
     final String thisValue = get();
