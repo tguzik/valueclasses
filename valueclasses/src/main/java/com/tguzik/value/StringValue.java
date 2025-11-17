@@ -2,7 +2,7 @@ package com.tguzik.value;
 
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
+import com.tguzik.traits.HasStringValue;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -16,7 +16,7 @@ import org.jspecify.annotations.NullMarked;
  */
 @NullMarked
 @SuppressWarnings( "PMD.OverrideBothEqualsAndHashCodeOnComparable" )
-public abstract class StringValue extends Value<String> implements Comparable<StringValue> {
+public abstract class StringValue extends Value<String> implements HasStringValue, Comparable<StringValue> {
 
   protected StringValue( final String value ) {
     super( value );
@@ -37,26 +37,4 @@ public abstract class StringValue extends Value<String> implements Comparable<St
 
     return thisValue.compareTo( otherValue );
   }
-
-  /**
-   * @return the length of the contained string, or zero if the contained string is null
-   */
-  public int length() {
-    return StringUtils.length( get() );
-  }
-
-  /**
-   * @return true if the contained string is null or has length of zero, false otherwise
-   */
-  public boolean isEmpty() {
-    return length() == 0;
-  }
-
-  /**
-   * @return true if the contained string is null or has length of zero after being trimmed, false otherwise
-   */
-  public boolean isBlank() {
-    return StringUtils.isBlank( get() );
-  }
-
 }
