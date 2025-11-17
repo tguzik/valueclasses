@@ -50,7 +50,7 @@
     <jdk.release>17</jdk.release>
 
     <!-- Unit tests, static analysis and friends -->
-    <linters.errorprone.version>2.42.0</linters.errorprone.version>
+    <linters.errorprone.version>2.44.0</linters.errorprone.version>
   </properties>
 
   <developers>
