@@ -32,6 +32,25 @@
       <!-- Uses legacy javax.xml.* namespace -->
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <!-- Uses legacy javax.xml.* namespace -->
+      <groupId>org.glassfish.jaxb</groupId>
+      <artifactId>jaxb-runtime</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- Uses jakarta.xml.* namespace -->
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <!-- Uses jakarta.xml.* namespace -->
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -52,6 +71,11 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-testlib</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.xmlunit</groupId>
+      <artifactId>xmlunit-assertj3</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

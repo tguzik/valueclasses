@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.xmlunit.assertj3.XmlAssert;
 
-class JaxbValueAdapterTest {
+class JaxbStringValueAdapterTest {
 
   static Stream<Arguments> serializationTestCases() {
     return Stream.of( Arguments.of( new FakeContainer(), """
@@ -37,13 +37,13 @@ class JaxbValueAdapterTest {
                                                                                        <stringValue>some string</stringValue>
                                                                                    </FakeContainer>
                                                                                    """ ),
-                      Arguments.of( new FakeContainer( 123, new FakeValue( 234L ), "some string" ), """
-                                                                                                    <FakeContainer>
-                                                                                                        <integerValue>123</integerValue>
-                                                                                                        <valueBasedClass>234</valueBasedClass>
-                                                                                                        <stringValue>some string</stringValue>
-                                                                                                    </FakeContainer>
-                                                                                                    """ ) );
+                      Arguments.of( new FakeContainer( 123, new FakeValue( "some string" ), "different string" ), """
+                                                                                                                  <FakeContainer>
+                                                                                                                      <integerValue>123</integerValue>
+                                                                                                                      <valueBasedClass>some string</valueBasedClass>
+                                                                                                                      <stringValue>different string</stringValue>
+                                                                                                                  </FakeContainer>
+                                                                                                                  """ ) );
   }
 
   @ParameterizedTest
@@ -96,16 +96,16 @@ class JaxbValueAdapterTest {
   }
 
   @XmlJavaTypeAdapter( Adapter.class )
-  record FakeValue(long value) implements HasValue<Long> {
+  record FakeValue(String value) implements HasValue<String> {
     @Override
-    public Long get() {
+    public String get() {
       return value;
     }
   }
 
-  static class Adapter extends JaxbValueAdapter<Long, FakeValue> {
+  static class Adapter extends JaxbStringValueAdapter<FakeValue> {
     @Override
-    protected FakeValue createNewInstance( Long value ) {
+    protected FakeValue createNewInstance( String value ) {
       if ( Objects.isNull( value ) ) {
         return null;
       }
