@@ -9,7 +9,6 @@ import org.jspecify.annotations.Nullable;
 /**
  * Allows returning pre-set value in <code>.hashCode()</code> calls.
  *
- * @author Tomasz Guzik
  * @since 0.1
  */
 @NullMarked
@@ -42,6 +41,9 @@ public final class SettableHashCode extends Value<Integer> {
     return false;
   }
 
+  /**
+   * @deprecated Use the constructor instead.
+   */
   @Deprecated
   public static SettableHashCode create( final int desiredHashCode ) {
     return new SettableHashCode( desiredHashCode );

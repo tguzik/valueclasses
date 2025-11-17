@@ -33,7 +33,7 @@ class BaseObjectTest {
   @AfterEach
   void tearDown() {
     // Return the static value to the state from before the test.
-    FakeObject.publicStatic = "this is static";
+    FakeObject.PUBLIC_STATIC = "this is static";
   }
 
   @Test
@@ -187,7 +187,7 @@ class BaseObjectTest {
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
     assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
 
-    FakeObject.publicStatic = "different static value";
+    FakeObject.PUBLIC_STATIC = "different static value";
 
     assertThat( value.hashCode() ).isEqualTo( value.hashCode() );
     assertThat( differentInstanceField.hashCode() ).isEqualTo( differentInstanceField.hashCode() );
@@ -210,9 +210,10 @@ class BaseObjectTest {
 
   @SuppressWarnings( "unused" )
   static class FakeObject extends BaseObject {
-    private static final String STATIC_STRING = "this is static";
+    private static final String PRIVATE_STATIC = "private static string";
+    public static String PUBLIC_STATIC = "public static string";
+
     protected volatile String first = "first string";
-    public static String publicStatic = "this is static";
     final String second = "second string";
     public String third = "third string";
     double almostPI = 3.14;
@@ -225,9 +226,10 @@ class BaseObjectTest {
 
   @SuppressWarnings( "unused" )
   static class SiblingOfFakeObject extends BaseObject {
-    private static final String STATIC_STRING = "this is static";
+    private static final String PRIVATE_STATIC = "private static string";
+    public static String PUBLIC_STATIC = "public static string";
+
     protected volatile String first = "first string";
-    public static String publicStatic = "this is static";
     final String second = "second string";
     public String third = "third string";
     double almostPI = 3.14;

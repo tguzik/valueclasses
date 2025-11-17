@@ -2,13 +2,6 @@ package com.tguzik.value.adapters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -17,12 +10,19 @@ import java.util.stream.Stream;
 
 import com.tguzik.objects.BaseObject;
 import com.tguzik.traits.HasValue;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.xmlunit.assertj3.XmlAssert;
 
-class JaxbValueAdapterTest {
+class JakartaJaxbValueAdapterTest {
 
   static Stream<Arguments> serializationTestCases() {
     return Stream.of( Arguments.of( new FakeContainer(), """
@@ -66,6 +66,7 @@ class JaxbValueAdapterTest {
   throws JAXBException {
     final var context = JAXBContext.newInstance( FakeContainer.class, FakeValue.class );
     final var source = new StreamSource( new StringReader( input ) );
+
     final FakeContainer actual = context.createUnmarshaller().unmarshal( source, FakeContainer.class ).getValue();
 
     assertThat( actual ).usingRecursiveComparison().isEqualTo( expected );
@@ -103,7 +104,7 @@ class JaxbValueAdapterTest {
     }
   }
 
-  static class Adapter extends JaxbValueAdapter<Long, FakeValue> {
+  static class Adapter extends JakartaJaxbValueAdapter<Long, FakeValue> {
     @Override
     protected FakeValue createNewInstance( Long value ) {
       if ( Objects.isNull( value ) ) {
