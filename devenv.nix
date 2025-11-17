@@ -12,7 +12,7 @@
   languages = {
     java = {
       enable = true;
-      jdk.package = pkgs.jdk11;
+      jdk.package = pkgs.jdk17;
       maven.enable = true;
     };
   };

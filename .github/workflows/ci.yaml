@@ -27,15 +27,13 @@ jobs:
 
       - name: Build, run tests, run static analysis
         shell: devenv shell bash -- -e {0}
-        run: |
-          mvn --version
-          mvn clean verify
+        run: mvn clean verify
 
   check-supported-jdks:
     needs: ci-using-devenv
     strategy:
       matrix:
-        jdk_version: [8, 11]
+        jdk_version: [ 17, 21 ]
 
     name: "JDK ${{ matrix.jdk_version }}"
     runs-on: ubuntu-latest
@@ -51,8 +49,6 @@ jobs:
 
       - name: Build, run tests, run static analysis
         shell: bash
-        run: |
-          mvn --version
-          mvn clean verify
+        run: mvn clean verify
 
 # eof
