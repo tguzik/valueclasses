@@ -22,9 +22,10 @@
   # Note that the JDK and Maven are already pulled in through the `languages.java` props.
   packages = [
     # Basic utilities
-    pkgs.git
     pkgs.curl
+    pkgs.git
     pkgs.go-task
+    pkgs.gnupg
   ];
 
   git-hooks.hooks = {

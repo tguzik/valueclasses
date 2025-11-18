@@ -33,7 +33,7 @@ class IntegrationWithJacksonTest {
                                     }
                                     """ ),
                       Arguments.of( new SampleContainer( new ClassStringValue( "value one" ),
-                                                         new ClassValue( 123 ),
+                                                         new ClassBasedValue( 123 ),
                                                          EnumStringValue.SECOND,
                                                          EnumValue.THIRD,
                                                          new NullableClassStringValue( null ),
@@ -59,7 +59,7 @@ class IntegrationWithJacksonTest {
                                     }
                                     """ ),
                       Arguments.of( new SampleContainer( new ClassStringValue( "value one" ),
-                                                         new ClassValue( 123 ),
+                                                         new ClassBasedValue( 123 ),
                                                          EnumStringValue.SECOND,
                                                          EnumValue.THIRD,
                                                          new NullableClassStringValue( "value five" ),
