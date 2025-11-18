@@ -7,7 +7,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 @JsonRootName( "SampleContainer" )
 record SampleContainer(@JsonProperty( "field01" ) ClassStringValue classBasedStringValue,
-                       @JsonProperty( "field02" ) ClassValue classBasedLongValue,
+                       @JsonProperty( "field02" ) ClassBasedValue classBasedLongValue,
                        @JsonProperty( "field03" ) EnumStringValue enumStringValue,
                        @JsonProperty( "field04" ) EnumValue enumLongValue,
                        @JsonProperty( "field05" ) NullableClassStringValue classNullOrStringValue,
