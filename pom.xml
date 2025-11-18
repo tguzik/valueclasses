@@ -259,6 +259,10 @@
                 <requireJavaVersion>
                   <version>[${jdk.release},)</version>
                 </requireJavaVersion>
+
+                <banDuplicatePomDependencyVersions/>
+                <reactorModuleConvergence />
+                <dependencyConvergence />
               </rules>
             </configuration>
           </execution>
