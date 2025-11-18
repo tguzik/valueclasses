@@ -209,7 +209,7 @@ public enum SampleEnum implements HasStringValue {
 ```
 
 <details>
-<summary>**HACK:** Make the record-based declaration even more concise</summary>
+<summary><strong>HACK:</strong> Make the record-based declaration even more concise</summary>
 
 The record-based valueclass declaration can be made even more concise, and can enable integration with Jackson by
 default, by declaring an interface similar to this one:
@@ -281,7 +281,7 @@ Even through that record-based valueclasses and DTOs are preferred, the library 
 includes reflection-based implementations of `equals()`, `hashCode()` and `toString()`:
 
 <details>
-<summary>Code snippet with an example usage of `BaseObject`</summary>
+<summary>Code snippet with an example usage of <code>BaseObject</code></summary>
 
 ```java
 import java.time.LocalDateTime;
@@ -359,7 +359,7 @@ Users of the 1.x version of this library can still use *classes* `c.t.v.Value` a
 mentioned above the general preference is to use valueclasses backed by Java Records:
 
 <details>
-<summary>Code snippet with example usage of `c.t.v.Value` and `c.t.v.StringValue`</summary>
+<summary>Code snippet with example usage of <code>c.t.v.Value</code> and <code>c.t.v.StringValue</code></summary>
 
 Example usage of `c.t.v.Value`:
 
