@@ -81,8 +81,8 @@ tasks:
           echo
 
       - cmd: echo "This step primes GnuPG cache so it can be used in non-interactive mode" | gpg --clearsign
-      - cmd: mvn --errors --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease -DdryRun=true
-      #- cmd: mvn --errors --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease
+      - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease -DdryRun=true
+      - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease
       - silent: true
         cmd: |
           echo -e "\n\nDone!"
