@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.tguzik</groupId>
   <artifactId>valueclasses-parent</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0.0</version>
   <packaging>pom</packaging>
 
   <name>${project.groupId}:${project.artifactId}</name>
@@ -25,6 +24,7 @@
     <connection>scm:git:git@github.com:tguzik/valueclasses.git</connection>
     <developerConnection>scm:git:git@github.com:tguzik/valueclasses.git</developerConnection>
     <url>git@github.com:tguzik/valueclasses.git</url>
+    <tag>v2.0.0</tag>
   </scm>
 
   <issueManagement>
@@ -43,7 +43,7 @@
     <jdk.release>17</jdk.release>
 
     <!-- Support for reproducible builds - see https://maven.apache.org/guides/mini/guide-reproducible-builds.html -->
-    <project.build.outputTimestamp>1990-01-01T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-11-18T23:44:10Z</project.build.outputTimestamp>
 
     <!-- Unit tests, static analysis and friends -->
     <plugin-settings.directory>${project.basedir}/.mvn/plugins</plugin-settings.directory>
@@ -261,7 +261,7 @@
                   <version>[${jdk.release},)</version>
                 </requireJavaVersion>
 
-                <banDuplicatePomDependencyVersions/>
+                <banDuplicatePomDependencyVersions />
                 <reactorModuleConvergence />
                 <dependencyConvergence />
               </rules>
