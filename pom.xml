@@ -128,13 +128,13 @@
         <!-- Uses jakarta.xml.* namespace -->
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.4</version>
       </dependency>
       <dependency>
         <!-- Uses jakarta.xml.* namespace -->
         <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-impl</artifactId>
-        <version>4.0.5</version>
+        <version>4.0.6</version>
       </dependency>
 
       <!-- Dependencies related specifically to unit testing -->
