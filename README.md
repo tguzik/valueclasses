@@ -13,7 +13,10 @@ when dealing with "*stringly-typed*" APIs or frameworks.
 For example, let's say we have an API that updates account balance during a transaction:
 
 ```java
-public void updateAccountBalance( long customerId, long pointOfSaleId, long centsDelta, @Nullable String title ) {
+public void updateAccountBalance( long customerId,
+                                  long pointOfSaleId,
+                                  long centsDelta,
+                                  @Nullable String title ) {
   // [...]
 }
 ```
@@ -23,7 +26,10 @@ Now, let's say that another module contains business logic that boils down to:
 ```java
 public void processTransaction( TransactionContext context, Customer customer ) {
   // [...]
-  updateAccountBalance( customer.getId(), context.getId(), context.getPriceInCents(), context.getTransactionTitle() );
+  updateAccountBalance( customer.getId(),
+                        context.getId(),
+                        context.getPriceInCents(),
+                        context.getTransactionTitle() );
   // [...]
 }
 ```
@@ -54,7 +60,7 @@ As with any project, these value-based objects should only be used where it is r
 for complicated APIs and business logic are a good places for them. On the other hand tight loops in graphics
 processing are not.
 
-Side note: If you are here, then you will probably be interested in these open-source static analyzers
+Side note: If you are here, then you will probably be interested in open-source static analyzers
 [error_prone](https://github.com/google/error-prone), [Spotbugs](https://github.com/spotbugs/spotbugs) and
 [PMD](https://github.com/pmd/pmd). All three can be used at once, as each one performs different checks. All three
 are integrated in this project, so it can serve as an example for integrating them in your application.
@@ -74,7 +80,7 @@ The library is available in Maven Central repository. You can use it in your pro
   </dependency>
 
   <dependency>
-    <!-- Module preserving non-core, auxiliary implementations of classes included with the 1.x release: -->
+    <!-- Module preserving non-core, auxiliary classes included with the 1.x release: -->
     <groupId>com.tguzik</groupId>
     <artifactId>valueclasses-legacy</artifactId>
     <version>${current_version}</version>
@@ -182,7 +188,7 @@ public enum SampleEnum implements HasStringValue {
     return value;
   }
 
-  public Optional<SampleEnum> fromString( @Nullable final String input ) {
+  public static Optional<SampleEnum> fromString( @Nullable final String input ) {
     final String trimmed = StringUtils.trimToEmpty( input ).toUpperCase( Locale.ROOT );
 
     for ( final SampleEnum entry : values() ) {
@@ -196,14 +202,14 @@ public enum SampleEnum implements HasStringValue {
 
   @Nullable
   @JsonCreator
-  public SampleEnum jacksonForValue( @Nullable final String input ) {
+  public static SampleEnum jacksonForValue( @Nullable final String input ) {
     return fromString( input ).orElse( null );
   }
 }
 ```
 
 <details>
-<summary>HACK: Make the record-based declaration even more concise</summary>
+<summary>**HACK:** Make the record-based declaration even more concise</summary>
 
 The record-based valueclass declaration can be made even more concise, and can enable integration with Jackson by
 default, by declaring an interface similar to this one:
@@ -261,8 +267,8 @@ import org.jspecify.annotations.Nullable;
 public record Customer(@JsonProperty( "CustomerId" ) long id,
                        @JsonProperty( "Name" ) CustomerName name,
                        @JsonProperty( "Email" ) EmailAddress email,
-                       @Nullable @JsonProperty( "CreationDate" ) LocalDateTime creationDate,
-                       @Nullable @JsonProperty( "LastModificationDate" ) LocalDateTime lastModificationDate) {
+                       @Nullable @JsonProperty( "CreationDate" ) LocalDateTime createDate,
+                       @Nullable @JsonProperty( "LastModificationDate" ) LocalDateTime lastModDate) {
 
   public Customer {
     Objects.requireNonNull( name );

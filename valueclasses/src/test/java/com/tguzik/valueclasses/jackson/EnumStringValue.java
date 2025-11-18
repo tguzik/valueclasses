@@ -28,7 +28,7 @@ enum EnumStringValue implements HasStringValue {
     return value;
   }
 
-  public Optional<EnumStringValue> fromString( @Nullable final String input ) {
+  public static Optional<EnumStringValue> fromString( @Nullable final String input ) {
     final String trimmed = StringUtils.trimToEmpty( input ).toUpperCase( Locale.ROOT );
     for ( final EnumStringValue entry : values() ) {
       if ( entry.value.equals( trimmed ) ) {
@@ -40,7 +40,7 @@ enum EnumStringValue implements HasStringValue {
 
   @Nullable
   @JsonCreator
-  public EnumStringValue jacksonForValue( @Nullable final String input ) {
+  public static EnumStringValue jacksonForValue( @Nullable final String input ) {
     return fromString( input ).orElse( null );
   }
 }

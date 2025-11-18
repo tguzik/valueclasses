@@ -24,7 +24,7 @@ enum EnumValue implements HasValue<Long> {
     return value;
   }
 
-  public Optional<EnumValue> fromLong( final long input ) {
+  public static Optional<EnumValue> fromLong( final long input ) {
     for ( final var entry : values() ) {
       if ( entry.value == input ) {
         return Optional.of( entry );
@@ -35,7 +35,7 @@ enum EnumValue implements HasValue<Long> {
 
   @Nullable
   @JsonCreator
-  public EnumValue jacksonForValue( final long input ) {
+  public static EnumValue jacksonForValue( final long input ) {
     return fromLong( input ).orElse( null );
   }
 }
