@@ -11,7 +11,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 @NullMarked
-public enum EnumStringValue implements HasStringValue {
+enum EnumStringValue implements HasStringValue {
   FIRST( "ABC" ),
   SECOND( "BCD" ),
   THIRD( "DEF" );
@@ -28,10 +28,9 @@ public enum EnumStringValue implements HasStringValue {
     return value;
   }
 
-  public Optional<EnumStringValue> fromLong( @Nullable final String input ) {
+  public Optional<EnumStringValue> fromString( @Nullable final String input ) {
     final String trimmed = StringUtils.trimToEmpty( input ).toUpperCase( Locale.ROOT );
-
-    for ( final var entry : values() ) {
+    for ( final EnumStringValue entry : values() ) {
       if ( entry.value.equals( trimmed ) ) {
         return Optional.of( entry );
       }
@@ -42,6 +41,6 @@ public enum EnumStringValue implements HasStringValue {
   @Nullable
   @JsonCreator
   public EnumStringValue jacksonForValue( @Nullable final String input ) {
-    return fromLong( input ).orElse( null );
+    return fromString( input ).orElse( null );
   }
 }

@@ -15,12 +15,13 @@ record SampleContainer(@JsonProperty( "field01" ) ClassStringValue classBasedStr
                        @JsonProperty( "field07" ) NullableRecordStringValue recordNullOrStringValue,
                        @JsonProperty( "field08" ) NullableRecordValue recordNullOrLongValue,
                        @JsonProperty( "field09" ) RecordStringValue recordStringValue,
-                       @JsonProperty( "field10" ) RecordValue recordLongValue) {
+                       @JsonProperty( "field10" ) RecordValue recordLongValue,
+                       @JsonProperty( "field11" ) TerseRecordStringValue terseStringValue) {
 
   // Truth be told it doesn't really need the JsonRootName and JsonProperty annotations to do what we need it to do, but let's
   // create a complete example.
 
   SampleContainer() {
-    this( null, null, null, null, null, null, null, null, null, null );
+    this( null, null, null, null, null, null, null, null, null, null, null );
   }
 }

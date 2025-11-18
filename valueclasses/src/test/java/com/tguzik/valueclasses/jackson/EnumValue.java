@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.tguzik.traits.HasValue;
 import org.jspecify.annotations.Nullable;
 
-public enum EnumValue implements HasValue<Long> {
+enum EnumValue implements HasValue<Long> {
   FIRST( 123 ),
   SECOND( 234 ),
   THIRD( 345 );
