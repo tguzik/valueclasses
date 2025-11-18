@@ -7,7 +7,7 @@
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>ValueClasses Parent POM</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <url>https://github.com/tguzik/valueclasses</url>
   <description>
     This library provides an easy-to-use template for implementing value classes that contain domain data.
