@@ -51,7 +51,7 @@ tasks:
       - task: build
       #
       # Actual release cutoff
-      - cmd: mvn release:clean release:perform
+      - cmd: mvn clean release:clean release:prepare release:perform
       #
       # Display a reminder
       - silent: true
