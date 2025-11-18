@@ -11,7 +11,7 @@
   <artifactId>valueclasses</artifactId>
   <packaging>jar</packaging>
 
-  <name>ValueClasses</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <description>
     This library provides an easy-to-use template for implementing value classes that contain domain data.
   </description>

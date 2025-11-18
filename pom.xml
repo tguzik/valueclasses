@@ -7,7 +7,7 @@
   <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>ValueClasses Parent POM</name>
+  <name>${project.groupId}:${project.artifactId}</name>
   <url>https://github.com/tguzik/valueclasses</url>
   <description>
     This library provides an easy-to-use template for implementing value classes that contain domain data.
@@ -60,16 +60,29 @@
 
   <profiles>
     <profile>
-      <id>sonatype-deploy</id>
+      <id>release</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <build>
-        <defaultGoal>clean verify deploy</defaultGoal>
+        <defaultGoal>
+          clean
+          release:clean
+          release:prepare
+          release:perform
+        </defaultGoal>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -93,27 +106,16 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <keyname>${env.MAVEN_GPG_KEY}</keyname>
+                </configuration>
               </execution>
             </executions>
-            <configuration>
-              <keyname>${env.MAVEN_GPG_KEY}</keyname>
-              <bestPractices>true</bestPractices>
-              <signer>gpg</signer>
-            </configuration>
           </plugin>
           <plugin>
             <groupId>org.sonatype.central</groupId>
             <artifactId>central-publishing-maven-plugin</artifactId>
             <extensions>true</extensions>
-            <configuration>
-              <publishingServerId>central</publishingServerId>
-              <deploymentName>Deployment: valueclasses</deploymentName>
-              <autoPublish>false</autoPublish>
-              <checksums>all</checksums>
-              <!--
-              <skipPublishing>true</skipPublishing>
-              -->
-            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -126,7 +128,6 @@
       </activation>
       <build>
         <defaultGoal>
-          versions:display-parent-updates
           versions:display-property-updates
           versions:display-dependency-updates
           versions:display-plugin-updates
@@ -381,6 +382,16 @@
         <!-- Release support -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>3.1.1</version>
+          <configuration>
+            <releaseProfiles>release</releaseProfiles>
+            <localCheckout>true</localCheckout>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>3.3.1</version>
         </plugin>
@@ -388,16 +399,42 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.12.0</version>
+          <configuration>
+            <doclint>all,-missing</doclint>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
           <version>3.2.8</version>
+          <configuration>
+            <bestPractices>true</bestPractices>
+            <signer>gpg</signer>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.4</version>
+          <configuration>
+            <!-- Artifact deployments are always handled by entral-publishing-maven-plugin -->
+            <skip>true</skip>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.sonatype.central</groupId>
           <artifactId>central-publishing-maven-plugin</artifactId>
           <version>0.9.0</version>
+          <extensions>true</extensions>
+          <configuration>
+            <publishingServerId>central</publishingServerId>
+            <deploymentName>Deployment: valueclasses</deploymentName>
+            <autoPublish>false</autoPublish>
+            <checksums>all</checksums>
+            <!--
+            <skipPublishing>true</skipPublishing>
+            -->
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

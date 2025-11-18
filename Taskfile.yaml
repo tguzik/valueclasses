@@ -22,7 +22,7 @@ tasks:
     cmds:
       - cmd: mvn -Pupgrades
 
-  maintainer:check-reproducibility:
+  maintenance:check-reproducibility:
     # See https://maven.apache.org/guides/mini/guide-reproducible-builds.html
     desc: Check if artifacts are reproducible
     cmds:
@@ -30,38 +30,11 @@ tasks:
       - cmd: mvn clean install
       - cmd: mvn clean verify artifact:compare
 
-  maintainer:release:create:
-    desc: Cuts off a new version of the library
-    interactive: true
-    cmds:
-      - silent: true
-        cmd: |
-          echo "Identities recognized by ssh agent:"
-          ssh-add -L
-          echo -e "\nIdentities recognized by gpg agent:"
-          gpg-connect-agent 'keyinfo --list' '/bye'
-          echo
-          read -p "If that list looks okay, press enter to continue " -s
-          echo
-
-      - cmd: echo "This step primes GnuPG cache so it can be used in non-interactive mode" | gpg --clearsign
-      #
-      # Make sure the build passes on all modules before creating any tags. The release plugin should do it on its own, but
-      # let's be super-duper safe - scrubbing partial releases is not exactly fun.
-      - task: build
-      #
-      # Actual release cutoff
-      - cmd: mvn clean release:clean release:prepare release:perform
-      #
-      # Display a reminder
-      - silent: true
-        cmd: echo -e "\n\nDone!\nMake sure all refs are pushed and that the new release is deployed to Central."
-
-  maintainer:release:deploy:
-    desc: Deploys current version to Sonatype Maven Central
+  maintenance:release:
+    desc: Cuts off a new release and deploys artifacts to Sonatype Maven Central
     summary: |
-      This task verifies that appropriate credentials have been entered, kicks off build
-      and uploads artifacts to Sonatype Maven Central.
+      This task verifies that appropriate credentials have been entered, cuts off a new
+      release, kicks off build and uploads artifacts to Sonatype Maven Central.
 
       NOTE: Depending on settings manual action may be needed to publish the artifacts.
 
@@ -97,14 +70,19 @@ tasks:
       - sh: test -n "${MAVEN_GPG_PASSPHRASE}"
         msg: Environment variable with release signing GnuPG key passphrase is missing or empty
     cmds:
-      #
-      # Make sure the build passes on all modules to avoid partial uploads.
-      - task: build
-      #
-      # This is the actual magic spell to upload the artifacts
-      - cmd: mvn --errors --settings={{ .SETTINGS_FILE | shellQuote }} -Psonatype-deploy
-      #
-      # Display a reminder
+      - silent: true
+        cmd: |
+          echo "Identities recognized by ssh agent:"
+          ssh-add -L
+          echo -e "\nIdentities recognized by gpg agent:"
+          gpg-connect-agent 'keyinfo --list' '/bye'
+          echo
+          read -p "If that list looks okay, press enter to continue " -s
+          echo
+
+      - cmd: echo "This step primes GnuPG cache so it can be used in non-interactive mode" | gpg --clearsign
+      - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease -DdryRun=true
+      - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease
       - silent: true
         cmd: |
           echo -e "\n\nDone!"
