@@ -16,20 +16,22 @@ import tools.jackson.databind.json.JsonMapper;
 class IntegrationWithJacksonTest {
 
   static Stream<Arguments> serializationTestCases() {
-    return Stream.of( Arguments.of( new SampleContainer(), """
-                                                           {
-                                                             "field01": null,
-                                                             "field02": null,
-                                                             "field03": null,
-                                                             "field04": null,
-                                                             "field05": null,
-                                                             "field06": null,
-                                                             "field07": null,
-                                                             "field08": null,
-                                                             "field09": null,
-                                                             "field10": null
-                                                           }
-                                                           """ ),
+    return Stream.of( Arguments.of( new SampleContainer(), //
+                                    """
+                                    {
+                                      "field01": null,
+                                      "field02": null,
+                                      "field03": null,
+                                      "field04": null,
+                                      "field05": null,
+                                      "field06": null,
+                                      "field07": null,
+                                      "field08": null,
+                                      "field09": null,
+                                      "field10": null,
+                                      "field11": null
+                                    }
+                                    """ ),
                       Arguments.of( new SampleContainer( new ClassStringValue( "value one" ),
                                                          new ClassValue( 123 ),
                                                          EnumStringValue.SECOND,
@@ -38,21 +40,24 @@ class IntegrationWithJacksonTest {
                                                          new NullableClassValue( null ),
                                                          new NullableRecordStringValue( null ),
                                                          new NullableRecordValue( null ),
-                                                         new RecordStringValue( "value nine" ),
-                                                         new RecordValue( 1234 ) ), """
-                                                                                    {
-                                                                                      "field01": "value one",
-                                                                                      "field02": 123,
-                                                                                      "field03": "BCD",
-                                                                                      "field04": 345,
-                                                                                      "field05": null,
-                                                                                      "field06": null,
-                                                                                      "field07": null,
-                                                                                      "field08": null,
-                                                                                      "field09": "value nine",
-                                                                                      "field10": 1234
-                                                                                    }
-                                                                                    """ ),
+                                                         new RecordStringValue( "  value nine  " ),
+                                                         new RecordValue( 1234 ),
+                                                         new TerseRecordStringValue( "value eleven" ) ), //
+                                    """
+                                    {
+                                      "field01": "value one",
+                                      "field02": 123,
+                                      "field03": "BCD",
+                                      "field04": 345,
+                                      "field05": null,
+                                      "field06": null,
+                                      "field07": null,
+                                      "field08": null,
+                                      "field09": "VALUE NINE",
+                                      "field10": 1234,
+                                      "field11": "value eleven"
+                                    }
+                                    """ ),
                       Arguments.of( new SampleContainer( new ClassStringValue( "value one" ),
                                                          new ClassValue( 123 ),
                                                          EnumStringValue.SECOND,
@@ -61,21 +66,24 @@ class IntegrationWithJacksonTest {
                                                          new NullableClassValue( 678L ),
                                                          new NullableRecordStringValue( "value seven" ),
                                                          new NullableRecordValue( 890L ),
-                                                         new RecordStringValue( "value nine" ),
-                                                         new RecordValue( 1234 ) ), """
-                                                                                    {
-                                                                                      "field01": "value one",
-                                                                                      "field02": 123,
-                                                                                      "field03": "BCD",
-                                                                                      "field04": 345,
-                                                                                      "field05": "value five",
-                                                                                      "field06": 678,
-                                                                                      "field07": "value seven",
-                                                                                      "field08": 890,
-                                                                                      "field09": "value nine",
-                                                                                      "field10": 1234
-                                                                                    }
-                                                                                    """ ) );
+                                                         new RecordStringValue( "  value nine  " ),
+                                                         new RecordValue( 1234 ),
+                                                         new TerseRecordStringValue( "value eleven" ) ), //
+                                    """
+                                    {
+                                      "field01": "value one",
+                                      "field02": 123,
+                                      "field03": "BCD",
+                                      "field04": 345,
+                                      "field05": "value five",
+                                      "field06": 678,
+                                      "field07": "value seven",
+                                      "field08": 890,
+                                      "field09": "VALUE NINE",
+                                      "field10": 1234,
+                                      "field11": "value eleven"
+                                    }
+                                    """ ) );
   }
 
   @ParameterizedTest

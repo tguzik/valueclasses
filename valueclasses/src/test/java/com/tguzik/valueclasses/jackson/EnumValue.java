@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.tguzik.traits.HasValue;
 import org.jspecify.annotations.Nullable;
 
-public enum EnumValue implements HasValue<Long> {
+enum EnumValue implements HasValue<Long> {
   FIRST( 123 ),
   SECOND( 234 ),
   THIRD( 345 );
@@ -24,7 +24,7 @@ public enum EnumValue implements HasValue<Long> {
     return value;
   }
 
-  public Optional<EnumValue> fromLong( final long input ) {
+  public static Optional<EnumValue> fromLong( final long input ) {
     for ( final var entry : values() ) {
       if ( entry.value == input ) {
         return Optional.of( entry );
@@ -35,7 +35,7 @@ public enum EnumValue implements HasValue<Long> {
 
   @Nullable
   @JsonCreator
-  public EnumValue jacksonForValue( final long input ) {
+  public static EnumValue jacksonForValue( final long input ) {
     return fromLong( input ).orElse( null );
   }
 }
