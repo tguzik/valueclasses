@@ -1,0 +1,13 @@
+<settings>
+  <!--
+  This file is only used for deploying a new version on Sonatype Maven Central.
+  See the taskfile for additional details.
+  -->
+  <servers>
+    <server>
+      <id>central</id>
+      <username>${env.MAVEN_SONATYPE_CENTRAL_USERNAME}</username>
+      <password>${env.MAVEN_SONATYPE_CENTRAL_PASSWORD}</password>
+    </server>
+  </servers>
+</settings>
