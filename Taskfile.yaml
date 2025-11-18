@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+# ---
+# Docs:
+# https://taskfile.dev/
+# https://taskfile.dev/docs/reference/schema
+version: '3'
+
+tasks:
+  default:
+    silent: true
+    cmd: |
+      echo "List all available tests with:"
+      echo "[$] task --list-all"
+
+  build:
+    desc: Builds the library, runs unit tests and static analysis
+    cmds:
+      - cmd: mvn clean verify
+
+  upgrades:
+    desc: Searches newer versions of Maven dependencies
+    cmds:
+      - cmd: mvn -Pupgrades
+
+  maintainer:check-reproducibility:
+    # See https://maven.apache.org/guides/mini/guide-reproducible-builds.html
+    desc: Check if artifacts are reproducible
+    cmds:
+      - cmd: mvn artifact:check-buildplan
+      - cmd: mvn clean install
+      - cmd: mvn clean verify artifact:compare
+
+  maintainer:release:create:
+    desc: Cuts off a new version of the library
+    interactive: true
+    cmds:
+      - silent: true
+        cmd: |
+          echo "Identities recognized by ssh agent:"
+          ssh-add -L
+          echo -e "\nIdentities recognized by gpg agent:"
+          gpg-connect-agent 'keyinfo --list' '/bye'
+          echo
+          read -p "If that list looks okay, press enter to continue " -s
+          echo
+
+      - cmd: echo "This step primes GnuPG cache so it can be used in non-interactive mode" | gpg --clearsign
+      #
+      # Make sure the build passes on all modules before creating any tags. The release plugin should do it on its own, but
+      # let's be super-duper safe - scrubbing partial releases is not exactly fun.
+      - task: build
+      #
+      # Actual release cutoff
+      - cmd: mvn release:clean release:perform
+      #
+      # Display a reminder
+      - silent: true
+        cmd: echo -e "\n\nDone!\nMake sure all refs are pushed and that the new release is deployed to Central."
+
+  maintainer:release:deploy:
+    desc: Deploys current version to Sonatype Maven Central
+    summary: |
+      This task verifies that appropriate credentials have been entered, kicks off build
+      and uploads artifacts to Sonatype Maven Central.
+
+      NOTE: Depending on settings manual action may be needed to publish the artifacts.
+
+      Docs:
+      https://central.sonatype.org/register/central-portal/
+      https://central.sonatype.org/publish/publish-portal-guide/
+      https://central.sonatype.org/publish/publish-portal-maven/
+
+      Tokens page:
+      https://central.sonatype.com/usertoken
+    env:
+      # Good 80% of the reason why these are defined here is to be really, *really* explicit with required
+      # environment variables/secrets. The remapping from pre-existing environment variables is just a
+      # cherry on top.
+      # These secrets are stored in an encrypted form and decrypted only when strictly necessary, obviously.
+      MAVEN_SONATYPE_CENTRAL_USERNAME:
+        sh: echo "${PUBLISHER_SONATYPE_CENTRAL_TOKEN_USER}"
+      MAVEN_SONATYPE_CENTRAL_PASSWORD:
+        sh: echo "${PUBLISHER_SONATYPE_CENTRAL_TOKEN_PASS}"
+      MAVEN_GPG_KEY:
+        sh: echo "${PUBLISHER_GPG_KEY}"
+      MAVEN_GPG_PASSPHRASE:
+        sh: echo "${PUBLISHER_GPG_PASSPHRASE}"
+    vars:
+      SETTINGS_FILE: ".mvn/publish-on-sonatype-central.settings.xml"
+    preconditions:
+      - sh: test -n "${MAVEN_SONATYPE_CENTRAL_USERNAME}"
+        msg: Environment variable with Sonatype Maven Central token username is missing or empty
+      - sh: test -n "${MAVEN_SONATYPE_CENTRAL_PASSWORD}"
+        msg: Environment variable with Sonatype Maven Central token password is missing or empty
+      - sh: test -n "${MAVEN_GPG_KEY}"
+        msg: Environment variable with release signing GnuPG key name is missing or empty
+      - sh: test -n "${MAVEN_GPG_PASSPHRASE}"
+        msg: Environment variable with release signing GnuPG key passphrase is missing or empty
+    cmds:
+      #
+      # Make sure the build passes on all modules to avoid partial uploads.
+      - task: build
+      #
+      # This is the actual magic spell to upload the artifacts
+      - cmd: mvn --errors --settings={{ .SETTINGS_FILE | shellQuote }} -Psonatype-deploy
+      #
+      # Display a reminder
+      - silent: true
+        cmd: |
+          echo -e "\n\nDone!"
+          echo "Depending on auto-publishing settings you may need push the butan on"
+          echo " https://central.sonatype.com/publishing/deployments "
+
+# eof
