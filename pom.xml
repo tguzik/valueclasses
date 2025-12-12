@@ -387,6 +387,7 @@
           <configuration>
             <releaseProfiles>release</releaseProfiles>
             <localCheckout>true</localCheckout>
+            <signTag>true</signTag>
             <tagNameFormat>v@{project.version}</tagNameFormat>
           </configuration>
         </plugin>
