@@ -1,10 +1,4 @@
-{
-  pkgs,
-  lib,
-  config,
-  inputs,
-  ...
-}:
+{ pkgs, ... }:
 {
   # See full reference at https://devenv.sh/reference/options/
 
@@ -30,6 +24,7 @@
 
   git-hooks.hooks = {
     actionlint.enable = true;
+    deadnix.enable = true;
     gitlint.enable = true;
     markdownlint = {
       enable = true;
@@ -43,6 +38,7 @@
     };
     nixfmt.enable = true;
     no-commit-to-branch.enable = true;
+    statix.enable = true;
     shellcheck.enable = true;
     trufflehog.enable = true;
     yamllint = {
