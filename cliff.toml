@@ -1,6 +1,6 @@
 # git-cliff ~ configuration file
+# https://github.com/orhun/git-cliff
 # https://git-cliff.org/docs/configuration
-
 
 [changelog]
 # A Tera template to be rendered for each release in the changelog.
@@ -27,14 +27,14 @@ render_always = true
 # An array of regex based postprocessors to modify the changelog.
 postprocessors = [
     # Replace the placeholder <REPO> with a URL.
-    #{ pattern = '<REPO>', replace = "https://github.com/orhun/git-cliff" },
+    { pattern = '<REPO>', replace = "https://github.com/tguzik/valueclasses" },
 ]
-# render body even when there are no releases to process
-# render_always = true
-# output file path
-# output = "test.md"
+# Default output file path
+#output = "CHANGELOG.md"
 
 [git]
+# Pattern for release tags used in this repo
+tag_pattern = "^v[0-9].*"
 # Parse commits according to the conventional commits specification.
 # See https://www.conventionalcommits.org
 conventional_commits = true
@@ -48,13 +48,11 @@ split_commits = false
 # An array of regex based parsers to modify commit messages prior to further processing.
 commit_preprocessors = [
     # Replace issue numbers with link templates to be updated in `changelog.postprocessors`.
-    #{ pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](<REPO>/issues/${2}))"},
-    # Check spelling of the commit message using https://github.com/crate-ci/typos.
-    # If the spelling is incorrect, it will be fixed automatically.
-    #{ pattern = '.*', replace_command = 'typos --write-changes -' },
+    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](<REPO>/issues/${2}))" },
 ]
 # Prevent commits that are breaking from being excluded by commit parsers.
-protect_breaking_commits = false
+protect_breaking_commits = true
+
 # An array of regex based parsers for extracting data from the commit message.
 # Assigns commits to groups.
 # Optionally sets the commit's scope and can decide to exclude commits from further processing.
@@ -90,3 +88,5 @@ topo_order_commits = true
 sort_commits = "oldest"
 # Process submodules commits
 recurse_submodules = false
+
+# eof
