@@ -29,7 +29,7 @@ tasks:
         # If we included the --unreleased flag while on a commit that belongs to any tag, we would get an empty list. If this
         # task was only used to generate release notes in the GH-A workflow, right on a release tag, not including the flag
         # would've been just fine.
-        # On the other hand, having ability to easily generate a one-off preview of what would be generated without having to
+        # On the other hand, being able to easily create a one-off preview of what would be generated without having to
         # create a local tag is pretty useful too.
         # Regular `git log --oneline` should still be the daily driver, though.
         sh: |
