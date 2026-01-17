@@ -14,12 +14,21 @@
   # https://devenv.sh/packages/
   # https://search.nixos.org/packages
   # Note that the JDK and Maven are already pulled in through the `languages.java` props.
-  packages = [
+  packages = with pkgs; [
     # Basic utilities
-    pkgs.curl
-    pkgs.git
-    pkgs.go-task
-    pkgs.gnupg
+    curl
+    git
+    go-task
+    gnupg
+
+    # Maven Daemon
+    # https://github.com/apache/maven-mvnd
+    mvnd
+
+    # Highly customizable changelog generator
+    # https://github.com/orhun/git-cliff
+    # https://git-cliff.org/docs/
+    git-cliff
   ];
 
   git-hooks.hooks = {

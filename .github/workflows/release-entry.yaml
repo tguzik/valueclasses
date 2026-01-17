@@ -1,0 +1,53 @@
+name: Release Changelog
+
+on:
+  push:
+    # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed.
+    # The tag pattern is defined in maven-release-plugin's settings in pom.xml authoritatively. The changelog
+    # generator - git-cliff - just goes through all relevant tags, regardless of their name.
+    tags:
+      - 'v[0-9]+.*'
+
+jobs:
+  release:
+    name: Create GitHub Release entry
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed by softprops/action-gh-release to create the GitHub Release entry:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: cachix/install-nix-action@v31
+
+      - uses: cachix/cachix-action@v16
+        with:
+          name: devenv
+
+      - name: Install devenv.sh
+        run: nix profile install nixpkgs#devenv
+
+      - name: Generate change list
+        shell: devenv shell bash -- -e {0}
+        run: |
+          task release:changelog FILE=changes.md
+
+      - name: Include the change list in summary
+        shell: devenv shell bash -- -e {0}
+        continue-on-error: true
+        run: |
+          echo -e "# Generated change list:\n\n----\n\n" >> "$GITHUB_STEP_SUMMARY"
+          cat changes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create GitHub Release entry
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          # Populate the release entry body with the notes we generated
+          body_path: changes.md
+          # A hooman still needs to push the butan
+          draft: true
+
+# eof
