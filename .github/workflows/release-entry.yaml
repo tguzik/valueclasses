@@ -7,7 +7,6 @@ on:
     # generator - git-cliff - just goes through all relevant tags, regardless of their name.
     tags:
       - 'v[0-9]+.*'
-  pull_request: # For testing
 
 jobs:
   release:
