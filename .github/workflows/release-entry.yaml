@@ -7,6 +7,7 @@ on:
     # generator - git-cliff - just goes through all relevant tags, regardless of their name.
     tags:
       - 'v[0-9]+.*'
+  pull_request: # For testing
 
 jobs:
   release:
@@ -19,6 +20,11 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+          clean: true
+          #
+          # Fetch full history, including tags, or otherwise the changelog generation will silently fail:
+          fetch-depth: 0
+          fetch-tags: true
 
       - uses: cachix/install-nix-action@v31
 
