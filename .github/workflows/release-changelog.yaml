@@ -1,14 +1,11 @@
 name: Release Changelog
 
 on:
-  # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed
-#  push:
-#    tags:
-#      - 'v[0-9]+.*'
-
-  #
-  # Temporary to test the workflow:
-  pull_request:  # No additional yaml keys are necessary
+  push:
+    # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed
+    tags:
+      - 'v[0-9]+.*'
+      - 'tmp-.*' # Temporary to test the workflow
 
 jobs:
   release:
