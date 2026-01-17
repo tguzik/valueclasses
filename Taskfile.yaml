@@ -22,20 +22,21 @@ tasks:
     cmds:
       - cmd: mvn -Pupgrades
 
-  maintenance:changelog:
+  release:changelog:
     desc: Creates list of changes since the last release tag
     cmds:
       - cmd: git-cliff --current --unreleased --output {{ .FILE | default "-" | shellQuote }}
 
-  maintenance:check-reproducibility:
+  release:check-reproducibility:
     # See https://maven.apache.org/guides/mini/guide-reproducible-builds.html
     desc: Check if artifacts are reproducible
     cmds:
       - cmd: mvn artifact:check-buildplan
       - cmd: mvn clean install
       - cmd: mvn clean verify artifact:compare
+      - cmd: mvn clean
 
-  maintenance:release:
+  release:create:
     desc: Cuts off a new release and deploys artifacts to Sonatype Maven Central
     summary: |
       This task verifies that appropriate credentials have been entered, cuts off a new
@@ -86,6 +87,7 @@ tasks:
           echo
 
       - cmd: echo "This step primes GnuPG cache so it can be used in non-interactive mode" | gpg --clearsign
+      - task: release:check-reproducibility
       - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease -DdryRun=true
       - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease
       - silent: true
