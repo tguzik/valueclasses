@@ -2,17 +2,18 @@ name: Release Changelog
 
 on:
   push:
-    # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed
+    # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed.
+    # The tag pattern is defined in maven-release-plugin's settings in pom.xml authoritatively. The changelog
+    # generator - git-cliff - just goes through all relevant tags, regardless of their name.
     tags:
       - 'v[0-9]+.*'
-  pull_request: # Temporary to test the workflow
 
 jobs:
   release:
     name: Create GitHub Release entry
     runs-on: ubuntu-latest
     permissions:
-      # Needed for creating the GitHub Release entry:
+      # Needed by softprops/action-gh-release to create the GitHub Release entry:
       contents: write
     steps:
       - uses: actions/checkout@v6
