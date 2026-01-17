@@ -26,8 +26,8 @@ trim = true
 render_always = true
 # An array of regex based postprocessors to modify the changelog.
 postprocessors = [
-    # Replace the placeholder <REPO> with a URL.
-    { pattern = '<REPO>', replace = "https://github.com/tguzik/valueclasses" },
+  # Replace the placeholder <REPO> with a URL.
+  { pattern = '<REPO>', replace = "https://github.com/tguzik/valueclasses" },
 ]
 # Default output file path
 #output = "CHANGELOG.md"
@@ -47,31 +47,33 @@ require_conventional = false
 split_commits = false
 # An array of regex based parsers to modify commit messages prior to further processing.
 commit_preprocessors = [
-    # Replace issue numbers with link templates to be updated in `changelog.postprocessors`.
-    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](<REPO>/issues/${2}))" },
+  # Replace issue numbers with link templates to be updated in `changelog.postprocessors`.
+  { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](<REPO>/issues/${2}))" },
 ]
 # Prevent commits that are breaking from being excluded by commit parsers.
 protect_breaking_commits = true
-
-# An array of regex based parsers for extracting data from the commit message.
-# Assigns commits to groups.
+# An array of regex-based parsers that assign commits to a group.
 # Optionally sets the commit's scope and can decide to exclude commits from further processing.
+# The regex is applied over the whole message.
+
+# The entries here are processed in order and the first matched regex (the `message` prop) will assign the commit to a group. The
+# groups in the output appear in the ascending lexical order of the group names, not the order of these entries. The HTML comment
+# in the name of the group still participates in sorting but is omitted from the output - we're using it to manually set the
+# order.
+# Additional examples: https://git-cliff.org/docs/configuration/git#commit_parsers
 commit_parsers = [
-    { message = "^feat", group = "<!-- 0 -->🚀 Features" },
-    { message = "^fix", group = "<!-- 1 -->🐛 Bug Fixes" },
-    { message = "^doc", group = "<!-- 3 -->📚 Documentation" },
-    { message = "^perf", group = "<!-- 4 -->⚡ Performance" },
-    { message = "^refactor", group = "<!-- 2 -->🚜 Refactor" },
-    { message = "^style", group = "<!-- 5 -->🎨 Styling" },
-    { message = "^test", group = "<!-- 6 -->🧪 Testing" },
-    { message = "^chore\\(release\\): prepare for", skip = true },
-    { message = "^chore\\(deps.*\\)", skip = true },
-    { message = "^chore\\(pr\\)", skip = true },
-    { message = "^chore\\(pull\\)", skip = true },
-    { message = "^chore|^ci", group = "<!-- 7 -->⚙️ Miscellaneous Tasks" },
-    { body = ".*security", group = "<!-- 8 -->🛡️ Security" },
-    { message = "^revert", group = "<!-- 9 -->◀️ Revert" },
-    { message = ".*", group = "<!-- 10 -->💼 Other" },
+  { message = "^feat", group = "<!-- 01 -->Features:" },
+  { message = "^fix", group = "<!-- 02 -->Bug Fixes:" },
+  { message = "^doc", group = "<!-- 03 -->Documentation:" },
+  { message = "^perf", group = "<!-- 04 -->Performance:" },
+  { message = "^refactor", group = "<!-- 05 -->Refactor:" },
+  { message = "^style", group = "<!-- 06 -->Code Styling:" },
+  { message = "^test", group = "<!-- 07 -->Testing:" },
+  { message = "^deps|^build\\(deps(-dev)?\\)", group = "<!-- 08 -->Dependencies:" },
+  { message = "^build|^ci|^chore", group = "<!-- 09 -->Maintenance:" },
+  { message = "^revert", group = "<!-- 10 -->Revert:" },
+  # { message = "^chore\\(pull\\)", skip = true },
+  { message = ".*", group = "<!-- 11 -->Other:" },
 ]
 # Exclude commits that are not matched by any commit parser.
 filter_commits = false
