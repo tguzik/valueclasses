@@ -25,7 +25,7 @@ tasks:
   release:changelog:
     desc: Creates list of changes since the last release tag
     cmds:
-      - cmd: git-cliff --current --unreleased --output {{ .FILE | default "-" | shellQuote }}
+      - cmd: git-cliff --latest --output {{ .FILE | default "-" | shellQuote }}
 
   release:check-reproducibility:
     # See https://maven.apache.org/guides/mini/guide-reproducible-builds.html
