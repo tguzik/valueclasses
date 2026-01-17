@@ -24,8 +24,25 @@ tasks:
 
   release:changelog:
     desc: Creates list of changes since the last release tag
+    vars:
+      FLAG_UNRELEASED:
+        # If we included the --unreleased flag while on a commit that belongs to any tag, we would get an empty list. If this
+        # task was only used to generate release notes in the GH-A workflow, right on a release tag, not including the flag
+        # would've been just fine.
+        # On the other hand, being able to easily create a one-off preview of what would be generated without having to
+        # create a local tag is pretty useful too.
+        # Regular `git log --oneline` should still be the daily driver, though.
+        sh: |
+          TAGS_CURRENT_COMMIT_BELONGS_TO=$(git tag --contains)
+          if [ -z "${TAGS_CURRENT_COMMIT_BELONGS_TO}" ]; then
+            # Current commit does not belong to any tags - include commits since last release/tag
+            echo "--unreleased"
+          else
+            # Current commit is pointed to by at least one tag - do not include the flag
+            echo ""
+          fi
     cmds:
-      - cmd: git-cliff --current --unreleased --output {{ .FILE | default "-" | shellQuote }}
+      - cmd: git-cliff --latest {{ .FLAG_UNRELEASED }} --output {{ .FILE | default "-" | shellQuote }}
 
   release:check-reproducibility:
     # See https://maven.apache.org/guides/mini/guide-reproducible-builds.html
