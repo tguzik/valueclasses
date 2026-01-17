@@ -5,14 +5,15 @@ on:
     # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed
     tags:
       - 'v[0-9]+.*'
-      - 'tmp-.*' # Temporary to test the workflow
+  pull_request: # Temporary to test the workflow
 
 jobs:
   release:
-    name: Create list of changes
+    name: Create GitHub Release entry
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Needed for creating releases
+      # Needed for creating the GitHub Release entry:
+      contents: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -39,12 +40,13 @@ jobs:
           echo -e "# Generated change list:\n\n----\n\n" >> "$GITHUB_STEP_SUMMARY"
           cat changes.md >> "$GITHUB_STEP_SUMMARY"
 
-#      - name: Create GitHub Release entry
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          body_path: changes.md
-#          draft: true
-#          files: |
-#            files-*.tar.gz
+      - name: Create GitHub Release entry
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          # Populate the release entry body with the notes we generated
+          body_path: changes.md
+          # A hooman still needs to push the butan
+          draft: true
 
 # eof
