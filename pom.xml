@@ -279,7 +279,7 @@
           <version>2.21.0</version>
           <configuration>
             <!-- When scanning for upgrades ignore pre-release artifacts -->
-            <ignoredVersions>.*-M.*,.*-alpha.*</ignoredVersions>
+            <ignoredVersions>.*-M.*,.*-alpha.*,.*-rc.*,.*-b.*</ignoredVersions>
           </configuration>
         </plugin>
         <plugin>
