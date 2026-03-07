@@ -16,7 +16,8 @@ jobs:
       # Needed by softprops/action-gh-release to create the GitHub Release entry:
       contents: write
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
           clean: true
@@ -25,7 +26,8 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: cachix/install-nix-action@2126ae7fc54c9df00dd18f7f18754393182c73cd # https://github.com/cachix/install-nix-action/releases/tag/v31.9.1
+      - name: Install Nix
+        uses: cachix/install-nix-action@2126ae7fc54c9df00dd18f7f18754393182c73cd # https://github.com/cachix/install-nix-action/releases/tag/v31.9.1
         with:
           nix_path: nixpkgs=channel:nixos-25.11
 
