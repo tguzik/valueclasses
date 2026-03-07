@@ -26,6 +26,9 @@ jobs:
           fetch-tags: true
 
       - uses: cachix/install-nix-action@2126ae7fc54c9df00dd18f7f18754393182c73cd # https://github.com/cachix/install-nix-action/releases/tag/v31.9.1
+        with:
+          nix_path: nixpkgs=channel:nixos-25.11
+
       - uses: cachix/cachix-action@3ba601ff5bbb07c7220846facfa2cd81eeee15a1 # https://github.com/cachix/cachix-action/releases/tag/v16
         with:
           name: devenv
