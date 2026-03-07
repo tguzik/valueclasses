@@ -16,7 +16,7 @@ jobs:
       # Needed by softprops/action-gh-release to create the GitHub Release entry:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
           clean: true
@@ -25,9 +25,8 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: cachix/install-nix-action@v31
-
-      - uses: cachix/cachix-action@v16
+      - uses: cachix/install-nix-action@2126ae7fc54c9df00dd18f7f18754393182c73cd # https://github.com/cachix/install-nix-action/releases/tag/v31.9.1
+      - uses: cachix/cachix-action@3ba601ff5bbb07c7220846facfa2cd81eeee15a1 # https://github.com/cachix/cachix-action/releases/tag/v16
         with:
           name: devenv
 
@@ -47,7 +46,7 @@ jobs:
           cat changes.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create GitHub Release entry
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # https://github.com/softprops/action-gh-release/releases/tag/v2.5.0
         if: github.ref_type == 'tag'
         with:
           # Populate the release entry body with the notes we generated
