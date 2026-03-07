@@ -8,13 +8,18 @@ on:
     tags:
       - 'v[0-9]+.*'
 
+permissions: {}
+
+concurrency:
+  group: rel-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release:
     name: Create GitHub Release entry
     runs-on: ubuntu-latest
     permissions:
-      # Needed by softprops/action-gh-release to create the GitHub Release entry:
-      contents: write
+      contents: write # Needed by softprops/action-gh-release to create the GitHub Release entry
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2

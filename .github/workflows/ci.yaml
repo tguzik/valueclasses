@@ -8,9 +8,11 @@ on:
       - "master"
       - "main"
 
-# This workflow shouldn't need any special permissions, so let's disable them all
-# Docs: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#defining-access-for-the-github_token-scopes-1
 permissions: {}
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   ci-using-devenv:
