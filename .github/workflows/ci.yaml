@@ -8,16 +8,21 @@ on:
       - "master"
       - "main"
 
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ci-using-devenv:
     name: CI
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
-          clean: true
 
       - name: Install Nix
         uses: cachix/install-nix-action@2126ae7fc54c9df00dd18f7f18754393182c73cd # https://github.com/cachix/install-nix-action/releases/tag/v31.9.1
@@ -44,17 +49,17 @@ jobs:
   check-supported-jdks:
     needs: ci-using-devenv
     strategy:
+      max-parallel: 1 # Avoid concurrency settings cancelling matrix builds
       matrix:
         jdk_version: [ 17, 21, 25 ]
 
     name: "JDK ${{ matrix.jdk_version }}"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # ubuntu-slim doesn't come with maven by default, and we want to avoid installing it in the workflow
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
-          clean: true
 
       - name: "Set up JDK ${{ matrix.jdk_version }}"
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # https://github.com/actions/setup-java/releases/tag/v5.2.0
@@ -67,6 +72,7 @@ jobs:
 
       - name: Build, run tests, run static analysis
         shell: bash
-        run: mvn clean verify
+        run: |
+          mvn clean verify
 
 # eof

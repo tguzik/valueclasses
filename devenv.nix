@@ -59,6 +59,7 @@
             max: 180
       '';
     };
+    zizmor.enable = true;
   };
 
   enterShell = ''

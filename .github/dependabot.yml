@@ -11,7 +11,7 @@ updates:
     schedule:
       interval: "weekly"
     cooldown:
-      default-days: 5
+      default-days: 7
     commit-message:
       prefix: "deps(gha): "
 
@@ -20,7 +20,7 @@ updates:
     schedule:
       interval: "weekly"
     cooldown:
-      default-days: 5
+      default-days: 7
     commit-message:
       prefix: "deps: "
       prefix-development: "deps(test): "

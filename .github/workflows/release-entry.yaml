@@ -1,6 +1,7 @@
 name: Release Changelog
 
 on:
+  workflow_dispatch:  # For manual testing; No additional yaml keys are necessary
   push:
     # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed.
     # The tag pattern is defined in maven-release-plugin's settings in pom.xml authoritatively. The changelog
@@ -8,19 +9,23 @@ on:
     tags:
       - 'v[0-9]+.*'
 
+permissions: {}
+
+concurrency:
+  group: rel-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release:
     name: Create GitHub Release entry
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     permissions:
-      # Needed by softprops/action-gh-release to create the GitHub Release entry:
-      contents: write
+      contents: write # Needed by softprops/action-gh-release to create the GitHub Release entry
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
-          clean: true
           #
           # Fetch full history, including tags, or otherwise the changelog generation will silently fail:
           fetch-depth: 0
@@ -53,7 +58,7 @@ jobs:
 
       - name: Create GitHub Release entry
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # https://github.com/softprops/action-gh-release/releases/tag/v2.5.0
-        if: github.ref_type == 'tag'
+        if: github.ref_type == 'tag' && github.event_name == 'push'
         with:
           # Populate the release entry body with the notes we generated
           body_path: changes.md
