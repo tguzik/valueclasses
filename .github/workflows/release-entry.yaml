@@ -58,7 +58,7 @@ jobs:
 
       - name: Create GitHub Release entry
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # https://github.com/softprops/action-gh-release/releases/tag/v2.5.0
-        if: github.ref_type == 'tag'
+        if: github.ref_type == 'tag' && github.event_name == 'push'
         with:
           # Populate the release entry body with the notes we generated
           body_path: changes.md
