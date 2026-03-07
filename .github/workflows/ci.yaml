@@ -8,6 +8,10 @@ on:
       - "master"
       - "main"
 
+# This workflow shouldn't need any special permissions, so let's disable them all
+# Docs: https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#defining-access-for-the-github_token-scopes-1
+permissions: {}
+
 jobs:
   ci-using-devenv:
     name: CI
