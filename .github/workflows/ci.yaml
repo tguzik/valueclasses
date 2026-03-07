@@ -23,7 +23,6 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
-          clean: true
 
       - name: Install Nix
         uses: cachix/install-nix-action@2126ae7fc54c9df00dd18f7f18754393182c73cd # https://github.com/cachix/install-nix-action/releases/tag/v31.9.1
@@ -60,7 +59,6 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
-          clean: true
 
       - name: "Set up JDK ${{ matrix.jdk_version }}"
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # https://github.com/actions/setup-java/releases/tag/v5.2.0
@@ -73,6 +71,7 @@ jobs:
 
       - name: Build, run tests, run static analysis
         shell: bash
-        run: mvn clean verify
+        run: |
+          mvn clean verify
 
 # eof

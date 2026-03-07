@@ -25,7 +25,6 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
         with:
           persist-credentials: false
-          clean: true
           #
           # Fetch full history, including tags, or otherwise the changelog generation will silently fail:
           fetch-depth: 0
