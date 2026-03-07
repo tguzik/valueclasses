@@ -49,11 +49,12 @@ jobs:
   check-supported-jdks:
     needs: ci-using-devenv
     strategy:
+      max-parallel: 1 # Avoid concurrency settings cancelling matrix builds
       matrix:
         jdk_version: [ 17, 21, 25 ]
 
     name: "JDK ${{ matrix.jdk_version }}"
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest # ubuntu-slim doesn't come with maven by default, and we want to avoid installing it in the workflow
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
