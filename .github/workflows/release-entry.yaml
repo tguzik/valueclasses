@@ -1,6 +1,7 @@
 name: Release Changelog
 
 on:
+  workflow_dispatch:  # No additional yaml keys are necessary
   push:
     # Automatically create a GitHub Release entry when a tag that looks like a new release is pushed.
     # The tag pattern is defined in maven-release-plugin's settings in pom.xml authoritatively. The changelog
@@ -11,7 +12,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: rel-${{ github.workflow }}-${{ github.ref }}
+  group: rel-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
