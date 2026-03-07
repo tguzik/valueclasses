@@ -17,7 +17,7 @@ concurrency:
 jobs:
   release:
     name: Create GitHub Release entry
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     permissions:
       contents: write # Needed by softprops/action-gh-release to create the GitHub Release entry
     steps:

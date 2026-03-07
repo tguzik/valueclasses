@@ -17,7 +17,7 @@ concurrency:
 jobs:
   ci-using-devenv:
     name: CI
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
@@ -54,7 +54,7 @@ jobs:
         jdk_version: [ 17, 21, 25 ]
 
     name: "JDK ${{ matrix.jdk_version }}"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # https://github.com/actions/checkout/releases/tag/v6.0.2
