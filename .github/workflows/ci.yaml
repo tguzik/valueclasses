@@ -33,7 +33,7 @@ jobs:
     needs: ci-using-devenv
     strategy:
       matrix:
-        jdk_version: [ 17, 21 ]
+        jdk_version: [ 17, 21, 25 ]
 
     name: "JDK ${{ matrix.jdk_version }}"
     runs-on: ubuntu-latest
