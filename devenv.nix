@@ -22,6 +22,7 @@
     gnupg
 
     # Packages specific to the CI/CD pipeline
+    gh # https://cli.github.com/ # GitHub CLI tool
     git-cliff # https://github.com/orhun/git-cliff + https://git-cliff.org/docs/ # Highly customizable Changelog Generator
 
     # Packages for the local development loop
