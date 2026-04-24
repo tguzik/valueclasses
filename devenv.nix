@@ -21,14 +21,12 @@
     go-task
     gnupg
 
-    # Maven Daemon
-    # https://github.com/apache/maven-mvnd
-    mvnd
+    # Packages specific to the CI/CD pipeline
+    gh # https://cli.github.com/ # GitHub CLI tool
+    git-cliff # https://github.com/orhun/git-cliff + https://git-cliff.org/docs/ # Highly customizable Changelog Generator
 
-    # Highly customizable changelog generator
-    # https://github.com/orhun/git-cliff
-    # https://git-cliff.org/docs/
-    git-cliff
+    # Packages for the local development loop
+    mvnd # https://github.com/apache/maven-mvnd # Apache Maven Daemon
   ];
 
   git-hooks.hooks = {

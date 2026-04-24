@@ -33,9 +33,11 @@ jobs:
         run: |
           nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
 
-      - name: Install devenv.sh
+      - name: Install DevEnv
+        env:
+          LOCAL_DEVENV_REVISION: 55d2bb4a3cc710ba82cc8644f4419db3a802e1a4 # https://github.com/cachix/devenv/releases/tag/v2.0.6
         run: |
-          nix profile add github:cachix/devenv/v1.11.1 --accept-flake-config --option extra-substituters "https://devenv.cachix.org?trusted=true&priority=3"
+          nix profile add "github:cachix/devenv/${LOCAL_DEVENV_REVISION}" --accept-flake-config --option extra-substituters "https://devenv.cachix.org?trusted=true&priority=3"
 
       - name: Run devenv test
         run: |

@@ -2,10 +2,12 @@
 ---
 inputs:
   devenv:
-    url: github:cachix/devenv?dir=src/modules&ref=51440964cd26a47e90064f9d59aa230a5cefc88b # v1.11.1 as of 2026-03-07
+    # Lockfile allows us to use the tag name here instead of full SHA
+    url: github:cachix/devenv?dir=src/modules&ref=v2.0.6
   nixpkgs:
-    url: github:nixos/nixpkgs?ref=71caefce12ba78d84fe618cf61644dce01cf3a96 # latest commit on nixos-25.11 branch as of 2026-03-07
+    # Lockfile allows us to use the tag name here instead of full SHA
+    url: github:nixos/nixpkgs?ref=nixos-25.11
   git-hooks:
-    url: github:cachix/git-hooks.nix?ref=39f53203a8458c330f61cc0759fe243f0ac0d198 # latest commit on main branch as of 2026-03-07
+    url: github:cachix/git-hooks.nix?rev=3cfd774b0a530725a077e17354fbdb87ea1c4aad # latest commit on main branch as of 2026-04-24
 
 # eof
