@@ -33,7 +33,7 @@ jobs:
         run: |
           nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
 
-      - name: Install devenv.sh
+      - name: Install DevEnv
         env:
           LOCAL_DEVENV_REVISION: 55d2bb4a3cc710ba82cc8644f4419db3a802e1a4 # https://github.com/cachix/devenv/releases/tag/v2.0.6
         run: |
