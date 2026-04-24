@@ -42,7 +42,7 @@ jobs:
 
       - name: Install devenv.sh
         run: |
-          nix profile add github:cachix/devenv/v1.11.1 --accept-flake-config --option extra-substituters "https://devenv.cachix.org?trusted=true&priority=3"
+          nix profile add github:cachix/devenv/v2.0.6 --accept-flake-config --option extra-substituters "https://devenv.cachix.org?trusted=true&priority=3"
 
       - name: Generate change list
         shell: devenv shell bash -- -e {0}
