@@ -63,7 +63,8 @@ jobs:
         shell: devenv shell bash -- -e {0}
         env:
           GH_TOKEN: ${{ github.token }}
+          LOCAL_CURRENT_TAG: ${{ github.ref_name }}
         run: |
-          gh release create --draft --notes-file changes.md --fail-on-no-commits
+          gh release create --draft --notes-file changes.md --fail-on-no-commits "${LOCAL_CURRENT_TAG}"
 
 # eof
