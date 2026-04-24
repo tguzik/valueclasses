@@ -61,6 +61,8 @@ jobs:
       - name: Create GitHub Release entry
         if: github.ref_type == 'tag' && github.event_name == 'push'
         shell: devenv shell bash -- -e {0}
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release create --draft --notes-file changes.md --fail-on-no-commits
 
