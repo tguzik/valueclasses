@@ -19,6 +19,7 @@ jobs:
   release:
     name: Create GitHub Release entry
     runs-on: ubuntu-slim
+    timeout-minutes: 30
     permissions:
       contents: write # Needed by softprops/action-gh-release to create the GitHub Release entry
     steps:
