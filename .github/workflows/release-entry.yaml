@@ -19,6 +19,7 @@ jobs:
   release:
     name: Create GitHub Release entry
     runs-on: ubuntu-slim
+    timeout-minutes: 30
     permissions:
       contents: write # Needed by softprops/action-gh-release to create the GitHub Release entry
     steps:
@@ -42,7 +43,7 @@ jobs:
 
       - name: Install DevEnv
         env:
-          LOCAL_DEVENV_REVISION: 55d2bb4a3cc710ba82cc8644f4419db3a802e1a4 # https://github.com/cachix/devenv/releases/tag/v2.0.6
+          LOCAL_DEVENV_REVISION: ea3d94ac9d6bf6a1313773170122ca4e2ef5a0be # https://github.com/cachix/devenv/releases/tag/v2.1.2
         run: |
           nix profile add "github:cachix/devenv/${LOCAL_DEVENV_REVISION}" --accept-flake-config --option extra-substituters "https://devenv.cachix.org?trusted=true&priority=3"
 
