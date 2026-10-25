@@ -1,14 +1,11 @@
 # yaml-language-server: $schema=https://devenv.sh/devenv.schema.json
 ---
 inputs:
-  devenv:
-    # Pinning to specific commit is done through lockfile, which is why this line can contain just the tag name
-    url: github:cachix/devenv?dir=src/modules&ref=v2.1.2
   nixpkgs:
     # Pinning to specific commit is done through lockfile, which is why this line can contain just the tag name
     url: github:nixos/nixpkgs?ref=nixos-26.05
   git-hooks:
     # Pinning to specific commit is done through lockfile, which is why this line can contain just the branch name
-    url: github:cachix/git-hooks.nix?ref=master
+    url: github:cachix/git-hooks.nix
 
 # eof

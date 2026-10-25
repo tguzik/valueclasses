@@ -26,28 +26,22 @@ jobs:
           persist-credentials: false
 
       - name: Install Nix
-        uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # https://github.com/cachix/install-nix-action/releases/tag/v31.11.1
+        uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # https://github.com/cachix/install-nix-action/releases/tag/v31.11.2
         with:
-          nix_path: nixpkgs=channel:nixos-25.11
+          nix_path: nixpkgs=channel:nixos-26.05
 
       - name: Print nixpkgs version
-        run: |
-          nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
+        run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
 
       - name: Install DevEnv
-        env:
-          LOCAL_DEVENV_REVISION: ea3d94ac9d6bf6a1313773170122ca4e2ef5a0be # https://github.com/cachix/devenv/releases/tag/v2.1.2
-        run: |
-          nix profile add "github:cachix/devenv/${LOCAL_DEVENV_REVISION}" --accept-flake-config --option extra-substituters "https://devenv.cachix.org?trusted=true&priority=3"
+        run: nix profile add nixpkgs#devenv
 
       - name: Run devenv test
-        run: |
-          devenv test
+        run: devenv test
 
       - name: Build, run tests, run static analysis
         shell: devenv shell bash -- -e {0}
-        run: |
-          mvn clean verify
+        run: mvn clean verify
 
   check-supported-jdks:
     needs: ci-using-devenv
