@@ -102,9 +102,8 @@ tasks:
           echo
           read -p "If that list looks okay, press enter to continue " -s
           echo
+          echo "Prime GnuPG cache using default key" | gpg --clearsign
 
-      - cmd: echo "This step primes GnuPG cache so it can be used in non-interactive mode" | gpg --clearsign
-      - task: release:check-reproducibility
       - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease -DdryRun=true
       - cmd: mvn --settings={{ .SETTINGS_FILE | shellQuote }} -Prelease
       - silent: true

@@ -110,6 +110,7 @@
                 </goals>
                 <configuration>
                   <keyname>${env.MAVEN_GPG_KEY}</keyname>
+                  <passphraseEnvName>MAVEN_GPG_PASSPHRASE</passphraseEnvName>
                 </configuration>
               </execution>
             </executions>
